@@ -3,16 +3,10 @@
 
 #include "Environment.h"
 
-/**
- *
- * \brief agent that do things every tick
- */
 class Agent : public Environment::LocalizedEntity
 {
-    // static things
 
-private:
-    ///\brief list of all agent currently instanciated
+private: 
     static std::set<Agent *> agentList;
 
 public:
@@ -30,26 +24,13 @@ public:
      * \brief clean the agentList of all Agent with the status destroy and update() other Agent
      *
      */
-    static void simulate()
-    {
-        for (std::set<Agent *>::iterator it = agentList.begin(); it != agentList.end();)
-        {
-            if ((*it)->getStatus() == running)
-            {
-                (*it)->update();
-                ++it;
-            }
-            else if ((*it)->getStatus() == destroy)
-                it = agentList.erase(it);
-        }
-    }
-
+    static void simulate();
 private:
     ///\brief Status actuel de l'agent
     Status status;
-
 public:
-    // Constructor, Destructor
+
+        // Constructor, Destructor
 
     /**
      *\brief Normal constructor
@@ -58,6 +39,7 @@ public:
      * \param radius rayon de l'entité
      */
     Agent(Environment *environment, Vector2<float> pos, float radius = Environment::LocalizedEntity::defaultRadius());
+    
     ~Agent();
 
     /**
@@ -67,13 +49,19 @@ public:
      */
     virtual void update();
 
+
+
     // Getters, setters
 
     ///\brief statusGetter
-    Status getStatus() { return status; }
+    Status getStatus();
 
     ///\brief statusSetter
-    void setStatus(Status s) { status = s; }
+    void setStatus(Status s);
+
+
 };
+
+std::set<Agent*> Agent::agentList = std::set<Agent*>();
 
 #endif
