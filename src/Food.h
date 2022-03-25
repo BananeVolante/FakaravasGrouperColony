@@ -35,6 +35,9 @@ public:
 
     ///\copydoc Agent::update()
     virtual void update();
+
+    ///\copydoc Agent::draw()
+    virtual void draw();
 };
 
 #endif

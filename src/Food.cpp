@@ -1,5 +1,7 @@
 #include "Food.h"
 #include "MathUtils.h"
+#include "Renderer.h"
+
 
 Food::Food(Environment *environment, Vector2<float> pos, float foodAmount) : 
     Agent(environment, pos, MathUtils::circleRadius(foodAmount)), currentFoodAmount(foodAmount), foodChanged(false)
@@ -31,4 +33,9 @@ void Food::update()
     }
 
     foodChanged = false;//reset it
+}
+
+void Food::draw()
+{
+    Renderer::getInstance()->drawCircle(getPosition(), getRadius(), Renderer::Color(154, 235, 38, 255));   
 }

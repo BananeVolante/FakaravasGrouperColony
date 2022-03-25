@@ -48,7 +48,11 @@ public:
      *\brief method that execute the actions that the agent should do every tick
      *
      */
-    virtual void update();
+    virtual void update() = 0;
+
+
+    ///\brief draw the agent
+    virtual void draw() = 0;
 
 
 
@@ -59,7 +63,6 @@ public:
 
     ///\brief statusSetter
     void setStatus(Status s);
-
 
 };
 

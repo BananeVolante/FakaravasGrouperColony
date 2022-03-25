@@ -6,6 +6,12 @@
 #include <time.h>
 #include <Timer.h>
 
+
+
+
+#include "Agent.h"
+#include "Food.h"
+
 static unsigned int windowWidth() { return 1024; }
 static unsigned int windowHeight() { return 700; }
 
@@ -19,11 +25,26 @@ void onKeyPressed(char key, Environment * environment)
 	std::cout << "Key pressed: " << key << std::endl;
 }
 
+Agent* a;
+
 /// <summary>
 /// Called at each time step.
 /// </summary>
 void onSimulate()
 {
+/*************************************
+ * Zone de tests
+ * *************************************/
+
+
+
+/*******************************************
+ * Fin zone de test
+ * ****************************************/
+Agent::simulate();
+
+
+
 }
 
 /// <summary>
@@ -47,6 +68,22 @@ int main(int /*argc*/, char ** /*argv*/)
 
 	// 4 - We change the seed of the random number generator
 	srand((unsigned int)time(NULL));
+
+
+
+/*************************************
+ * Zone de tests
+ * *************************************/
+
+a = new Food(&environment, Vector2<float>(2,4), 10000);
+Food b(&environment, Vector2<float>(300,4), 15000);
+
+Food c(&environment, Vector2<float>(600,400), 30000);
+
+
+/*******************************************
+ * Fin zone de test
+ * ****************************************/
 
 	// The main event loop...
 	SDL_Event event;
