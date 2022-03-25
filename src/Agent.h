@@ -63,6 +63,4 @@ public:
 
 };
 
-std::set<Agent*> Agent::agentList = std::set<Agent*>();
-
 #endif
