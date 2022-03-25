@@ -7,6 +7,7 @@ class Agent : public Environment::LocalizedEntity
 {
 
 private: 
+///\brief set that containes all the agents currently instanciated
     static std::set<Agent *> agentList;
 
 public:
