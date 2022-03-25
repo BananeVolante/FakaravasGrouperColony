@@ -26,7 +26,7 @@ public:
      *
      */
     static void simulate();
-private:
+protected:
     ///\brief Status actuel de l'agent
     Status status;
 public:
