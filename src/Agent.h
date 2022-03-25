@@ -35,9 +35,9 @@ public:
 
     /**
      *\brief Normal constructor
-     * \param environment environnement dans lequel l'agent évoluera
-     * \param pos position de départ de l'agent
-     * \param radius rayon de l'entité
+     * \param environment the environment where the agent is
+     * \param pos base agent position
+     * \param radius entity radius
      */
     Agent(Environment *environment, Vector2<float> pos, float radius = Environment::LocalizedEntity::defaultRadius());
     
