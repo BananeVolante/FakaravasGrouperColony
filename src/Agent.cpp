@@ -34,7 +34,7 @@ void Agent::simulate()
             (*it)->update();
             ++it;
         }
-        else if ((*it)->getStatus() == destroy)
+        if ((*it)->getStatus() == destroy)
         {
             it = agentList.erase(it);
             nbrAgentErased++;
