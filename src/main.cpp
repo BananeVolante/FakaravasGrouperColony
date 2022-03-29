@@ -76,9 +76,9 @@ int main(int /*argc*/, char ** /*argv*/)
  * *************************************/
 
 a = new Food(&environment, Vector2<float>(2,4), 10000);
-Food b(&environment, Vector2<float>(300,4), 15000);
+new Food(&environment, Vector2<float>(300,4), 15000);
 
-Food c(&environment, Vector2<float>(600,400), 30000);
+new Food(&environment, Vector2<float>(600,400), 30000);
 
 
 /*******************************************
@@ -113,6 +113,9 @@ Food c(&environment, Vector2<float>(600,400), 30000);
 
 	std::cout << "Shutting down renderer..." << std::endl;
 	Renderer::finalize();
+
+	SDL_Log("shutting down agents");
+	Agent::finalize();
 
 	std::cout << "Shutting down SDL" << std::endl;
 	SDL_Quit();

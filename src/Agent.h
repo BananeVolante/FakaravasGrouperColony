@@ -26,8 +26,12 @@ public:
      *
      */
     static void simulate();
+
+    ///\brief cleans everything linked to Agent
+    static void finalize();
+
 protected:
-    ///\brief Status actuel de l'agent
+    ///\brief current status of the agent
     Status status;
 public:
 
@@ -53,6 +57,7 @@ public:
 
     ///\brief draw the agent
     virtual void draw() = 0;
+
 
 
 

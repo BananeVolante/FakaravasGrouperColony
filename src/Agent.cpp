@@ -11,7 +11,7 @@ Agent::Agent(Environment *environment, Vector2<float> pos, float radius ) : Loca
 
 Agent::~Agent()
 {
-
+ 
 }
 
 void Agent::simulate()
@@ -41,6 +41,16 @@ void Agent::simulate()
         }
     }
 SDL_Log("Simulate called, %d agent updated and %d agents erased, on a total of %d agents", nbrAgentUpdated, nbrAgentErased, totalAgents);
+}
+
+
+void Agent::finalize()
+{
+    //free every instance of agent
+    for(auto agent : agentList)
+        //SDL_Log("trying to delete %f %f", agent->getPosition()[0], agent->getPosition()[1]);
+        delete agent;
+    //no need to empty the agent list, it will be destroyed
 }
 
 
