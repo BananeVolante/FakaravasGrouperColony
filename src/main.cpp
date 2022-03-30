@@ -11,6 +11,7 @@
 
 #include "Agent.h"
 #include "Food.h"
+#include "GrouperHQ.h"
 
 static unsigned int windowWidth() { return 1024; }
 static unsigned int windowHeight() { return 700; }
@@ -44,6 +45,13 @@ void onKeyPressed(char key, Environment * environment)
 		}
 		else
 			SDL_Log("Tried to delete a pile of food, but there is no food to delete");
+	}
+
+	if(key == 'a') // creates a GrouperHQ
+	{
+		Vector2<float> pos = environment->randomPosition();
+		new GrouperHQ(environment, pos);
+		SDL_Log("Created a grouperHQ");
 	}
 }
 
