@@ -23,9 +23,30 @@ static unsigned int windowHeight() { return 700; }
 void onKeyPressed(char key, Environment * environment)
 {
 	std::cout << "Key pressed: " << key << std::endl;
+
+	if(key == 'f') // create a pile of food
+	{
+		float foodAmount = MathUtils::random(200,2000);
+		Vector2<float> position = environment->randomPosition();
+		new Food(environment, position, foodAmount);
+		SDL_Log("Created food at (%f, %f) with %f units of food", position[0], position[1], foodAmount);
+
+	}
+
+	if(key == 'd') // destroy a random pile of food
+	{
+		std::vector<Food*> allFoodPiles = environment->getAllInstancesOf<Food>(); // get all pile of foods
+		if(!allFoodPiles.empty())
+		{
+			size_t selectedIndex = MathUtils::random(0, allFoodPiles.size());
+			allFoodPiles[selectedIndex]->setStatus(Agent::destroy);
+			SDL_Log("Deleted a pile of food");
+		}
+		else
+			SDL_Log("Tried to delete a pile of food, but there is no food to delete");
+	}
 }
 
-Agent* a;
 
 /// <summary>
 /// Called at each time step.
@@ -74,11 +95,6 @@ int main(int /*argc*/, char ** /*argv*/)
 /*************************************
  * Zone de tests
  * *************************************/
-
-a = new Food(&environment, Vector2<float>(2,4), 10000);
-new Food(&environment, Vector2<float>(300,4), 15000);
-
-new Food(&environment, Vector2<float>(600,400), 30000);
 
 
 /*******************************************
