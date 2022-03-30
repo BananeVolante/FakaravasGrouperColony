@@ -16,7 +16,7 @@ Agent::~Agent()
 
 void Agent::simulate()
 {
-    int totalAgents = agentList.size();
+    //int totalAgents = agentList.size();
     int nbrAgentUpdated = 0;
     int nbrAgentErased = 0;
 
@@ -32,6 +32,7 @@ void Agent::simulate()
         //then clean it if it died during the update
         if ((*it)->getStatus() == destroy)
         {
+            delete *it ;
             it = agentList.erase(it);
             nbrAgentErased++;
         }else // and draw it and go to next it if it's still running
@@ -40,7 +41,7 @@ void Agent::simulate()
             ++it;
         }
     }
-SDL_Log("Simulate called, %d agent updated and %d agents erased, on a total of %d agents", nbrAgentUpdated, nbrAgentErased, totalAgents);
+//SDL_Log("Simulate called, %d agent updated and %d agents erased, on a total of %d agents", nbrAgentUpdated, nbrAgentErased, totalAgents);
 }
 
 
@@ -48,8 +49,9 @@ void Agent::finalize()
 {
     //free every instance of agent
     for(auto agent : agentList)
+            delete agent;
         //SDL_Log("trying to delete %f %f", agent->getPosition()[0], agent->getPosition()[1]);
-        delete agent;
+
     //no need to empty the agent list, it will be destroyed
 }
 
