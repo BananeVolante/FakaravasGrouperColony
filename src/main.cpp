@@ -12,6 +12,7 @@
 #include "Agent.h"
 #include "Food.h"
 #include "GrouperHQ.h"
+#include "GrouperBase.h"
 
 static unsigned int windowWidth() { return 1024; }
 static unsigned int windowHeight() { return 700; }
@@ -103,7 +104,7 @@ int main(int /*argc*/, char ** /*argv*/)
 /*************************************
  * Zone de tests
  * *************************************/
-
+new GrouperBase(&environment, environment.randomPosition(), (GrouperHQ*)NULL, Vector2<float>(0,0), 1.0, 20);
 
 /*******************************************
  * Fin zone de test
