@@ -93,7 +93,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	/*************************************
 	 * Zone de tests
 	 * *************************************/
-	new GrouperBase(&environment, environment.randomPosition(), (GrouperHQ *)NULL, Vector2<float>(0, 0), 1.0, 20);
+	//new GrouperBase(&environment, environment.randomPosition(), (GrouperHQ *)NULL, Vector2<float>(0, 0), 1.0, 20);
 
 	/*******************************************
 	 * Fin zone de test
