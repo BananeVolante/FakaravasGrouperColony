@@ -60,3 +60,4 @@ void Agent::finalize()
 Agent::Status Agent::getStatus() { return status; }
 
 void Agent::setStatus(Status s) { status = s; }
+

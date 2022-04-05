@@ -69,6 +69,15 @@ public:
     ///\brief statusSetter
     void setStatus(Status s);
 
+    ///\Brief Excpetion called when an agent needs to be near another 
+    /// one to call a certain function, but this function is called when this 
+    ///requirement is not fulfilled
+    class badPositionException : public std::logic_error
+    {
+        public: 
+            badPositionException(const std::string & message) : logic_error(message) {}
+    };
+
 };
 
 #endif
