@@ -6,7 +6,7 @@
 #define GROUPERHQ_DEFAULT_RADIUS 10
 
 ///\brief Class representing the central base of a category of agents
-class GrouperHQ : Agent
+class GrouperHQ : public Agent
 {
 private :
 
@@ -26,7 +26,12 @@ public :
     ///\copydoc Agent::update()
     virtual void update();
 
+    ///\copydoc Agent::draw()
     virtual void draw();
+
+    ///\brief add food to this HQ's stock
+    ///\param amount amount of food to deposit
+    void depositFood(float amount);
     
 
 };

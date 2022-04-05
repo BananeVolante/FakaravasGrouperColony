@@ -20,3 +20,11 @@ void GrouperHQ::update()
 {
     
 }
+
+
+void GrouperHQ::depositFood(float amount)
+{
+    if(amount <0)
+        throw new std::invalid_argument("amount of food cannot be negative");
+    amountOfFood += amount;
+}
