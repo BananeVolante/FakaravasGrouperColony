@@ -6,9 +6,6 @@
 #include <time.h>
 #include <Timer.h>
 
-
-
-
 #include "Agent.h"
 #include "Food.h"
 #include "GrouperHQ.h"
@@ -22,23 +19,22 @@ static unsigned int windowHeight() { return 700; }
 /// </summary>
 /// <param name="key">The key.</param>
 /// <param name="environment">The environment.</param>
-void onKeyPressed(char key, Environment * environment)
+void onKeyPressed(char key, Environment *environment)
 {
 	std::cout << "Key pressed: " << key << std::endl;
 
-	if(key == 'f') // create a pile of food
+	if (key == 'f') // create a pile of food
 	{
-		float foodAmount = MathUtils::random(200,2000);
+		float foodAmount = MathUtils::random(200, 2000);
 		Vector2<float> position = environment->randomPosition();
 		new Food(environment, position, foodAmount);
 		SDL_Log("Created food at (%f, %f) with %f units of food", position[0], position[1], foodAmount);
-
 	}
 
-	if(key == 'd') // destroy a random pile of food
+	if (key == 'd') // destroy a random pile of food
 	{
-		std::vector<Food*> allFoodPiles = environment->getAllInstancesOf<Food>(); // get all pile of foods
-		if(!allFoodPiles.empty())
+		std::vector<Food *> allFoodPiles = environment->getAllInstancesOf<Food>(); // get all pile of foods
+		if (!allFoodPiles.empty())
 		{
 			size_t selectedIndex = MathUtils::random(0, allFoodPiles.size());
 			allFoodPiles[selectedIndex]->setStatus(Agent::destroy);
@@ -48,7 +44,7 @@ void onKeyPressed(char key, Environment * environment)
 			SDL_Log("Tried to delete a pile of food, but there is no food to delete");
 	}
 
-	if(key == 'a') // creates a GrouperHQ
+	if (key == 'a') // creates a GrouperHQ
 	{
 		Vector2<float> pos = environment->randomPosition();
 		new GrouperHQ(environment, pos);
@@ -56,25 +52,19 @@ void onKeyPressed(char key, Environment * environment)
 	}
 }
 
-
 /// <summary>
 /// Called at each time step.
 /// </summary>
 void onSimulate()
 {
-/*************************************
- * Zone de tests
- * *************************************/
+	/*************************************
+	 * Zone de tests
+	 * *************************************/
 
-
-
-/*******************************************
- * Fin zone de test
- * ****************************************/
-Agent::simulate();
-
-
-
+	/*******************************************
+	 * Fin zone de test
+	 * ****************************************/
+	Agent::simulate();
 }
 
 /// <summary>
@@ -86,7 +76,8 @@ Agent::simulate();
 int main(int /*argc*/, char ** /*argv*/)
 {
 	// 1 - Initialization of SDL
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS/* | SDL_INIT_AUDIO*/) != 0) {
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS /* | SDL_INIT_AUDIO*/) != 0)
+	{
 		SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
 		return 1;
 	}
@@ -99,23 +90,21 @@ int main(int /*argc*/, char ** /*argv*/)
 	// 4 - We change the seed of the random number generator
 	srand((unsigned int)time(NULL));
 
+	/*************************************
+	 * Zone de tests
+	 * *************************************/
+	new GrouperBase(&environment, environment.randomPosition(), (GrouperHQ *)NULL, Vector2<float>(0, 0), 1.0, 20);
 
-
-/*************************************
- * Zone de tests
- * *************************************/
-new GrouperBase(&environment, environment.randomPosition(), (GrouperHQ*)NULL, Vector2<float>(0,0), 1.0, 20);
-
-/*******************************************
- * Fin zone de test
- * ****************************************/
+	/*******************************************
+	 * Fin zone de test
+	 * ****************************************/
 
 	// The main event loop...
 	SDL_Event event;
 	bool exit = false;
-	while (!exit) 
+	while (!exit)
 	{
-		// 1 - We handle events 
+		// 1 - We handle events
 		while (SDL_PollEvent(&event))
 		{
 			if ((event.type == SDL_QUIT) || (event.type == SDL_KEYDOWN && event.key.keysym.sym == 'q'))

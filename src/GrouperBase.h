@@ -2,6 +2,7 @@
 #define _GrouperBase_H
 #include "Agent.h"
 #include "GrouperHQ.h"
+#include "Food.h"
 
 ///\brief Base grouper class that can move, take food, die, and is employed by a HQ
 class GrouperBase : public Agent
@@ -56,9 +57,41 @@ public:
     virtual void update();
     ///\copydoc Agent::draw()
     virtual void draw();
+
+private: 
+
+    ///\brief move the unit
+    void move();
+    ///\brief applies a rotation to the moving direction
+    ///\param angle rotation angle in radiant
+    void rotate(float angle);
+
+    ///\brief invert the move direction
+    void uTurn();
+    
+    ///\brief change the move direction to point toward a point
+    void pointTo(Vector2<float> point);
+
+    ///\brief change the move direction to point toward an unit
+    void pointTo(const LocalizedEntity& entity );
+
+    ///\brief place food in a HQ, if possible
+    ///Can only be called if the grouper is on top of the HQ
+    void depositFood();
+
+    ///\brief take food from a pile of food
+    ///Can only be called if the grouper is on top of the HQ
+    ///\param foodPile foodPile to collect from
+    void collectFood(Food& foodPile);
+
+    ///\copybrief LocalizedEntity::perceive()
+    template<class T>
+    std::vector<T*> perceive() const
+    {
+        return LocalizedEntity::perceive<T>(mvDirection, viewAngle, viewDistance);
+    }
+
+
 };
-
-
-
 
 #endif
