@@ -7,13 +7,16 @@
 ///\brief Base grouper class that can move, take food, die, and is employed by a HQ
 class GrouperBase : public Agent
 {
-private:
+protected: 
 ///\brief minimum value for lifeLeft
 static constexpr float lifeLeft_LOWER_BOUND = 1000;
 ///\brief maximum value for lifeLeft
 static constexpr float lifeLeft_UPPER_BOUND = 2500;
 ///\brief default value for speed
 static constexpr float speed_DEFAULT = 1;//cm/2
+
+private:
+
 ///\brief  value for maxFoodAmountTransported
 static constexpr float maxFoodAmountTransported = 5;
 ///\brief vision angle of the Grouper
@@ -62,6 +65,8 @@ private:
 
     ///\brief move the unit
     void move();
+    
+protected:
     ///\brief applies a rotation to the moving direction
     ///\param angle rotation angle in radiant
     void rotate(float angle);
@@ -76,11 +81,9 @@ private:
     void pointTo(const LocalizedEntity& entity );
 
     ///\brief place food in a HQ, if possible
-    ///Can only be called if the grouper is on top of the HQ
     void depositFood();
 
     ///\brief take food from a pile of food
-    ///Can only be called if the grouper is on top of the HQ
     ///\param foodPile foodPile to collect from
     void collectFood(Food& foodPile);
 
