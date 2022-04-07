@@ -10,6 +10,7 @@
 #include "Food.h"
 #include "GrouperHQ.h"
 #include "GrouperBase.h"
+#include "SillyGrouper.h"
 
 static unsigned int windowWidth() { return 1024; }
 static unsigned int windowHeight() { return 700; }
@@ -94,7 +95,12 @@ int main(int /*argc*/, char ** /*argv*/)
 	 * Zone de tests
 	 * *************************************/
 	//new GrouperBase(&environment, environment.randomPosition(), (GrouperHQ *)NULL, Vector2<float>(0, 0), 1.0, 20);
-
+	GrouperHQ* hq = new GrouperHQ(&environment, environment.randomPosition());
+	for (size_t i = 0; i < 100; i++)
+	{
+		new SillyGrouper(&environment, environment.randomPosition(), hq, MathUtils::random(2,4), 3);
+	}
+	
 	/*******************************************
 	 * Fin zone de test
 	 * ****************************************/
