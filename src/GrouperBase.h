@@ -61,12 +61,20 @@ public:
     ///\copydoc Agent::draw()
     virtual void draw();
 
+    GrouperHQ* const getHQ() const;
+
 private: 
 
     ///\brief move the unit
     void move();
+
     
 protected:
+
+    ///\brief is the Grouper able to transport food
+    ///\return is the grouper's food stock fulls
+    bool isFull();
+
     ///\brief applies a rotation to the moving direction
     ///\param angle rotation angle in radiant
     void rotate(float angle);
@@ -83,7 +91,7 @@ protected:
     ///\brief place food in a HQ, if possible
     void depositFood();
 
-    ///\brief take food from a pile of food
+    ///\brief take as much food from a pile of food
     ///\param foodPile foodPile to collect from
     void collectFood(Food& foodPile);
 

@@ -31,6 +31,10 @@ void GrouperBase::draw()
         (foodAmountTransported==0)? Renderer::Color(255,255,255) : Renderer::Color(128,255,128));
 }
 
+GrouperHQ*const GrouperBase::getHQ() const
+{
+    return HQ;
+}
 
 void GrouperBase::move()
 {
@@ -39,7 +43,7 @@ void GrouperBase::move()
 
 void GrouperBase::rotate(float angle)
 {
-    mvDirection.rotate(angle);
+    mvDirection = mvDirection.rotate(angle);
 }
 
 void GrouperBase::uTurn()
@@ -76,3 +80,8 @@ void GrouperBase::collectFood(Food& foodPile)
 }   
 
 
+
+bool GrouperBase::isFull()
+{
+    return foodAmountTransported >= maxFoodAmountTransported; 
+}
