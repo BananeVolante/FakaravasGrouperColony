@@ -36,6 +36,11 @@ GrouperHQ*const GrouperBase::getHQ() const
     return HQ;
 }
 
+const Vector2<float> & GrouperBase::getMvDirection() const
+{
+    return mvDirection;
+}
+
 void GrouperBase::move()
 {
     LocalizedEntity::translate(mvDirection*speed*Timer::dt());

@@ -63,6 +63,8 @@ public:
 
     GrouperHQ* const getHQ() const;
 
+    const Vector2<float>& getMvDirection() const; 
+
 private: 
 
     ///\brief move the unit
