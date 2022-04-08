@@ -18,6 +18,10 @@ Renderer::Renderer(unsigned int width, unsigned int height)
 		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create window and renderer: %s", SDL_GetError());
 		exit(3);
 	}
+
+	initTextures();
+
+
 }
 
 Renderer::~Renderer()
@@ -133,11 +137,14 @@ void Renderer::drawString(Vector2<float> const & position, const::std::string & 
 void Renderer::flush()
 {
 	// We draw anything needed
+	SDL_RenderCopy(renderer, textureMap["waterBG"], NULL, NULL);
 	flushCircles();
 	flushPixels();
 	flushStrings();
+
 	// After drawing
 	SDL_RenderPresent(renderer);
+
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 }
@@ -156,4 +163,15 @@ void Renderer::initialize(unsigned int width, unsigned int height)
 void Renderer::finalize()
 {
 	m_singleton = nullptr;
+}
+
+
+void Renderer::initTextures()
+{
+	///\todo Search all files in a Ressources subdir (textures for example), and automatically add them , with their base name as key
+	SDL_Surface*  waterBG = SDL_LoadBMP("ressources/waterBG.bmp");
+	if(!waterBG)
+		SDL_Log("Error while loading a texture");
+	textureMap.insert(std::pair<std::string, SDL_Texture*>("waterBG", SDL_CreateTextureFromSurface(getSdlRenderer(), waterBG)));
+
 }

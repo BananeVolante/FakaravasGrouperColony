@@ -10,6 +10,9 @@
 #include <memory>
 #include <iostream>
 
+
+#include <unordered_map>
+
 /// <summary>
 /// Class used to render 2D graphics.
 /// </summary>
@@ -227,6 +230,17 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	static Renderer * getInstance() { return m_singleton.get(); }
+
+
+
+
+
+	//PERSONAL EDITS
+private: 
+	std::unordered_map<std::string, SDL_Texture* const> textureMap;
+	SDL_Texture * waterTexture;
+
+	void initTextures();
 };
 
 #endif
