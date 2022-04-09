@@ -15,12 +15,14 @@ static constexpr float lifeLeft_UPPER_BOUND = 2500;
 ///\brief default value for speed
 static constexpr float speed_DEFAULT = 1;//cm/2
 
+///\brief vision angle of the Grouper
+static const float viewAngle; // pi/2
+
 private:
 
 ///\brief  value for maxFoodAmountTransported
 static constexpr float maxFoodAmountTransported = 5;
-///\brief vision angle of the Grouper
-static const float viewAngle; // pi/2
+
 ///\brief maximum distance at which the grouper can detect food
 static constexpr float viewDistance = 3; //cm
 
@@ -103,6 +105,9 @@ protected:
     {
         return LocalizedEntity::perceive<T>(mvDirection, viewAngle, viewDistance);
     }
+
+    ///\brief do a random rotation, nothing special
+    void randomRotation();
 
 
 };

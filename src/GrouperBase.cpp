@@ -90,3 +90,13 @@ bool GrouperBase::isFull()
 {
     return foodAmountTransported >= maxFoodAmountTransported; 
 }
+
+
+void GrouperBase::randomRotation()
+{
+
+    float randomBound = MathUtils::pi/10 *Timer::dt();
+    float randomedNumber = MathUtils::random(-randomBound, randomBound) ;
+    
+    rotate(randomedNumber);
+}
