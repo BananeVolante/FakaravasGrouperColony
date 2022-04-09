@@ -28,3 +28,8 @@ void GrouperHQ::depositFood(float amount)
         throw new std::invalid_argument("amount of food cannot be negative");
     amountOfFood += amount;
 }
+
+float GrouperHQ::getAmount() const
+{
+    return amountOfFood;
+}

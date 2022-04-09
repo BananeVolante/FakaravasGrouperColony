@@ -32,6 +32,9 @@ public :
     ///\brief add food to this HQ's stock
     ///\param amount amount of food to deposit
     void depositFood(float amount);
+
+    ///\return return the amount of food stocked
+    float getAmount() const;
     
 
 };
