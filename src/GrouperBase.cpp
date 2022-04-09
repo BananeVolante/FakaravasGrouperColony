@@ -68,9 +68,6 @@ void GrouperBase::pointTo(const LocalizedEntity& entity )
 
 void GrouperBase::depositFood()
 {
-   // if(getPosition() != HQ->getPosition())
-     //   throw new GrouperBase::badPositionException("The grouper must be on top of the hq to deposit food");
-
     HQ->depositFood(foodAmountTransported);
     foodAmountTransported = 0 ;
 }
@@ -78,8 +75,7 @@ void GrouperBase::depositFood()
 
 void GrouperBase::collectFood(Food& foodPile)
 {
-   // if(getPosition() != foodPile.getPosition())
-     //   throw new GrouperBase::badPositionException("the grouper must be near the foodpile to collect food from it");
+
     float foodCollectable = maxFoodAmountTransported-foodAmountTransported;
     foodAmountTransported +=  foodPile.collectFood(foodCollectable);
 }   
