@@ -11,6 +11,7 @@
 #include "GrouperHQ.h"
 #include "GrouperBase.h"
 #include "SillyGrouper.h"
+#include "Grouper.h"
 
 static unsigned int windowWidth() { return 1024; }
 static unsigned int windowHeight() { return 700; }
@@ -98,7 +99,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	GrouperHQ* hq = new GrouperHQ(&environment, environment.randomPosition());
 	for (size_t i = 0; i < 100; i++)
 	{
-		new SillyGrouper(&environment, environment.randomPosition(), hq, MathUtils::random(2,4), 3);
+		new Grouper(&environment, environment.randomPosition(), hq, Vector2<float>::random(), 3, 5);
 	}
 	
 	/*******************************************
@@ -130,6 +131,8 @@ int main(int /*argc*/, char ** /*argv*/)
 		// 3 - We render the scene
 		Renderer::getInstance()->flush();
 	}
+
+	SDL_Log("Amount of food %f", hq->getAmount());
 
 	std::cout << "Shutting down renderer..." << std::endl;
 	Renderer::finalize();
