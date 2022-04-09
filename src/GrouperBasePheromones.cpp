@@ -9,6 +9,11 @@ GrouperBasePheromones::GrouperBasePheromones(Environment* environment, Vector2<f
 
 }
 
+std::vector<Pheromones*> GrouperBasePheromones::perceivePheromones() const
+{
+    return LocalizedEntity::perceive<Pheromones>(getMvDirection(), viewAngle, PHEROMONES_SENSE_DISTANCE);
+}
+
 
 void GrouperBasePheromones::putPheromones(float amount) const
 {
@@ -30,7 +35,8 @@ void GrouperBasePheromones::putPheromones(float amount) const
 Pheromones* GrouperBasePheromones::choosePheromone() const
 {
     //get nearby pheromones
-    std::vector<Pheromones*> nearbyPheromones = getEnvironment()->perceive<Pheromones>(getPosition(), getMvDirection(), MathUtils::pi *2, PHEROMONES_SENSE_DISTANCE);
+    std::vector<Pheromones*> nearbyPheromones = perceivePheromones();
+    
     size_t listSize = nearbyPheromones.size();
     if(listSize == 0) // if there are no pheromone,s useless to continue
         return nullptr;

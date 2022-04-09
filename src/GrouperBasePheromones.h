@@ -7,7 +7,14 @@
 class GrouperBasePheromones : public GrouperBase 
 {
 private:
-static constexpr float PHEROMONES_SENSE_DISTANCE = 8;
+    ///\brief distance at which the grouper can smell pheromones
+    static constexpr float PHEROMONES_SENSE_DISTANCE = 8;
+
+protected:
+    ///\copybrief LocalizedEntity::perceive()
+    ///\Only perceive pheromones, with the distance PHEROMONES_SENSE_DISTANCE
+    std::vector<Pheromones*> perceivePheromones() const;
+
 public:
 
 ///\brief normal constructor for GrouperBasePheromones
