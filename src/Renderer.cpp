@@ -26,6 +26,7 @@ Renderer::Renderer(unsigned int width, unsigned int height)
 
 Renderer::~Renderer()
 {
+	SDL_DestroyTexture(textureMap["waterBG"]);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 }
@@ -137,7 +138,7 @@ void Renderer::drawString(Vector2<float> const & position, const::std::string & 
 void Renderer::flush()
 {
 	// We draw anything needed
-	SDL_RenderCopy(renderer, textureMap["waterBG"], NULL, NULL);
+	//SDL_RenderCopy(renderer, textureMap["waterBG"], NULL, NULL);
 	flushCircles();
 	flushPixels();
 	flushStrings();
