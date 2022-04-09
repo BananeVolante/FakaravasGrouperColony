@@ -77,7 +77,11 @@ protected:
 
     ///\brief is the Grouper able to transport food
     ///\return is the grouper's food stock fulls
-    bool isFull();
+    bool isFull() const;
+
+    ///\brief if the Grouper is carrying food
+    ///\return if the Grouper is carrying food
+    bool isCarryingFood() const;
 
     ///\brief applies a rotation to the moving direction
     ///\param angle rotation angle in radiant

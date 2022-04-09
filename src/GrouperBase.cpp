@@ -86,11 +86,15 @@ void GrouperBase::collectFood(Food& foodPile)
 
 
 
-bool GrouperBase::isFull()
+bool GrouperBase::isFull() const
 {
     return foodAmountTransported >= maxFoodAmountTransported; 
 }
 
+bool GrouperBase::isCarryingFood() const
+{
+    return foodAmountTransported>0;
+}
 
 void GrouperBase::randomRotation()
 {
