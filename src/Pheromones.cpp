@@ -11,13 +11,17 @@ Pheromones::Pheromones(Environment *environment, Vector2<float> pos, float phero
 
 void Pheromones::update()
 {
-
-    pheromonesAmount *= Timer::dt()*DECAY_SPEED;
+    //std::string msg("Pheromones updated, started at " + std::to_string(pheromonesAmount));
+    pheromonesAmount -= Timer::dt()*DECAY_SPEED*pheromonesAmount;
+    if(pheromonesAmount<0.01)
+        status = destroy;
+    //msg += std::string(" ended at " + std::to_string(pheromonesAmount));
+   // SDL_Log(msg.c_str());
 }
 
 void Pheromones::draw()
 {
-    Renderer::getInstance()->drawCircle(getPosition(), getRadius(), Renderer::Color(0,128,128,std::min<float>(pheromonesAmount, 255)));
+    Renderer::getInstance()->drawCircle(getPosition(), getRadius()*5, Renderer::Color(0,128,128,std::min<float>(pheromonesAmount, 255)));
 }
 
 
