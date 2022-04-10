@@ -2,7 +2,7 @@
 #define _AbstractRule_H
 #include "initializer_list"
 #include "vector"
-#include "GrouperBase.h"
+#include "GrouperBasePheromones.h"
 
 ///\brief abstract rule, where a condition being true leads to an action
 class AbstractRule
@@ -35,7 +35,9 @@ public:
 class AbstractGrouperRule : public AbstractRule
 {
 protected:
-    GrouperBase* const target;
+    GrouperBasePheromones* const target;
+public: 
+    AbstractGrouperRule(GrouperBasePheromones* grouper);
 
 };
 #endif

@@ -12,6 +12,7 @@
 #include "GrouperBase.h"
 #include "SillyGrouper.h"
 #include "Grouper.h"
+#include "GrouperWithRules.h"
 
 static unsigned int windowWidth() { return 1024; }
 static unsigned int windowHeight() { return 700; }
@@ -99,7 +100,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	GrouperHQ* hq = new GrouperHQ(&environment, environment.randomPosition());
 	for (size_t i = 0; i < 100; i++)
 	{
-		new Grouper(&environment, environment.randomPosition(), hq, Vector2<float>::random(), 3, 5);
+		new GrouperWithRules(&environment, environment.randomPosition(), hq, Vector2<float>::random(), 3, 5);
 	}
 	
 	/*******************************************

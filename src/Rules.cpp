@@ -1,5 +1,5 @@
 #include "Rules.h"
-#include<algorithm>
+#include "GrouperBasePheromones.h"
 
 OrRule::OrRule(std::initializer_list<AbstractRule*> rules) : allRules(rules)
 {    
@@ -30,4 +30,9 @@ void OrRule::action() const
             break;
         }
     }
+}
+
+AbstractGrouperRule::AbstractGrouperRule(GrouperBasePheromones* grouper) : target(grouper)
+{
+
 }

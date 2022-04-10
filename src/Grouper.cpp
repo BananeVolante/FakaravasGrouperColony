@@ -12,7 +12,7 @@ Grouper::Grouper(Environment* environment, Vector2<float> pos,
 
 void Grouper::update()
 {
-    
+    /*
     if(!isCarryingFood())
     {
         std::vector<Food*> foodPileOnSameCell = perceive<Food>();
@@ -65,7 +65,7 @@ void Grouper::update()
                 
         }
     }
-
+*/
     
     putPheromones();
 
