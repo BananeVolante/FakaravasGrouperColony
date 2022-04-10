@@ -1,5 +1,6 @@
 #include "GrouperBasePheromones.h"
 #include "Pheromones.h"
+const float GrouperBasePheromones::PHEROMONES_SENSE_ANGLE = MathUtils::pi /3;
 
 GrouperBasePheromones::GrouperBasePheromones(Environment* environment, Vector2<float> pos, 
         GrouperHQ* hq, Vector2<float> baseMvDirection, 
@@ -11,7 +12,7 @@ GrouperBasePheromones::GrouperBasePheromones(Environment* environment, Vector2<f
 
 std::vector<Pheromones*> GrouperBasePheromones::perceivePheromones() const
 {
-    return LocalizedEntity::perceive<Pheromones>(getMvDirection(), viewAngle, PHEROMONES_SENSE_DISTANCE);
+    return LocalizedEntity::perceive<Pheromones>(getMvDirection(), PHEROMONES_SENSE_ANGLE, PHEROMONES_SENSE_DISTANCE);
 }
 
 

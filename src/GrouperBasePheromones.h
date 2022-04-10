@@ -9,6 +9,8 @@ class GrouperBasePheromones : public GrouperBase
 private:
     ///\brief distance at which the grouper can smell pheromones
     static constexpr float PHEROMONES_SENSE_DISTANCE = 8;
+    ///\brief angle at which the groupers can smell pheromones
+    static const float PHEROMONES_SENSE_ANGLE; //pi/3 , using pi/2 made them sometimes block 
 
 protected:
     ///\copybrief LocalizedEntity::perceive()
