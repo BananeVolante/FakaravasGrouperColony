@@ -48,3 +48,10 @@ Pheromones* GrouperBasePheromones::choosePheromone() const
     return nearbyPheromones[MathUtils::randomChoose(weights)];//choose one pheromone and returns it
 }
 
+void GrouperBasePheromones::putPheromones() const
+{
+    if(isCarryingFood())
+        putPheromones(PHEROMONE_AMOUNT_FULL);
+    else
+        putPheromones(PHEROMONE_AMOUNT_EMPTY);
+}

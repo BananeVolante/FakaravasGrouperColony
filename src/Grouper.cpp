@@ -72,10 +72,3 @@ void Grouper::update()
     GrouperBasePheromones::update();
 }
 
-void Grouper::putPheromones() const
-{
-    if(isCarryingFood())
-        GrouperBasePheromones::putPheromones(PHEROMONE_AMOUNT_FULL);
-    else
-        GrouperBasePheromones::putPheromones(PHEROMONE_AMOUNT_EMPTY);
-}
