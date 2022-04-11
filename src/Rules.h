@@ -10,6 +10,7 @@ class AbstractRule
 public:
     ///\return true if the condition is true, false otherwise
     virtual bool condition() const = 0;
+    
     ///\brief do something
     virtual void action() const = 0;
 
@@ -32,11 +33,15 @@ public:
 
 };
 
+///\brief abstract rule with a pointer to a GrouperBasePheromone
 class AbstractGrouperRule : public AbstractRule
 {
 protected:
+///\brief the grouper concerned by the rule
     GrouperBasePheromones* const target;
 public: 
+///\brief normal constructor
+///\param grouper the grouper concerned by the rule
     AbstractGrouperRule(GrouperBasePheromones* grouper);
 
 };

@@ -3,6 +3,7 @@
 
 #include "Environment.h"
 
+///\brief agent that evolve in an environment
 class Agent : public Environment::LocalizedEntity
 {
 
