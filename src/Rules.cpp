@@ -36,3 +36,18 @@ AbstractGrouperRule::AbstractGrouperRule(GrouperBasePheromones* grouper) : targe
 {
 
 }
+
+
+
+PersonalisableRule::PersonalisableRule(conditionFunction cond, actionFunction action) : conditionFunctionPointer(cond), actionFunctionPointer(action)
+{}
+
+bool PersonalisableRule::condition() const
+{
+    return conditionFunctionPointer();
+}
+
+void PersonalisableRule::action() const
+{
+    return actionFunctionPointer();
+}

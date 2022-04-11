@@ -10,7 +10,7 @@ class AbstractRule
 public:
     ///\return true if the condition is true, false otherwise
     virtual bool condition() const = 0;
-    
+
     ///\brief do something
     virtual void action() const = 0;
 
@@ -44,5 +44,29 @@ public:
 ///\param grouper the grouper concerned by the rule
     AbstractGrouperRule(GrouperBasePheromones* grouper);
 
+};
+
+///\brief rule class that allows intialisation with function pointers
+class PersonalisableRule : AbstractRule
+{
+private:
+    typedef bool (*conditionFunction)();
+    typedef void (*actionFunction)();
+
+    ///\brief pointer to the condition function
+    conditionFunction conditionFunctionPointer;
+    ///\brief pointer to the action function
+    actionFunction actionFunctionPointer;
+public: 
+    ///\brief construct a rule
+    ///\param cond function used to determine the condition
+    ///\param action function used to determine the action 
+    PersonalisableRule(conditionFunction cond, actionFunction action);
+
+    ///\copydoc AbstractRule::condition()
+    virtual bool condition() const;
+
+    ///\copydoc AbstractRule::action()
+    virtual void action() const;
 };
 #endif
