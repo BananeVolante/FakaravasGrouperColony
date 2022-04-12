@@ -1,7 +1,7 @@
 #ifndef _AbstractRule_H
 #define _AbstractRule_H
-#include "initializer_list"
-#include "vector"
+#include <initializer_list>
+#include <vector>
 #include "GrouperBasePheromones.h"
 
 ///\brief abstract rule, where a condition being true leads to an action
@@ -49,10 +49,10 @@ public:
 ///\brief rule class that allows intialisation with function pointers
 class PersonalisableRule : AbstractRule
 {
-private:
+public:
     typedef bool (*conditionFunction)();
     typedef void (*actionFunction)();
-
+private:
     ///\brief pointer to the condition function
     conditionFunction conditionFunctionPointer;
     ///\brief pointer to the action function

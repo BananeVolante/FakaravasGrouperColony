@@ -98,9 +98,9 @@ int main(int /*argc*/, char ** /*argv*/)
 	 * *************************************/
 	//new GrouperBase(&environment, environment.randomPosition(), (GrouperHQ *)NULL, Vector2<float>(0, 0), 1.0, 20);
 	GrouperHQ* hq = new GrouperHQ(&environment, environment.randomPosition());
-	for (size_t i = 0; i < 100; i++)
+	for (size_t i = 0; i < 200; i++)
 	{
-		new GrouperWithRules(&environment, environment.randomPosition(), hq, Vector2<float>::random(), 3, 5);
+		new GrouperWithRules(&environment, environment.randomPosition(), hq, Vector2<float>::random(), 3, 1);
 	}
 	
 	/*******************************************

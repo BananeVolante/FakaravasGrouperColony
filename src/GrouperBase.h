@@ -84,7 +84,7 @@ private:
     void move();
 
     
-public:
+protected :
 
     ///\brief applies a rotation to the moving direction
     ///\param angle rotation angle in radiant
