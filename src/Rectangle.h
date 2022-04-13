@@ -33,6 +33,21 @@ public:
 		float dy = std::max<float>((float)fabs(point[1] - m_center[1]) - m_extent[1] * 0.5f, 0.0f);
 		return Vector2<float>(dx, dy).norm();
 	}
+
+	const Vector2<float>& getCenter() const
+	{
+		return m_center;
+	}
+	
+	Vector2<float> getTopLeft() const
+	{
+		/*extent = diagonal/2
+		diagonal = extent*2
+		center = topLeft + diagonal/2
+		center = topLeft + extent
+		center - extent = topLeft*/
+		return m_center- m_extent;
+	}
 };
 
 #endif
