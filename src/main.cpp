@@ -13,6 +13,7 @@
 #include "SillyGrouper.h"
 #include "Grouper.h"
 #include "GrouperWithRules.h"
+#include "ScoreBoard.h"
 
 static unsigned int windowWidth() { return 1024; }
 static unsigned int windowHeight() { return 700; }
@@ -50,7 +51,7 @@ void onKeyPressed(char key, Environment *environment)
 	if (key == 'a') // creates a GrouperHQ
 	{
 		Vector2<float> pos = environment->randomPosition();
-		new GrouperHQ(environment, pos);
+		new GrouperHQ(environment, pos, "a");
 		SDL_Log("Created a grouperHQ");
 	}
 }
@@ -97,12 +98,20 @@ int main(int /*argc*/, char ** /*argv*/)
 	 * Zone de tests
 	 * *************************************/
 	//new GrouperBase(&environment, environment.randomPosition(), (GrouperHQ *)NULL, Vector2<float>(0, 0), 1.0, 20);
-	GrouperHQ* hq = new GrouperHQ(&environment, environment.randomPosition());
-	for (size_t i = 0; i < 200; i++)
+	GrouperHQ* hq = new GrouperHQ(&environment, environment.randomPosition(), "titan grouper");
+	GrouperHQ* hq2 = new GrouperHQ(&environment, environment.randomPosition(), "super  grouper");
+	ScoreBoard scoreboard(Vector2<float>(0,0));
+	scoreboard.addElement(hq);
+	scoreboard.addElement(hq2);
+	for (size_t i = 0; i < 20; i++)
 	{
 		new GrouperWithRules(&environment, environment.randomPosition(), hq, Vector2<float>::random(), 3, 1);
 	}
-	
+
+	for (size_t i = 0; i < 50; i++)
+	{
+		new GrouperWithRules(&environment, environment.randomPosition(), hq2, Vector2<float>::random(), 3, 1);
+	}
 	/*******************************************
 	 * Fin zone de test
 	 * ****************************************/
@@ -129,6 +138,7 @@ int main(int /*argc*/, char ** /*argv*/)
 		// 2 - We update the simulation
 		Timer::update(0.5);
 		onSimulate();
+		scoreboard.draw();
 		// 3 - We render the scene
 		Renderer::getInstance()->flush();
 	}

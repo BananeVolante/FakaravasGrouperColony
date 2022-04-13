@@ -3,7 +3,7 @@
 
 
 
-GrouperHQ::GrouperHQ(Environment *environment, Vector2<float> pos) : Agent(environment, pos, GROUPERHQ_DEFAULT_RADIUS), amountOfFood(0)
+GrouperHQ::GrouperHQ(Environment *environment, Vector2<float> pos, std::string name) : Agent(environment, pos, GROUPERHQ_DEFAULT_RADIUS), amountOfFood(0), name(name)
 {
 
 }
@@ -13,6 +13,8 @@ GrouperHQ::GrouperHQ(Environment *environment, Vector2<float> pos) : Agent(envir
 void GrouperHQ::draw()
 {
     Renderer::getInstance()->drawCircle(getPosition(), GROUPERHQ_DEFAULT_RADIUS, Renderer::Color(0,0,255));
+    Renderer::getInstance()->drawString(getPosition()+Vector2<float>(-15,15), getName());
+    Renderer::getInstance()->drawString(getPosition()+Vector2<float>(-15,25), std::to_string((getScore())));
 }
 
 
@@ -32,4 +34,14 @@ void GrouperHQ::depositFood(float amount)
 float GrouperHQ::getAmount() const
 {
     return amountOfFood;
+}
+
+float GrouperHQ::getScore() const
+{
+    return getAmount();
+}
+
+const std::string& GrouperHQ::getName() const
+{
+    return name;
 }

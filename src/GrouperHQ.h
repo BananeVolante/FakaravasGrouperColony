@@ -1,17 +1,21 @@
 #ifndef _GrouperHQ_H
 #define _GrouperHQ_H
 #include "Agent.h"
+#include "Scoreable.h"
 
 
 #define GROUPERHQ_DEFAULT_RADIUS 10
 
 ///\brief Class representing the central base of a category of agents
-class GrouperHQ : public Agent
+class GrouperHQ : public Agent, public Scoreable
 {
 private :
 
     ///\brief Amount of food currently stored in this HQ
     float amountOfFood;
+
+    ///\brief name of the HQ
+    std::string name;
 
 public : 
     /**
@@ -21,7 +25,7 @@ public :
      */
     
 
-    GrouperHQ(Environment *environment, Vector2<float> pos);
+    GrouperHQ(Environment *environment, Vector2<float> pos, std::string name);
 
     ///\copydoc Agent::update()
     virtual void update();
@@ -36,7 +40,11 @@ public :
     ///\return return the amount of food stocked
     float getAmount() const;
     
+    ///\copydoc Scoreable::getScore
+    float getScore() const;
 
+    ///\copydoc Scoreable::getName
+    const std::string& getName() const;
 };
 
 
