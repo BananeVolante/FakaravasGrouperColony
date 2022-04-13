@@ -8,6 +8,7 @@
 class GrouperWithRules : public GrouperBasePheromones
 {
 private:
+///\brief rules followed by all groupers
 static StaticOrRule<GrouperWithRules> rules;
 
 public:
