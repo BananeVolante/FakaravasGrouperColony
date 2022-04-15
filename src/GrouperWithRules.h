@@ -27,6 +27,7 @@ public:
     virtual void update();
 
 protected:
+    ///\brief place PHEROMONE_AMOUNT_EMPTY if the grouper isn't carrying food, and PHEROMONE_AMOUNT_EMPTY if he is
     void smartPutPheromones() const;
 };
 
