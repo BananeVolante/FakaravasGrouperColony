@@ -2,8 +2,9 @@
 #define _GrouperBasePheromones_H
 #include "GrouperBase.h"
 #include "Pheromones.h"
+#include "PheromonesTeam.h"
 
-
+///\deprecated Use classes of the AbstractPheromonesHandler family instead of this one
 class GrouperBasePheromones : public GrouperBase 
 {
 private:
@@ -15,7 +16,7 @@ private:
 protected:
     ///\copybrief LocalizedEntity::perceive()
     ///\Only perceive pheromones, with the distance PHEROMONES_SENSE_DISTANCE
-    std::vector<Pheromones*> perceivePheromones() const;
+    std::vector<PheromonesTeam*> perceivePheromones() const;
 
     ///\brief amount of pheromones placed when the grouper isn't carrying food
     static constexpr float PHEROMONE_AMOUNT_EMPTY = 10;
@@ -40,7 +41,7 @@ public:
 
     ///\brief sense nearby pheromones and return one. probability depends on the amount
     ///\return a random pheromon nearby
-    Pheromones* choosePheromone() const;
+    PheromonesTeam* choosePheromone() const;
 };
 
 
