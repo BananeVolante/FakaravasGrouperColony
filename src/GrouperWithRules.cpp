@@ -1,4 +1,5 @@
 #include "GrouperWithRules.h"
+#include "Pheromones.h"
 
 StaticOrRule<GrouperWithRules> GrouperWithRules::rules = StaticOrRule<GrouperWithRules>(
     {
@@ -71,7 +72,7 @@ StaticOrRule<GrouperWithRules> GrouperWithRules::rules = StaticOrRule<GrouperWit
 GrouperWithRules::GrouperWithRules(Environment* environment, Vector2<float> pos, 
         GrouperHQ* hq, Vector2<float> baseMvDirection, 
         float speed , float radius, 
-        float startLife) : GrouperBasePheromones(environment, pos, hq, baseMvDirection, speed, radius, startLife)
+        float startLife) : GrouperBase(environment, pos, hq, baseMvDirection, speed, radius, startLife), PheromonesHandler(this)
 {
 }
 
@@ -79,6 +80,15 @@ void GrouperWithRules::update()
 {
     if(rules.condition(this)) // condition is probably optional here
         rules.action(this);
-    putPheromones();
-    GrouperBasePheromones::update();
+    smartPutPheromones();
+    GrouperBase::update();
+}
+
+
+void GrouperWithRules::smartPutPheromones() const
+{
+    if(isCarryingFood())
+        putPheromones(PHEROMONE_AMOUNT_FULL);
+    else
+        putPheromones(PHEROMONE_AMOUNT_EMPTY);
 }

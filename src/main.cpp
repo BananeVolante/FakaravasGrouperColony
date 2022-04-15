@@ -103,15 +103,11 @@ int main(int /*argc*/, char ** /*argv*/)
 	ScoreBoard scoreboard(Vector2<float>(0,0));
 	scoreboard.addElement(hq);
 	scoreboard.addElement(hq2);
-	for (size_t i = 0; i < 20; i++)
+	for (size_t i = 0; i < 100; i++)
 	{
 		new GrouperWithRules(&environment, environment.randomPosition(), hq, Vector2<float>::random(), 3, 1);
 	}
 
-	for (size_t i = 0; i < 50; i++)
-	{
-		new GrouperWithRules(&environment, environment.randomPosition(), hq2, Vector2<float>::random(), 3, 1);
-	}
 	/*******************************************
 	 * Fin zone de test
 	 * ****************************************/
