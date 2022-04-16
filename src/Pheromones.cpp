@@ -3,8 +3,8 @@
 #include "Renderer.h"
 
 
-Pheromones::Pheromones(Environment *environment, Vector2<float> pos, float pheromonesAmount, float radius)
-    : Agent(environment, pos, radius), pheromonesAmount(pheromonesAmount)
+Pheromones::Pheromones(Environment *environment, Vector2<float> pos, float pheromonesAmount)
+    : Agent(environment, pos), pheromonesAmount(pheromonesAmount)
 {   
 }
 

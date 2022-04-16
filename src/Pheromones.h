@@ -20,7 +20,7 @@ public:
 * \param pheromonesAmount amount of pheromons stored in the pile when it's created
 *
 */
-Pheromones(Environment *environment, Vector2<float> pos, float pheromonesAmount, float radius = Environment::LocalizedEntity::defaultRadius());
+Pheromones(Environment *environment, Vector2<float> pos, float pheromonesAmount);
 
 ///\copydoc Agent::update()
 virtual void update();
