@@ -15,8 +15,8 @@
 #include "GrouperWithRules.h"
 #include "ScoreBoard.h"
 
-static unsigned int windowWidth() { return 1920; }
-static unsigned int windowHeight() { return 1080; }
+static unsigned int windowWidth() { return 1024; }
+static unsigned int windowHeight() { return 700; }
 
 /// <summary>
 /// called each time a key is pressed.
@@ -95,7 +95,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	srand((unsigned int)time(NULL));
 
 	/*************************************
-	 * Zone de tests
+	 * Test area
 	 * *************************************/
 	//new GrouperBase(&environment, environment.randomPosition(), (GrouperHQ *)NULL, Vector2<float>(0, 0), 1.0, 20);
 	GrouperHQ* hq = new GrouperHQ(&environment, environment.randomPosition(), "titan grouper");
@@ -113,7 +113,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	}
 
 	/*******************************************
-	 * Fin zone de test
+	 * test area end
 	 * ****************************************/
 
 	// The main event loop...

@@ -1,6 +1,6 @@
 #include "GrouperHQ.h"
 #include "Renderer.h"
-
+#include "GrouperFactory.h"
 
 
 GrouperHQ::GrouperHQ(Environment *environment, Vector2<float> pos, std::string name) : Agent(environment, pos, GROUPERHQ_DEFAULT_RADIUS), amountOfFood(0), name(name)
@@ -20,7 +20,11 @@ void GrouperHQ::draw()
 
 void GrouperHQ::update()
 {
-    
+    if(getAmount() > GROUPER_COST)
+    {
+        amountOfFood -= GROUPER_COST;
+        GrouperFactory::getInstance()->spawnGrouper(this);
+    }
 }
 
 
@@ -29,6 +33,7 @@ void GrouperHQ::depositFood(float amount)
     if(amount <0)
         throw new std::invalid_argument("amount of food cannot be negative");
     amountOfFood += amount;
+    totalAmountOfFood += amount;
 }
 
 float GrouperHQ::getAmount() const
@@ -38,7 +43,7 @@ float GrouperHQ::getAmount() const
 
 float GrouperHQ::getScore() const
 {
-    return getAmount();
+    return totalAmountOfFood;
 }
 
 const std::string& GrouperHQ::getName() const

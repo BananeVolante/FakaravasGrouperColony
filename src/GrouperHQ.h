@@ -11,8 +11,13 @@ class GrouperHQ : public Agent, public Scoreable
 {
 private :
 
+    static constexpr float GROUPER_COST = 15; 
+
     ///\brief Amount of food currently stored in this HQ
     float amountOfFood;
+
+    ///\brief Total amount of food collected
+    float totalAmountOfFood;
 
     ///\brief name of the HQ
     std::string name;
