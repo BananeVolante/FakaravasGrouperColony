@@ -72,7 +72,8 @@ StaticOrRule<GrouperWithRules> GrouperWithRules::rules = StaticOrRule<GrouperWit
 GrouperWithRules::GrouperWithRules(Environment* environment, Vector2<float> pos, 
         GrouperHQ* hq, Vector2<float> baseMvDirection, 
         float speed , float radius, 
-        float startLife) : GrouperBase(environment, pos, hq, baseMvDirection, speed, radius, startLife), PheromonesHandler(this)
+        float startLife) : GrouperBase(environment, pos, hq, baseMvDirection, speed, radius, startLife),
+         PheromonesTeamHandler(this)
 {
 }
 

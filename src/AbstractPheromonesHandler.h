@@ -24,7 +24,7 @@ protected:
     /// select a pheromone from a certain team for example
     virtual Pheromones* choosePheromone() const = 0;
     ///\return the grouper that uses this handler
-    GrouperBase* getGrouper() const {return grouper;}
+    inline GrouperBase* getGrouper() const {return grouper;}
 };
 
 

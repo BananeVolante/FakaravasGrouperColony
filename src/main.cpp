@@ -15,8 +15,8 @@
 #include "GrouperWithRules.h"
 #include "ScoreBoard.h"
 
-static unsigned int windowWidth() { return 1024; }
-static unsigned int windowHeight() { return 700; }
+static unsigned int windowWidth() { return 1920; }
+static unsigned int windowHeight() { return 1080; }
 
 /// <summary>
 /// called each time a key is pressed.
@@ -106,6 +106,10 @@ int main(int /*argc*/, char ** /*argv*/)
 	for (size_t i = 0; i < 100; i++)
 	{
 		new GrouperWithRules(&environment, environment.randomPosition(), hq, Vector2<float>::random(), 3, 1);
+	}
+	for (size_t i = 0; i < 100; i++)
+	{
+		new GrouperWithRules(&environment, environment.randomPosition(), hq2, Vector2<float>::random(), 3, 1);
 	}
 
 	/*******************************************

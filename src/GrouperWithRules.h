@@ -3,10 +3,11 @@
 #include "StaticRules.h"
 #include "GrouperBase.h"
 #include "PheromonesHandler.h"
+#include "PheromonesTeamHandler.h"
 #include <map>
 
 ///\brief class similar to Grouper, but that uses rule class to determine its actions
-class GrouperWithRules : public GrouperBase, public PheromonesHandler
+class GrouperWithRules : public GrouperBase, public PheromonesTeamHandler
 {
 private:
     ///\brief rules followed by all groupers
