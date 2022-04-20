@@ -26,7 +26,7 @@ Renderer::Renderer(unsigned int width, unsigned int height)
 
 Renderer::~Renderer()
 {
-	SDL_DestroyTexture(textureMap["waterBG"]);
+	deleteTextures();
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 }
@@ -171,8 +171,15 @@ void Renderer::initTextures()
 {
 	///\todo Search all files in a Ressources subdir (textures for example), and automatically add them , with their base name as key
 	SDL_Surface*  waterBG = SDL_LoadBMP("ressources/waterBG.bmp");
+
 	if(!waterBG)
 		SDL_Log("Error while loading a texture");
 	textureMap.insert(std::pair<std::string, SDL_Texture*>("waterBG", SDL_CreateTextureFromSurface(getSdlRenderer(), waterBG)));
 
+}
+
+void Renderer::deleteTextures()
+{
+	SDL_DestroyTexture(textureMap["waterBG"]);
+	std::for_each(surfaceMap.begin(), surfaceMap.end(), [](SDL_Surface* s){SDL_FreeSurface(s);});
 }

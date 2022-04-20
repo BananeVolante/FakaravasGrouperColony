@@ -9,6 +9,7 @@
 #include <vector>
 #include <memory>
 #include <iostream>
+#include <set> 
 
 
 #include <unordered_map>
@@ -238,9 +239,11 @@ public:
 	//PERSONAL EDITS
 private: 
 	std::unordered_map<std::string, SDL_Texture* const> textureMap;
+	std::set<SDL_Surface*> surfaceMap;
 	SDL_Texture * waterTexture;
 
 	void initTextures();
+	void deleteTextures();
 };
 
 #endif
