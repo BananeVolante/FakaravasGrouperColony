@@ -3,7 +3,7 @@
 #include "GrouperFactory.h"
 
 
-GrouperHQ::GrouperHQ(Environment *environment, Vector2<float> pos, std::string name) : Agent(environment, pos, GROUPERHQ_DEFAULT_RADIUS), amountOfFood(0), name(name)
+GrouperHQ::GrouperHQ(Environment *environment, Vector2<float> pos, std::string name) : Agent(environment, pos, GROUPERHQ_DEFAULT_RADIUS), amountOfFood(0),totalAmountOfFood(0) ,name(name)
 {
 
 }
