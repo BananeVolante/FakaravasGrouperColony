@@ -23,18 +23,27 @@ void PheromonesTeamHandler::putPheromones(float amount) const
     }
 }
 
-PheromonesTeam* PheromonesTeamHandler::choosePheromone() const
+PheromonesTeam* PheromonesTeamHandler::choosePheromone(GrouperHQ* team, bool searchForAlly) const
 {
     //get nearby pheromones
     std::vector<PheromonesTeam*> nearbyPheromones = getGrouper()->perceive<PheromonesTeam>(getGrouper()->getMvDirection(), PHEROMONES_SENSE_ANGLE, PHEROMONES_SENSE_DISTANCE);
-    
-    size_t listSize = nearbyPheromones.size();
+    std::vector<PheromonesTeam*> nearbyValidPheromones;
+    for(PheromonesTeam* phe : nearbyPheromones)
+    {
+        if((phe->getTeam() == team) == searchForAlly)
+            nearbyValidPheromones.push_back(phe);
+    }
+    size_t listSize = nearbyValidPheromones.size();
     if(listSize == 0) // if there are no pheromone,s useless to continue
         return nullptr;
     std::vector<float> weights(listSize);
     for (size_t i = 0; i < listSize; i++) // create a vector with the weights of all pheromones
-        weights[i] = nearbyPheromones[i]->getQuantity();
+        weights[i] = nearbyValidPheromones[i]->getQuantity();
 
-    return nearbyPheromones[MathUtils::randomChoose(weights)];//choose one pheromone and returns it
+    return nearbyValidPheromones[MathUtils::randomChoose(weights)];//choose one pheromone and returns it
+}
 
+PheromonesTeam* PheromonesTeamHandler::choosePheromone() const
+{
+    return choosePheromone(getGrouper()->getHQ());
 }

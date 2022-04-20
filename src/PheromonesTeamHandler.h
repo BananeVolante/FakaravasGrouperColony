@@ -17,5 +17,7 @@ protected:
     virtual void putPheromones(float amount) const;
 
     virtual PheromonesTeam* choosePheromone() const;
+
+    PheromonesTeam* choosePheromone(GrouperHQ* team, bool searchForAlly = true) const;
 };
 #endif
