@@ -11,12 +11,12 @@ class GrouperWithRules : public GrouperBase, public PheromonesTeamHandler
 {
 private:
     ///\brief rules followed by all groupers
-    static StaticOrRule<GrouperWithRules> rules;
-
+    static StaticOrRule rules;
+    
     ///\brief amount of pheromones placed when the grouper isn't carrying food
     static constexpr float PHEROMONE_AMOUNT_EMPTY = 10;
     ///\brief amount of pheromones placed when the grouper is carrying food
-    static constexpr float PHEROMONE_AMOUNT_FULL = 1000;
+    static constexpr float PHEROMONE_AMOUNT_FULL = 100;
 
 public:
     ///\copydoc GrouperBasePheromones::GrouperBasePheromones()
@@ -30,6 +30,19 @@ public:
 protected:
     ///\brief place PHEROMONE_AMOUNT_EMPTY if the grouper isn't carrying food, and PHEROMONE_AMOUNT_EMPTY if he is
     void smartPutPheromones() const;
+
+    ///\brief get the current rule that makes the grouper work
+    ///\remark can be redefined in child class to change the rules
+    virtual const AbstractStaticRule& getRule() const;
+
+    //rules used by groupers
+    static const PersonalisableStaticRule grabFood;
+    static const PersonalisableStaticRule goToFood;
+    static const PersonalisableStaticRule followPheromones;
+    static const PersonalisableStaticRule moveRandomly;
+    static const PersonalisableStaticRule depositFoodIfPossible;
+    static const PersonalisableStaticRule goBackToBase;
+
 };
 
 #endif
