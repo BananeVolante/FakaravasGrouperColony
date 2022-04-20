@@ -14,6 +14,9 @@
 #include "Grouper.h"
 #include "GrouperWithRules.h"
 #include "ScoreBoard.h"
+#include "GrouperSoldier.h"
+#include "3d/RectCuboid.h"
+#include "3d/ThreeDController.h"
 
 static unsigned int windowWidth() { return 1024; }
 static unsigned int windowHeight() { return 700; }
@@ -103,14 +106,19 @@ int main(int /*argc*/, char ** /*argv*/)
 	ScoreBoard scoreboard(Vector2<float>(0,0));
 	scoreboard.addElement(hq);
 	scoreboard.addElement(hq2);
-	for (size_t i = 0; i < 100; i++)
-	{
-		new GrouperWithRules(&environment, environment.randomPosition(), hq, Vector2<float>::random(), 3, 1);
-	}
-	for (size_t i = 0; i < 100; i++)
-	{
-		new GrouperWithRules(&environment, environment.randomPosition(), hq2, Vector2<float>::random(), 3, 1);
-	}
+
+
+	ThreeD::RectCuboid c(Vector3f(100,50,100),Vector3f(500,500,500));
+	ThreeD::Camera cam(Eigen::Vector3f(0,0,0), Eigen::Hyperplane<float, 3>(Eigen::Vector3f(0,0,1), Vector3f(0,0,0)), 0, 0);
+	ThreeD::ThreeDController controller(&cam);
+	//std::cout << c.getPoints()[0] << std::endl;
+	//std::cout << controller.project(c.getPoints()[0])[0] <<  controller.project(c.getPoints()[0])[1] << std::endl;
+	std::vector<Vector2<float>> pwoints;
+	Eigen::AngleAxisf rot(1, Vector3f(1,1,0).normalized());
+	auto rotMat = rot.toRotationMatrix();
+	for(auto p : c.getPoints())
+		pwoints.push_back(controller.project(rotMat * p ) + Vector2<float>(1500,0));
+
 
 	/*******************************************
 	 * test area end
@@ -136,9 +144,13 @@ int main(int /*argc*/, char ** /*argv*/)
 			}
 		}
 		// 2 - We update the simulation
-		Timer::update(0.5);
+		Timer::update(1);
 		onSimulate();
 		scoreboard.draw();
+		for(Vector2<float> p : pwoints)
+		{
+			Renderer::getInstance()->drawCircle(p, 3, Renderer::Color(0,0,255));
+		}
 		// 3 - We render the scene
 		Renderer::getInstance()->flush();
 	}
@@ -150,6 +162,7 @@ int main(int /*argc*/, char ** /*argv*/)
 
 	SDL_Log("shutting down agents");
 	Agent::finalize();
+
 
 	std::cout << "Shutting down SDL" << std::endl;
 	SDL_Quit();
