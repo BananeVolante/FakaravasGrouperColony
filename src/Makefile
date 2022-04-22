@@ -5,7 +5,7 @@ CXX	 = g++
 CXXFLAGS = -c -Wall -std=c++11 -ggdb $(INC) -I .
 #-DDEBUG
 
-sources = $(wildcard *.cpp *.cc)
+sources = $(wildcard *.cpp *.cc */*.cpp)
 objects = $(patsubst %.cc, ../bin/%.o,$(patsubst %.cpp,../bin/%.o, $(sources)))
 targets = ../bin/fourmis
 

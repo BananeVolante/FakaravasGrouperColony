@@ -1,4 +1,4 @@
-SOUS_REPERTOIRES = src
+SOUS_REPERTOIRES = src 
 
 all : sous_repertoires
 .PHONY : all doc sous_repertoires $(SOUS_REPERTOIRES) clean
@@ -16,4 +16,5 @@ clean :
 	for rep in $(SOUS_REPERTOIRES); do \
 	  $(MAKE) -k -C $$rep clean; \
 	done
+	rm bin/3d/*
 
