@@ -5,6 +5,7 @@
 #include <Renderer.h>
 #include <time.h>
 #include <Timer.h>
+#include <SDL2/SDL_events.h>
 
 #include "Agent.h"
 #include "Food.h"
@@ -21,6 +22,7 @@
 static unsigned int windowWidth() { return 1024; }
 static unsigned int windowHeight() { return 700; }
 
+
 /// <summary>
 /// called each time a key is pressed.
 /// </summary>
@@ -29,6 +31,7 @@ static unsigned int windowHeight() { return 700; }
 void onKeyPressed(char key, Environment *environment)
 {
 	std::cout << "Key pressed: " << key << std::endl;
+
 
 	if (key == 'f') // create a pile of food
 	{
@@ -100,27 +103,22 @@ int main(int /*argc*/, char ** /*argv*/)
 	/*************************************
 	 * Test area
 	 * *************************************/
-	//new GrouperBase(&environment, environment.randomPosition(), (GrouperHQ *)NULL, Vector2<float>(0, 0), 1.0, 20);
-	GrouperHQ* hq = new GrouperHQ(&environment, environment.randomPosition(), "titan grouper");
-	GrouperHQ* hq2 = new GrouperHQ(&environment, environment.randomPosition(), "super  grouper");
-	ScoreBoard scoreboard(Vector2<float>(0,0));
-	scoreboard.addElement(hq);
-	scoreboard.addElement(hq2);
+	/*Eigen::Quaternion<float> quat(0.78,0.484,0.209,0.337);
+	ThreeD::Camera camera(Eigen::Vector3f(7.3,-6.9, 4.9), quat.toRotationMatrix(), 31.0/1000, 36.0/1000, 57.0/1000);
 
+	ThreeD::RectCuboid cube(Vector3f(1,1,1), Vector3f(0,0,0));
+	Eigen::Matrix3f rotMat(Eigen::AngleAxisf(1.5, Vector3f::UnitX()).toRotationMatrix());
+	*/
+	//Eigen::Quaternion<float> quat(1,0,0,0);
+	
+	ThreeD::Camera camera(Eigen::Vector3f(-60,0, -1000), Eigen::Matrix3f::Identity(), windowWidth()/1000.0 ,windowHeight()/1000.0, 1, windowWidth(), windowHeight());
+	Eigen::AngleAxisf rotation(0.0001, Eigen::Vector3f::UnitX());
+	ThreeD::RectCuboid cube(Vector3f(100,100,100), Vector3f(25,25,300));
 
-	ThreeD::RectCuboid c(Vector3f(100,50,100),Vector3f(500,500,500));
-	ThreeD::Camera cam(Eigen::Vector3f(0,0,0), Eigen::Hyperplane<float, 3>(Eigen::Vector3f(0,0,1), Vector3f(0,0,0)), 0, 0);
-	ThreeD::ThreeDController controller(&cam);
-	//std::cout << c.getPoints()[0] << std::endl;
-	//std::cout << controller.project(c.getPoints()[0])[0] <<  controller.project(c.getPoints()[0])[1] << std::endl;
-	std::vector<Vector2<float>> pwoints;
-	Eigen::AngleAxisf rot(1, Vector3f(1,1,0).normalized());
-	auto rotMat = rot.toRotationMatrix();
-	for(auto p : c.getPoints())
-		pwoints.push_back(controller.project(rotMat * p ) + Vector2<float>(1500,0));
 
 
 	/*******************************************
+	 * 
 	 * test area end
 	 * ****************************************/
 
@@ -146,16 +144,20 @@ int main(int /*argc*/, char ** /*argv*/)
 		// 2 - We update the simulation
 		Timer::update(1);
 		onSimulate();
-		scoreboard.draw();
-		for(Vector2<float> p : pwoints)
+		for(auto p : cube.getPoints())
 		{
-			Renderer::getInstance()->drawCircle(p, 3, Renderer::Color(0,0,255));
+			
+			Eigen::Vector2f tmp = camera.project( p);
+			camera.rotate(rotation);
+			Renderer::getInstance()->drawCircle(Vector2<float>(tmp[0], tmp[1]), 5, Renderer::Color(0,0,255));
 		}
-		// 3 - We render the scene
-		Renderer::getInstance()->flush();
-	}
 
-	SDL_Log("Amount of food %f", hq->getAmount());
+		// 3 - We render the scene
+		Renderer::getInstance()->drawCircle(Vector2<float>(windowWidth()/2, windowHeight()/2), 1, Renderer::Color(255,0,0));
+
+		Renderer::getInstance()->flush();
+
+	}
 
 	std::cout << "Shutting down renderer..." << std::endl;
 	Renderer::finalize();
