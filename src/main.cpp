@@ -111,7 +111,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	*/
 	//Eigen::Quaternion<float> quat(1,0,0,0);
 	
-	Fakarava3d::Camera camera(Eigen::Vector3f(-60,0, -1000), Eigen::Matrix3f::Identity(), windowWidth()/1000.0 ,windowHeight()/1000.0, 1, windowWidth(), windowHeight());
+	Fakarava3d::ThreeDController controller(Fakarava3d::ThreeDController::point3D{-60,0,-1000}, windowWidth()/1000.0, windowHeight()/1000.0, 1, windowWidth(), windowHeight());
 	Eigen::AngleAxisf rotation(0.0001, Eigen::Vector3f::UnitX());
 	Fakarava3d::RectCuboid cube(Vector3f(100,100,100), Vector3f(25,25,300));
 
@@ -144,12 +144,20 @@ int main(int /*argc*/, char ** /*argv*/)
 		// 2 - We update the simulation
 		Timer::update(1);
 		onSimulate();
+		bool start = true;
+		Vector2<float> oldPoint;
 		for(auto p : cube.getPoints())
 		{
 			
-			Eigen::Vector2f tmp = camera.project( p);
-			camera.rotate(rotation);
-			Renderer::getInstance()->drawCircle(Vector2<float>(tmp[0], tmp[1]), 5, Renderer::Color(0,0,255));
+			Vector2<float> point = controller.project(p);
+			if(start)
+				start = false;
+			else
+				Renderer::getInstance()->drawLine(oldPoint, point);
+			oldPoint = point;
+			Renderer::getInstance()->drawCircle(point, 5, Renderer::Color(0,0,255));
+			controller.getCamera().rotate(Eigen::AngleAxisf(0.0001, Eigen::Vector3f::UnitZ() + Eigen::Vector3f::UnitX()/2));
+
 		}
 
 		// 3 - We render the scene

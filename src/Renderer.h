@@ -109,6 +109,14 @@ protected:
 		float radius;
 		Color color;
 	};
+
+	struct Line
+	{
+		Vector2<float> start;
+		Vector2<float> end;
+		Color color;
+	};
+	
 	
 	static std::unique_ptr<Renderer> m_singleton;
 	
@@ -137,7 +145,10 @@ protected:
 	/// The circles that should be displayed
 	/// </summary>
 	::std::vector<Circle> m_circles;
-	
+
+	///\brief The lines that should be displayed
+	std::vector<Line> m_lines;
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Renderer"/> class.
 	/// </summary>
@@ -160,6 +171,9 @@ protected:
 	/// Draws the circles.
 	/// </summary>
 	void flushCircles();
+
+	///\brief draw the lines
+	void flushLines();
 
 public:	
 
@@ -209,6 +223,16 @@ public:
 	/// <param name="color">The color.</param>
 	void drawString(Vector2<float> const & position, const ::std::string & str, const Color & color = Color(255, 255, 255, 255));
 	
+
+	/// <summary>
+	/// Draws a line
+	/// </summary>
+	/// <param name="startPoint">The beginning of the line.</param>
+	/// <param name="endPoint">The end of the line.</param>
+	/// <param name="color">The color.</param>
+	void drawLine(Vector2<float>const & startPoint, Vector2<float> const & endPoint, const Color & color = Color(255, 255, 255, 255));
+
+
 	/// <summary>
 	/// Draws everything on the screen.
 	/// </summary>

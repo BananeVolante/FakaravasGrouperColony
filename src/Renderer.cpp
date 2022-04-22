@@ -94,6 +94,16 @@ void Renderer::flushCircles()
 	m_circles.erase(m_circles.begin(), m_circles.end());
 }
 
+void Renderer::flushLines()
+{
+	for(Line& l : m_lines)
+	{
+		lineRGBA(getSdlRenderer(), (Sint16)l.start[0], (Sint16)l.start[1], (Sint16)l.end[0], (Sint16)l.end[1], l.color[0], l.color[1], l.color[2], l.color[3]);
+	}
+	m_lines.erase(m_lines.begin(), m_lines.end());
+}
+
+
 /// <summary>
 /// Draws a pixel.
 /// </summary>
@@ -131,6 +141,13 @@ void Renderer::drawString(Vector2<float> const & position, const::std::string & 
 	m_strings.push_back(tmp);
 }
 
+void Renderer::drawLine(Vector2<float>const & startPoint, Vector2<float> const & endPoint, const Color & color)
+{
+	Line tmp = {startPoint, endPoint, color};
+	m_lines.push_back(tmp);
+}
+
+
 /// <summary>
 /// Draws everything on the screen.
 /// </summary>
@@ -139,6 +156,7 @@ void Renderer::flush()
 {
 	// We draw anything needed
 	//SDL_RenderCopy(renderer, textureMap["waterBG"], NULL, NULL);
+	flushLines();
 	flushCircles();
 	flushPixels();
 	flushStrings();
