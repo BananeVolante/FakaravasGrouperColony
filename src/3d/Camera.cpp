@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include <iostream>
 
-using namespace ThreeD;
+using namespace Fakarava3d;
 using namespace Eigen;
 
 Camera::Camera(Vector3f position,  Matrix3f rotMat, float width, float height, float focal, float screenWidth, float screenHeight) : ThreeDObj(position), width(width), height(height), focal(focal), rotationMatrix(rotMat)

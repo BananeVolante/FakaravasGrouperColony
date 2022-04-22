@@ -6,8 +6,9 @@
 using Eigen::Matrix3f;
 using Eigen::Vector3f;
 
-namespace ThreeD
+namespace Fakarava3d
 {
+        using namespace Fakarava3d;
 ///\brief Class that represents an object in a 3d space
 class ThreeDObj
 {

@@ -111,9 +111,9 @@ int main(int /*argc*/, char ** /*argv*/)
 	*/
 	//Eigen::Quaternion<float> quat(1,0,0,0);
 	
-	ThreeD::Camera camera(Eigen::Vector3f(-60,0, -1000), Eigen::Matrix3f::Identity(), windowWidth()/1000.0 ,windowHeight()/1000.0, 1, windowWidth(), windowHeight());
+	Fakarava3d::Camera camera(Eigen::Vector3f(-60,0, -1000), Eigen::Matrix3f::Identity(), windowWidth()/1000.0 ,windowHeight()/1000.0, 1, windowWidth(), windowHeight());
 	Eigen::AngleAxisf rotation(0.0001, Eigen::Vector3f::UnitX());
-	ThreeD::RectCuboid cube(Vector3f(100,100,100), Vector3f(25,25,300));
+	Fakarava3d::RectCuboid cube(Vector3f(100,100,100), Vector3f(25,25,300));
 
 
 

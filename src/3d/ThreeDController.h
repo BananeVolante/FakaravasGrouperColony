@@ -4,8 +4,9 @@
 #include "ThreeDObj.h"
 #include "Camera.h"
 
-namespace ThreeD
+namespace Fakarava3d
 {
+    using namespace Fakarava3d;
 class ThreeDController
 {
 private:

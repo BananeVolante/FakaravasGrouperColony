@@ -1,6 +1,6 @@
 #include "RectCuboid.h"
 #include <iostream>
-using ThreeD::RectCuboid;
+using Fakarava3d::RectCuboid;
 
 RectCuboid::RectCuboid(Vector3f hwlDimensions, Vector3f position) : ThreeDObj(position),
     height(hwlDimensions.x()), width(hwlDimensions.y()), length(hwlDimensions.z())

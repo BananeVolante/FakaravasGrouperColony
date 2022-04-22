@@ -4,12 +4,11 @@
 #include "eigen3/Eigen/Geometry"
 
 
-namespace ThreeD
+namespace Fakarava3d
 {
-
+    using namespace Fakarava3d;
 class Camera : public ThreeDObj
 {
-
 private:
 ///\brief width of the plan projected
     float width;

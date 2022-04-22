@@ -1,7 +1,7 @@
 #include "ThreeDController.h"
 #include "Vector2.h"
 
-using namespace ThreeD;
+using namespace Fakarava3d;
 using namespace Eigen;
 
 ThreeDController::ThreeDController(Camera* cam) : cam(cam)

@@ -2,10 +2,11 @@
 #define _Cube_H
 #include "ThreeDObj.h"
 
-namespace ThreeD
+namespace Fakarava3d
 {
+    using namespace Fakarava3d;
 ///\brief Class that represents a rectangular cuboid
-class RectCuboid : public ThreeDObj
+class RectCuboid : public Fakarava3d::ThreeDObj
 {
 private:
     float height;
