@@ -21,6 +21,9 @@ public:
     ///\return the position of the object
     const Vector3f& getPosition() const
     {return position;}
+
+    virtual void setPosition(const Vector3f& newPos)
+    {position = newPos;}
     #warning "recheck return value"
     ///\return all the points that constitute the object
     virtual std::vector<Vector3f> getPoints() const = 0;
