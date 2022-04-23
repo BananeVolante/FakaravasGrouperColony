@@ -111,9 +111,9 @@ int main(int /*argc*/, char ** /*argv*/)
 	*/
 	//Eigen::Quaternion<float> quat(1,0,0,0);
 	
-	Fakarava3d::ThreeDController controller(Fakarava3d::ThreeDController::point3D{-60,0,-1000}, windowWidth()/1000.0, windowHeight()/1000.0, 1, windowWidth(), windowHeight());
+	Fakarava3d::ThreeDController controller(Fakarava3d::ThreeDController::point3D{0,0,-100}, windowWidth()/1000.0, windowHeight()/1000.0, 0.1, windowWidth(), windowHeight());
 	Eigen::AngleAxisf rotation(0.0001, Eigen::Vector3f::UnitX());
-	Fakarava3d::RectCuboid cube(Vector3f(100,100,100), Vector3f(25,25,300));
+	Fakarava3d::RectCuboid cube(Vector3f(100,100,100), Vector3f(0,0,0));
 
 
 
@@ -146,9 +146,27 @@ int main(int /*argc*/, char ** /*argv*/)
 		onSimulate();
 		bool start = true;
 		Vector2<float> oldPoint;
-		for(auto p : cube.getPoints())
+		float mov = 0;
+		Fakarava3d::ThreeDObj::MeshData data = cube.getMesh();
+		
+		std::vector<Vector2<float>> projectedPoints = controller.project(data.points);
+
+		Renderer* renderer = Renderer::getInstance();
+
+		controller.getCamera().rotate(Eigen::AngleAxisf(0.001, Eigen::Vector3f::UnitY()));
+
+		for(Vector2<float>& p : projectedPoints)
 		{
-			
+			renderer->drawCircle(p, 5, Renderer::Color(0,0,255));
+		}
+		for(std::pair<size_t, size_t>& l : data.lines)
+		{
+			renderer->drawLine(projectedPoints[l.first], projectedPoints[l.second]);
+		}
+/*
+		for(auto p : data.points)
+		{
+			mov+=0.02;
 			Vector2<float> point = controller.project(p);
 			if(start)
 				start = false;
@@ -156,9 +174,9 @@ int main(int /*argc*/, char ** /*argv*/)
 				Renderer::getInstance()->drawLine(oldPoint, point);
 			oldPoint = point;
 			Renderer::getInstance()->drawCircle(point, 5, Renderer::Color(0,0,255));
-			controller.getCamera().rotate(Eigen::AngleAxisf(0.0001, Eigen::Vector3f::UnitZ() + Eigen::Vector3f::UnitX()/2));
-
-		}
+			controller.getCamera().rotate(Eigen::AngleAxisf(0.0001, Eigen::Vector3f::UnitY() + Eigen::Vector3f::UnitX()/2 + Eigen::Vector3f::UnitZ()/5));
+			controller.getCamera().setPosition(Vector3f(-60 + sin(mov)*1000,0 , -1000));
+		}*/
 
 		// 3 - We render the scene
 		Renderer::getInstance()->drawCircle(Vector2<float>(windowWidth()/2, windowHeight()/2), 1, Renderer::Color(255,0,0));
