@@ -8,16 +8,12 @@ namespace Fakarava3d
 ///\brief Class that represents a rectangular cuboid
 class RectCuboid : public Fakarava3d::ThreeDObj
 {
-private:
-    float height;
-    float width;
-    float length;
 public:
 ///\param hwlDimensions Dimensions of the cuboid, coordinates are represented like that {height, width, length}
 ///\param position position of the center of the cuboid
 RectCuboid(Vector3f hwlDimensions, Vector3f position);
 ///\return coordinates of the vertices situated at the corners of the coboid
-virtual std::vector<Vector3f> getPoints() const;
+virtual MeshData getMesh() const;
 
 };
 }
