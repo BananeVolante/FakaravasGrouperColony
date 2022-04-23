@@ -58,8 +58,8 @@ public:
 ///\return The projection of a point onto the screen
     Eigen::Vector2f project(const Eigen::Vector3f& p) const;
 
-///\return an empty vector
-    virtual std::vector<Eigen::Vector3f> getPoints() const;
+///\return an mesh data with nothing inside
+    virtual MeshData getMesh() const;
 
 ///\brief apply a rotation to the camera
     void rotate(const Eigen::AngleAxisf& rotation);

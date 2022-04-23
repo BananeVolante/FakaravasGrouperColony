@@ -4,7 +4,7 @@
 using namespace Fakarava3d;
 using namespace Eigen;
 
-Camera::Camera(Vector3f position,  Matrix3f rotMat, float width, float height, float focal, float screenWidth, float screenHeight) : ThreeDObj(position), width(width), height(height), focal(focal), rotationMatrix(rotMat)
+Camera::Camera(Vector3f position,  Matrix3f rotMat, float width, float height, float focal, float screenWidth, float screenHeight) : ThreeDObj(position, {1,1,1}), width(width), height(height), focal(focal), rotationMatrix(rotMat)
 {
 
 
@@ -20,9 +20,9 @@ Camera::Camera(Vector3f position,  Matrix3f rotMat, float width, float height, f
 }
 
 
-std::vector<Vector3f> Camera::getPoints() const
+ThreeDObj::MeshData Camera::getMesh() const
 {
-    return std::vector<Vector3f>();
+    return MeshData();
 }
 
 float Camera::getWidth() const
