@@ -45,11 +45,20 @@ namespace Fakarava3d
         ///\brief return a modifiable reference to the triangles
         std::vector<std::tuple<size_t, size_t, size_t>> &getTriangles();
 
+        ///\brief return an  reference to the lines
+        const std::vector<std::pair<size_t, size_t>> &getLines() const;
+
+        ///\brief return a  reference to the triangles
+        const std::vector<std::tuple<size_t, size_t, size_t>> &getTriangles() const;
+
         ///\brief return a modifiable reference to the points
         std::vector<Vector3f> &getLocalPoints();
 
+        ///\brief return a  reference to the points
+        const std::vector<Vector3f> &getLocalPoints() const;
+
         ///\brief return a vector containing the points in world coordinates
-        std::vector<Vector3f> getWorldPoints();
+        std::vector<Vector3f> getWorldPoints() const;
     };
 }
 
