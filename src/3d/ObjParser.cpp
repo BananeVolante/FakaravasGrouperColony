@@ -6,7 +6,7 @@
 using namespace Fakarava3d;
 
 
-ThreeDObj::MeshData ObjParser::readObject(std::string fileName)
+Mesh ObjParser::readObject(std::string fileName)
 {
     std::ifstream file;
     file.open(fileName);
@@ -14,7 +14,7 @@ ThreeDObj::MeshData ObjParser::readObject(std::string fileName)
     Eigen::Vector3f vertex;
 
 
-    ThreeDObj::MeshData mesh;
+    Mesh mesh;
     while(std::getline(file, line))
     {
 

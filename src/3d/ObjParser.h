@@ -5,11 +5,15 @@
 namespace Fakarava3d
 {
     using namespace Fakarava3d;
+
+    ///\brief Class that contains different functions to read .obj files and return a Mesh 
     class ObjParser
     {
     private:
     public:
-        static ThreeDObj::MeshData readObject(std::string fileName);
+        ///\brief read a .pbj file and return the points of the model stored in this file
+        ///\param fileName path of the file 
+        static Mesh readObject(std::string fileName);
     };
 }
 
