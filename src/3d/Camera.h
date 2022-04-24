@@ -7,6 +7,7 @@
 namespace Fakarava3d
 {
     using namespace Fakarava3d;
+///\brief a not orthographic camera
 class Camera : public ThreeDObj
 {
 private:

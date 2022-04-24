@@ -34,19 +34,30 @@ public:
     const Vector3f& getPosition() const;
 
 
+    ///\brief change the position of the object
+    ///\param newPos new position
     virtual void setPosition(const Vector3f& newPos);
 
 
+    ///\return the scale matrix
     const Matrix3f& getScaleMat() const;
 
+    ///\brief change the scale matrix
+    ////\param mat the new scale matrix
     virtual void setScaleMat(const Matrix3f& mat);
 
+    ///\brief change the scalle of the object
+    ///\param xyzScales vector with the x, y and z scales, in this order
     virtual void setScale(const Vector3f& xyzScales);
 
+    ///\return the scale of the object, with x, y and z in this order
     Vector3f getScale() const;
 
+    ///\return a constant reference to the rotation matrix
     const Matrix3f& getRotation() const;
 
+    ///\brief change the rotation matrix 
+    ///\param mat the nexw rotation matrix to use
     virtual void setRotation(const Matrix3f& mat);
 
 };

@@ -8,8 +8,9 @@
 namespace Fakarava3d
 {
     using Eigen::Vector3f;
-    ///\brief contains all the data that defines a Mesh
     using namespace Fakarava3d;
+    ///\brief contains all the data that defines a mesh, such as points, lines, triangles(not supported)
+    ///can be moved, scales, rotated
     class Mesh : public ThreeDObj
     {
     private:
