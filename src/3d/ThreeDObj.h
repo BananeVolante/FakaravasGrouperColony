@@ -60,6 +60,11 @@ public:
     ///\param mat the nexw rotation matrix to use
     virtual void setRotation(const Matrix3f& mat);
 
+    ///\brief rotate the model
+    ///\param rotation to add to the current rotation
+    void rotate(const Eigen::AngleAxisf& rotation);
+
+
 };
 
 }

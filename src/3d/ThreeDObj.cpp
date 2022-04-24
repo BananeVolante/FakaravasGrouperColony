@@ -46,3 +46,8 @@ void ThreeDObj::setRotation(const Matrix3f& mat)
 {
     rotation = mat;
 }
+
+void ThreeDObj::rotate(const Eigen::AngleAxisf& rotation)
+{
+    setRotation(rotation.toRotationMatrix() * getRotation());
+}
