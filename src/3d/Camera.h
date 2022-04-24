@@ -28,8 +28,6 @@ private:
 ///\remark This matrix is supposed to be reprocessed every time a change is made to the extrisinc parameters
     Eigen::Matrix<float, 3, 4> M;
 
-///\brief represents the rotation matrix
-    Eigen::Matrix3f rotationMatrix;
 
 ///\brief update the extrisinc parameters matrix, and reprocess the M matrix
     void updateExtrisincParam();
@@ -47,10 +45,8 @@ public:
 ///\return height of the surface where things are projected
     float getHeight() const;
 
-///\return the rotation matrix
-    const Eigen::Matrix3f& getRotationMatrix() const;
 ///\brief set the rotation matrix
-    void setRotationMatrix(const Eigen::Matrix3f& newMatrix);
+    virtual void setRotation(const Eigen::Matrix3f& newMatrix);
 ///\brief set the position
 ///\remark contrary to its parent function, this function is not virtual, this is intended(but might not do what i want to do)
     void setPosition(const Eigen::Vector3f& newPosition);
@@ -58,8 +54,6 @@ public:
 ///\return The projection of a point onto the screen
     Eigen::Vector2f project(const Eigen::Vector3f& p) const;
 
-///\return an mesh data with nothing inside
-    virtual MeshData getMesh() const;
 
 ///\brief apply a rotation to the camera
     void rotate(const Eigen::AngleAxisf& rotation);

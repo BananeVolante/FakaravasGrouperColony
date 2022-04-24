@@ -2,12 +2,12 @@
 #include <iostream>
 using namespace Fakarava3d;
 
-RectCuboid::RectCuboid(Vector3f hwlDimensions, Vector3f position) : ThreeDObj(position, hwlDimensions)
+RectCuboid::RectCuboid(Vector3f hwlDimensions, Vector3f position) : ThreeDObj(position, hwlDimensions, Matrix3f::Identity())
 {
 
 }
 
-ThreeDObj::MeshData RectCuboid::getMesh() const
+Mesh RectCuboid::getMesh() const
 {
     //this function DOES NOT WORK by alternating positive and negative values for x y and z
     //every iteration, x chaneg value
@@ -16,7 +16,8 @@ ThreeDObj::MeshData RectCuboid::getMesh() const
     // Or just do it stupidly, it will be easier to make lines like that*
     // 
 
-    std::vector<Vector3f> points;
+    Mesh mesh;
+    std::vector<Vector3f>& points = mesh.getLocalPoints();
 
     points.push_back(Vector3f(.5, .5, .5));
     points.push_back(Vector3f(.5, .5, -.5));
@@ -34,7 +35,7 @@ ThreeDObj::MeshData RectCuboid::getMesh() const
         p = getScaleMat() * p + getPosition();
     }
     
-    std::vector<std::pair<size_t, size_t>> lines;
+    std::vector<std::pair<size_t, size_t>>& lines = mesh.getLines();
     lines.push_back({0,1});
     lines.push_back({0,2});
     lines.push_back({0,4});
@@ -48,8 +49,8 @@ ThreeDObj::MeshData RectCuboid::getMesh() const
     lines.push_back({5,7});
     lines.push_back({6,7});
 
-    std::vector<std::tuple<size_t, size_t, size_t>> triangles;
+    std::vector<std::tuple<size_t, size_t, size_t>>& triangles = mesh.getTriangles();
 
 
-    return MeshData(points, lines, triangles);
+    return mesh;
 }

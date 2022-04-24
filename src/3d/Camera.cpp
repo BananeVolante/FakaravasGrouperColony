@@ -4,7 +4,7 @@
 using namespace Fakarava3d;
 using namespace Eigen;
 
-Camera::Camera(Vector3f position,  Matrix3f rotMat, float width, float height, float focal, float screenWidth, float screenHeight) : ThreeDObj(position, {1,1,1}), width(width), height(height), focal(focal), rotationMatrix(rotMat)
+Camera::Camera(Vector3f position,  Matrix3f rotMat, float width, float height, float focal, float screenWidth, float screenHeight) : ThreeDObj(position, {1,1,1}, rotMat), width(width), height(height), focal(focal)
 {
 
 
@@ -19,11 +19,6 @@ Camera::Camera(Vector3f position,  Matrix3f rotMat, float width, float height, f
 
 }
 
-
-ThreeDObj::MeshData Camera::getMesh() const
-{
-    return MeshData();
-}
 
 float Camera::getWidth() const
 {return width;}
@@ -44,17 +39,14 @@ Vector2f Camera::project(const Vector3f& p) const
 
 void Camera::updateExtrisincParam()
 {
+    const Matrix3f& rotationMatrix = getRotation();
     extrisincParam <<rotationMatrix(0,0), rotationMatrix(0,1), rotationMatrix(0,2), -getPosition()[0], rotationMatrix(1,0), rotationMatrix(1,1), rotationMatrix(1,2), -getPosition()[1], rotationMatrix(2,0), rotationMatrix(2,1), rotationMatrix(2,2), -getPosition()[2];
     M = cameraMatrix*extrisincParam;
 }
 
-const Matrix3f& Camera::getRotationMatrix() const
+void Camera::setRotation(const Matrix3f& newMat)
 {
-    return rotationMatrix;
-}
-void Camera::setRotationMatrix(const Matrix3f& newMat)
-{
-    rotationMatrix = newMat;
+    ThreeDObj::setRotation(newMat);
     updateExtrisincParam();
 }
 
@@ -66,6 +58,6 @@ void Camera::setPosition(const Vector3f& newPos)
 
 void Camera::rotate(const AngleAxisf& rotation)
 {
-    setRotationMatrix(rotation.toRotationMatrix() * getRotationMatrix());
+    setRotation(rotation.toRotationMatrix() * getRotation());
 }
 

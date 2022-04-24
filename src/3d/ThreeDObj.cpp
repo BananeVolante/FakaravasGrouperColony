@@ -2,7 +2,7 @@
 
 using namespace Fakarava3d;
 
-ThreeDObj::ThreeDObj(const Vector3f& position, const Vector3f& scale) : position(position), scale(Matrix3f::Identity())
+ThreeDObj::ThreeDObj(const Vector3f& position, const Vector3f& scale, const Matrix3f& rotation) : position(position), scale(Matrix3f::Identity()), rotation(rotation)
 {
     setScale(scale);
 }
@@ -36,20 +36,13 @@ Vector3f ThreeDObj::getScale() const
     return {scale(0, 0), scale(1, 1), scale(2, 2)};
 }
 
-ThreeDObj::MeshData::MeshData(std::vector<Vector3f> points, std::vector<std::pair<size_t, size_t>>  lines, 
-            std::vector<std::tuple<size_t, size_t, size_t>> triangles) : 
-            points(points), lines(lines), triangles(triangles)
+
+const Matrix3f& ThreeDObj::getRotation() const
 {
-    
+    return rotation;
 }
 
-
-ThreeDObj::MeshData::MeshData() 
-{}
-
-
-ThreeDObj::MeshData::MeshData(std::vector<Vector3f> points, std::vector<std::pair<size_t, size_t>>  lines) : 
-            points(points), lines(lines)
+void ThreeDObj::setRotation(const Matrix3f& mat)
 {
-    
+    rotation = mat;
 }

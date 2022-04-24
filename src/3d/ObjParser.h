@@ -1,6 +1,7 @@
 #ifndef _ObjParser_H
 #define _ObjParser_H
 #include "ThreeDObj.h"
+#include "Mesh.h"
 
 namespace Fakarava3d
 {
@@ -12,7 +13,7 @@ namespace Fakarava3d
     private:
     public:
         ///\brief read a .pbj file and return the points of the model stored in this file
-        ///\param fileName path of the file 
+        ///\param fileName path of the file to read
         static Mesh readObject(std::string fileName);
     };
 }

@@ -1,6 +1,7 @@
 #ifndef _Cube_H
 #define _Cube_H
 #include "ThreeDObj.h"
+#include "Mesh.h"
 
 namespace Fakarava3d
 {
@@ -13,7 +14,8 @@ public:
 ///\param position position of the center of the cuboid
 RectCuboid(Vector3f hwlDimensions, Vector3f position);
 ///\return coordinates of the vertices situated at the corners of the coboid
-virtual MeshData getMesh() const;
+#warning "no longer compatible with pos scale rot system"
+virtual Mesh getMesh() const;
 
 };
 }
