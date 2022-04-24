@@ -101,12 +101,29 @@ int main(int /*argc*/, char ** /*argv*/)
 	// 4 - We change the seed of the random number generator
 	srand((unsigned int)time(NULL));
 
-	Fakarava3d::ThreeDController controller(Fakarava3d::ThreeDController::point3D{0,0,-5}, windowWidth()/1000.0, windowHeight()/1000.0, 0.3, windowWidth(), windowHeight());
+
+	Renderer* renderer = Renderer::getInstance();
+	auto drawPointFunction = [renderer](const Vector2<float>& point, float radius, Fakarava3d::ThreeDController::rgba c)
+	{
+		renderer->drawCircle(point, radius, Renderer::Color(c.r, c.g, c.b, c.a));
+	};
+	auto drawLineFunction = [renderer](const Vector2<float>& start,const Vector2<float>& end, Fakarava3d::ThreeDController::rgba c)
+	{
+		renderer->drawLine(start, end, Renderer::Color(c.r, c.g, c.b, c.a));
+	};
+	auto drawTriangleFunction = [renderer](const Vector2<float>& firstPoint,const Vector2<float>& secondPoint,const Vector2<float>& thirdPoint, const Fakarava3d::ThreeDController::rgba& color)
+	{
+		//not implemented
+	};
+	// Initialisation of the 3d controller, which creates a camera
+	Fakarava3d::ThreeDController controller(Fakarava3d::ThreeDController::point3D{0,0,-8}, windowWidth()/1000.0, windowHeight()/1000.0, 0.3,
+	 windowWidth(), windowHeight(), drawPointFunction, drawLineFunction, drawTriangleFunction);
+	
 	Eigen::AngleAxisf rotation(0.0001, Eigen::Vector3f::UnitX());
 	Fakarava3d::RectCuboid cube(Eigen::Vector3f(100,100,100), Eigen::Vector3f(0,0,0));
-	Fakarava3d::Mesh mesh =  Fakarava3d::ObjParser::readObject("ressources/fish.aobj");
 
-
+	//read the points of a 3d model from a file
+	Fakarava3d::Mesh mesh =  Fakarava3d::ObjParser::readObject("ressources/fish.obj");
 
 	// The main event loop...
 	SDL_Event event;
@@ -130,25 +147,17 @@ int main(int /*argc*/, char ** /*argv*/)
 		// 2 - We update the simulation
 		Timer::update(1);
 		onSimulate();
-		bool start = true;
-		Vector2<float> oldPoint;
-		float mov = 0;
 
-		
-		std::vector<Vector2<float>> projectedPoints = controller.project(mesh.getWorldPoints());
 
-		Renderer* renderer = Renderer::getInstance();
+		//proeject the mesh onto the screen		
+		//std::vector<Vector2<float>> projectedPoints = controller.project(mesh.getWorldPoints());
 
-		controller.getCamera().rotate(Eigen::AngleAxisf(0.001, Eigen::Vector3f::UnitY()));
+		controller.drawMesh(mesh);
 
-		for(Vector2<float>& p : projectedPoints)
-		{
-			renderer->drawCircle(p, 1, Renderer::Color(0,0,255));
-		}
-		for(std::pair<size_t, size_t>& l : mesh.getLines())
-		{
-			renderer->drawLine(projectedPoints[l.first], projectedPoints[l.second]);
-		}
+
+		//rotate the camera, 
+		mesh.rotate(Eigen::AngleAxisf(0.004, Eigen::Vector3f::UnitZ()));
+
 
 		// 3 - We render the scene
 		Renderer::getInstance()->drawCircle(Vector2<float>(windowWidth()/2, windowHeight()/2), 1, Renderer::Color(255,0,0));
