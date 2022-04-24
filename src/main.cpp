@@ -18,6 +18,7 @@
 #include "GrouperSoldier.h"
 #include "3d/RectCuboid.h"
 #include "3d/ThreeDController.h"
+#include "3d/ObjParser.h"
 
 static unsigned int windowWidth() { return 1024; }
 static unsigned int windowHeight() { return 700; }
@@ -100,27 +101,12 @@ int main(int /*argc*/, char ** /*argv*/)
 	// 4 - We change the seed of the random number generator
 	srand((unsigned int)time(NULL));
 
-	/*************************************
-	 * Test area
-	 * *************************************/
-	/*Eigen::Quaternion<float> quat(0.78,0.484,0.209,0.337);
-	ThreeD::Camera camera(Eigen::Vector3f(7.3,-6.9, 4.9), quat.toRotationMatrix(), 31.0/1000, 36.0/1000, 57.0/1000);
-
-	ThreeD::RectCuboid cube(Vector3f(1,1,1), Vector3f(0,0,0));
-	Eigen::Matrix3f rotMat(Eigen::AngleAxisf(1.5, Vector3f::UnitX()).toRotationMatrix());
-	*/
-	//Eigen::Quaternion<float> quat(1,0,0,0);
-	
-	Fakarava3d::ThreeDController controller(Fakarava3d::ThreeDController::point3D{0,0,-100}, windowWidth()/1000.0, windowHeight()/1000.0, 0.1, windowWidth(), windowHeight());
+	Fakarava3d::ThreeDController controller(Fakarava3d::ThreeDController::point3D{0,0,-5}, windowWidth()/1000.0, windowHeight()/1000.0, 0.3, windowWidth(), windowHeight());
 	Eigen::AngleAxisf rotation(0.0001, Eigen::Vector3f::UnitX());
-	Fakarava3d::RectCuboid cube(Vector3f(100,100,100), Vector3f(0,0,0));
+	Fakarava3d::RectCuboid cube(Eigen::Vector3f(100,100,100), Eigen::Vector3f(0,0,0));
+	Fakarava3d::Mesh mesh =  Fakarava3d::ObjParser::readObject("ressources/fish.aobj");
 
 
-
-	/*******************************************
-	 * 
-	 * test area end
-	 * ****************************************/
 
 	// The main event loop...
 	SDL_Event event;
@@ -147,9 +133,9 @@ int main(int /*argc*/, char ** /*argv*/)
 		bool start = true;
 		Vector2<float> oldPoint;
 		float mov = 0;
-		Fakarava3d::ThreeDObj::MeshData data = cube.getMesh();
+
 		
-		std::vector<Vector2<float>> projectedPoints = controller.project(data.points);
+		std::vector<Vector2<float>> projectedPoints = controller.project(mesh.getWorldPoints());
 
 		Renderer* renderer = Renderer::getInstance();
 
@@ -157,26 +143,12 @@ int main(int /*argc*/, char ** /*argv*/)
 
 		for(Vector2<float>& p : projectedPoints)
 		{
-			renderer->drawCircle(p, 5, Renderer::Color(0,0,255));
+			renderer->drawCircle(p, 1, Renderer::Color(0,0,255));
 		}
-		for(std::pair<size_t, size_t>& l : data.lines)
+		for(std::pair<size_t, size_t>& l : mesh.getLines())
 		{
 			renderer->drawLine(projectedPoints[l.first], projectedPoints[l.second]);
 		}
-/*
-		for(auto p : data.points)
-		{
-			mov+=0.02;
-			Vector2<float> point = controller.project(p);
-			if(start)
-				start = false;
-			else
-				Renderer::getInstance()->drawLine(oldPoint, point);
-			oldPoint = point;
-			Renderer::getInstance()->drawCircle(point, 5, Renderer::Color(0,0,255));
-			controller.getCamera().rotate(Eigen::AngleAxisf(0.0001, Eigen::Vector3f::UnitY() + Eigen::Vector3f::UnitX()/2 + Eigen::Vector3f::UnitZ()/5));
-			controller.getCamera().setPosition(Vector3f(-60 + sin(mov)*1000,0 , -1000));
-		}*/
 
 		// 3 - We render the scene
 		Renderer::getInstance()->drawCircle(Vector2<float>(windowWidth()/2, windowHeight()/2), 1, Renderer::Color(255,0,0));
