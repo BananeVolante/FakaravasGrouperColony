@@ -15,14 +15,37 @@
 #include "Grouper.h"
 #include "GrouperWithRules.h"
 #include "ScoreBoard.h"
-#include "GrouperSoldier.h"
 #include "3d/RectCuboid.h"
 #include "3d/ThreeDController.h"
 #include "3d/ObjParser.h"
+#include "3d/CameraControls.h"
 
 static unsigned int windowWidth() { return 1024; }
 static unsigned int windowHeight() { return 700; }
 
+
+
+///\brief handle the controls for the camera
+///\param keycode code of the key
+void handleControls(SDL_Keycode keycode, Fakarava3d::CameraControls& controls)
+{
+	if(keycode == SDLK_UP)
+		controls.move(Eigen::Vector3f::UnitY(), true);
+	if(keycode == SDLK_DOWN)
+		controls.move(Eigen::Vector3f::UnitY(), false);
+
+	if(keycode == SDLK_LEFT)
+		controls.move(Eigen::Vector3f::UnitX(), false);
+	if(keycode == SDLK_RIGHT)
+		controls.move(Eigen::Vector3f::UnitX(), true);
+
+	if(keycode == SDLK_q)
+		controls.rotate(Eigen::Vector3f::UnitY(), true);
+		
+	if(keycode == SDLK_d)
+		controls.rotate(Eigen::Vector3f::UnitY(), false);
+	
+}
 
 /// <summary>
 /// called each time a key is pressed.
@@ -32,6 +55,9 @@ static unsigned int windowHeight() { return 700; }
 void onKeyPressed(char key, Environment *environment)
 {
 	std::cout << "Key pressed: " << key << std::endl;
+
+
+	if(key == SDLK_UP)
 
 
 	if (key == 'f') // create a pile of food
@@ -122,6 +148,8 @@ int main(int /*argc*/, char ** /*argv*/)
 	Eigen::AngleAxisf rotation(0.0001, Eigen::Vector3f::UnitX());
 	Fakarava3d::RectCuboid cube(Eigen::Vector3f(100,100,100), Eigen::Vector3f(0,0,0));
 
+	Fakarava3d::CameraControls controls(controller.getCamera(), 0.3, 1);
+
 	//read the points of a 3d model from a file
 	Fakarava3d::Mesh mesh =  Fakarava3d::ObjParser::readObject("ressources/fish.obj");
 
@@ -141,6 +169,7 @@ int main(int /*argc*/, char ** /*argv*/)
 			}
 			if (event.type == SDL_KEYDOWN)
 			{
+				handleControls(event.key.keysym.sym, controls);
 				onKeyPressed((char)event.key.keysym.sym, &environment);
 			}
 		}
@@ -156,7 +185,7 @@ int main(int /*argc*/, char ** /*argv*/)
 
 
 		//rotate the camera, 
-		mesh.rotate(Eigen::AngleAxisf(0.004, Eigen::Vector3f::UnitZ()));
+		mesh.rotate(Eigen::AngleAxisf(0.004, Eigen::Vector3f::UnitY()));
 
 
 		// 3 - We render the scene
