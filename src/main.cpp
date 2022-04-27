@@ -25,27 +25,6 @@ static unsigned int windowHeight() { return 700; }
 
 
 
-///\brief handle the controls for the camera
-///\param keycode code of the key
-void handleControls(SDL_Keycode keycode, Fakarava3d::CameraControls& controls)
-{
-	if(keycode == SDLK_UP)
-		controls.move(Eigen::Vector3f::UnitY(), true);
-	if(keycode == SDLK_DOWN)
-		controls.move(Eigen::Vector3f::UnitY(), false);
-
-	if(keycode == SDLK_LEFT)
-		controls.move(Eigen::Vector3f::UnitX(), false);
-	if(keycode == SDLK_RIGHT)
-		controls.move(Eigen::Vector3f::UnitX(), true);
-
-	if(keycode == SDLK_q)
-		controls.rotate(Eigen::Vector3f::UnitY(), true);
-		
-	if(keycode == SDLK_d)
-		controls.rotate(Eigen::Vector3f::UnitY(), false);
-	
-}
 
 /// <summary>
 /// called each time a key is pressed.
@@ -148,10 +127,11 @@ int main(int /*argc*/, char ** /*argv*/)
 	Eigen::AngleAxisf rotation(0.0001, Eigen::Vector3f::UnitX());
 	Fakarava3d::RectCuboid cube(Eigen::Vector3f(100,100,100), Eigen::Vector3f(0,0,0));
 
-	Fakarava3d::CameraControls controls(controller.getCamera(), 0.3, 1);
+	CameraControls controls(controller.getCamera(), 0.3, 1);
 
 	//read the points of a 3d model from a file
 	Fakarava3d::Mesh mesh =  Fakarava3d::ObjParser::readObject("ressources/fish.obj");
+	Fakarava3d::Mesh reference = Fakarava3d::ObjParser::readObject("ressources/suzanne.obj");
 
 	// The main event loop...
 	SDL_Event event;
@@ -169,7 +149,7 @@ int main(int /*argc*/, char ** /*argv*/)
 			}
 			if (event.type == SDL_KEYDOWN)
 			{
-				handleControls(event.key.keysym.sym, controls);
+				controls.handleControls(event.key.keysym.sym);
 				onKeyPressed((char)event.key.keysym.sym, &environment);
 			}
 		}
@@ -182,9 +162,9 @@ int main(int /*argc*/, char ** /*argv*/)
 		//std::vector<Vector2<float>> projectedPoints = controller.project(mesh.getWorldPoints());
 
 		controller.drawMesh(mesh);
+		controller.drawMesh(reference);
 
-
-		//rotate the camera, 
+		//rotate the fish, 
 		mesh.rotate(Eigen::AngleAxisf(0.004, Eigen::Vector3f::UnitY()));
 
 
