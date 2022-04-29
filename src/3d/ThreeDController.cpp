@@ -1,6 +1,8 @@
 #include "ThreeDController.h"
 #include "Vector2.h"
 
+#include <iostream>
+
 using namespace Fakarava3d;
 using namespace Eigen;
 
@@ -43,8 +45,12 @@ void ThreeDController::drawMesh(const Mesh& mesh) const
     for(const Vector2<float>& point : projectedPoints)
         drawPoint(point, 1, {0,0,255,255});
     for(const auto& line : mesh.getLines())
-        drawLine(line.first, line.second, {255,255,255,255});
+    {
+        drawLine(projectedPoints[line.first], projectedPoints[line.second], {255,255,255,255});
+    }
     for(const auto& triangle : mesh.getTriangles())
-        drawTriangle(std::get<0>(triangle),std::get<1>(triangle), std::get<2>(triangle), {255,255,0,255});
+    {        
+        drawTriangle(projectedPoints[std::get<0>(triangle)],projectedPoints[std::get<1>(triangle)], projectedPoints[std::get<2>(triangle)], {255,255,0,255});
+    }
 
 }

@@ -116,12 +116,12 @@ int main(int /*argc*/, char ** /*argv*/)
 	{
 		renderer->drawLine(start, end, Renderer::Color(c.r, c.g, c.b, c.a));
 	};
-	auto drawTriangleFunction = [renderer](const Vector2<float>& firstPoint,const Vector2<float>& secondPoint,const Vector2<float>& thirdPoint, const Fakarava3d::ThreeDController::rgba& color)
+	auto drawTriangleFunction = [renderer](const Vector2<float>& firstPoint,const Vector2<float>& secondPoint,const Vector2<float>& thirdPoint, const Fakarava3d::ThreeDController::rgba& c)
 	{
-		//not implemented
+		renderer->drawTriangle(firstPoint, secondPoint, thirdPoint, Renderer::Color(c.r, c.g, c.b, c.a));
 	};
 	// Initialisation of the 3d controller, which creates a camera
-	Fakarava3d::ThreeDController controller(Fakarava3d::ThreeDController::point3D{0,0,-8}, windowWidth()/1000.0, windowHeight()/1000.0, 0.3,
+	Fakarava3d::ThreeDController controller(Fakarava3d::ThreeDController::point3D{0,0,-10}, windowWidth()/1000.0, windowHeight()/1000.0, 0.5,
 	 windowWidth(), windowHeight(), drawPointFunction, drawLineFunction, drawTriangleFunction);
 	
 	Eigen::AngleAxisf rotation(0.0001, Eigen::Vector3f::UnitX());
@@ -131,7 +131,7 @@ int main(int /*argc*/, char ** /*argv*/)
 
 	//read the points of a 3d model from a file
 	Fakarava3d::Mesh mesh =  Fakarava3d::ObjParser::readObject("ressources/fish.obj");
-	Fakarava3d::Mesh reference = Fakarava3d::ObjParser::readObject("ressources/suzanne.obj");
+	//Fakarava3d::Mesh reference = Fakarava3d::ObjParser::readObject("ressources/suzanne.obj");
 
 	// The main event loop...
 	SDL_Event event;
@@ -162,7 +162,7 @@ int main(int /*argc*/, char ** /*argv*/)
 		//std::vector<Vector2<float>> projectedPoints = controller.project(mesh.getWorldPoints());
 
 		controller.drawMesh(mesh);
-		controller.drawMesh(reference);
+		//controller.drawMesh(reference);
 
 		//rotate the fish, 
 		mesh.rotate(Eigen::AngleAxisf(0.004, Eigen::Vector3f::UnitY()));
