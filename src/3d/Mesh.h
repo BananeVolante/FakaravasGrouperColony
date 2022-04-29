@@ -9,10 +9,14 @@ namespace Fakarava3d
 {
     using Eigen::Vector3f;
     using namespace Fakarava3d;
-    ///\brief contains all the data that defines a mesh, such as points, lines, triangles(not supported)
-    ///can be moved, scales, rotated
+    ///\brief contains all the data that defines a mesh, such as points, lines, triangles
+    ///can be moved, scaled, rotated
     class Mesh : public ThreeDObj
     {
+    public: 
+        typedef Vector3f point;
+        typedef std::pair<size_t, size_t> line;
+        typedef std::tuple<size_t, size_t, size_t> triangle;
     private:
         ///\brief the points of the mesh, the order is important
         std::vector<Vector3f> points;
