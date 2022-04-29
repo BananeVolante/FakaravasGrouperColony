@@ -116,6 +116,14 @@ protected:
 		Vector2<float> end;
 		Color color;
 	};
+
+	struct Triangle
+	{
+		Vector2<float> p1;
+		Vector2<float> p2;
+		Vector2<float> p3;
+		Color color;
+	};
 	
 	
 	static std::unique_ptr<Renderer> m_singleton;
@@ -149,6 +157,8 @@ protected:
 	///\brief The lines that should be displayed
 	std::vector<Line> m_lines;
 
+	std::vector<Triangle> m_triangles;
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Renderer"/> class.
 	/// </summary>
@@ -174,6 +184,9 @@ protected:
 
 	///\brief draw the lines
 	void flushLines();
+
+	///\brief draw the triangles
+	void flushTriangles();
 
 public:	
 
@@ -233,6 +246,12 @@ public:
 	void drawLine(Vector2<float>const & startPoint, Vector2<float> const & endPoint, const Color & color = Color(255, 255, 255, 255));
 
 
+	///\brief draw a triangle
+	///\param p1 first vertex of the triangle
+	///\param p2 second vertex of the triangle
+	///\param p3 third vertex of the triangle
+	///\param color color of the triangle
+	void drawTriangle(const Vector2<float>& p1, const Vector2<float>& p2, const Vector2<float>& p3, const Color & color = Color(255, 255, 255, 255) );
 	/// <summary>
 	/// Draws everything on the screen.
 	/// </summary>

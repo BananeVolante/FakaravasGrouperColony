@@ -103,6 +103,22 @@ void Renderer::flushLines()
 	m_lines.erase(m_lines.begin(), m_lines.end());
 }
 
+void Renderer::flushTriangles()
+{
+	Sint16 xArray[3];
+	Sint16 yArray[3];
+	for(Triangle& t : m_triangles)
+	{
+		xArray[0] = (Sint16)t.p1[0]; xArray[1] = (Sint16)t.p2[0] ; xArray[2] = (Sint16)t.p3[0];
+		yArray[0] = (Sint16)t.p1[1]; yArray[1] = (Sint16)t.p2[1] ; yArray[2] = (Sint16)t.p3[1];
+
+		filledPolygonRGBA(getSdlRenderer(), xArray, yArray, 3, t.color[0],t.color[1], t.color[2], t.color[3]);
+		
+	}
+	m_triangles.erase(m_triangles.begin(), m_triangles.end());
+}
+
+
 
 /// <summary>
 /// Draws a pixel.
@@ -147,6 +163,12 @@ void Renderer::drawLine(Vector2<float>const & startPoint, Vector2<float> const &
 	m_lines.push_back(tmp);
 }
 
+void Renderer::drawTriangle(const Vector2<float>& p1, const Vector2<float>& p2, const Vector2<float>& p3, const Color & color)
+{
+	Triangle tmp = { p1, p2, p3, color};
+	m_triangles.push_back(tmp);
+}
+
 
 /// <summary>
 /// Draws everything on the screen.
@@ -156,6 +178,7 @@ void Renderer::flush()
 {
 	// We draw anything needed
 	//SDL_RenderCopy(renderer, textureMap["waterBG"], NULL, NULL);
+	flushTriangles();
 	flushLines();
 	flushCircles();
 	flushPixels();
