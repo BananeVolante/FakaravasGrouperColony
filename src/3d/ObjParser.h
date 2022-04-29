@@ -14,7 +14,17 @@ namespace Fakarava3d
     public:
         ///\brief read a .pbj file and return the points of the model stored in this file
         ///\param fileName path of the file to read
+        ///\remark can only read triangular faces. Use the blender triangulation feature to make it compatible
         static Mesh readObject(std::string fileName);
+        ///\brief read an array of triangles and turn them into lines
+        ///\param triangles the triangles to convert 
+        static std::vector<std::pair<size_t, size_t>> trianglesToLines(const std::vector<std::tuple<size_t, size_t, size_t>>& triangles);
+        ///\brief read an array of triangles and put them into lines
+        ///\param triangles the triangles to convert 
+        ///\param lines vector where the lines should be put
+        static void trianglesToLines(const std::vector<std::tuple<size_t, size_t, size_t>>& triangles, std::vector<std::pair<size_t, size_t>>& lines);
+    
+    
     };
 }
 
