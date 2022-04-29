@@ -125,7 +125,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	 windowWidth(), windowHeight(), drawPointFunction, drawLineFunction, drawTriangleFunction);
 	
 	Eigen::AngleAxisf rotation(0.0001, Eigen::Vector3f::UnitX());
-	Fakarava3d::RectCuboid cube(Eigen::Vector3f(100,100,100), Eigen::Vector3f(0,0,0));
+	Fakarava3d::RectCuboid cube(Eigen::Vector3f(2,2,2), Eigen::Vector3f(0,0,0));
 
 	CameraControls controls(controller.getCamera(), 0.3, 1);
 
@@ -162,6 +162,7 @@ int main(int /*argc*/, char ** /*argv*/)
 		//std::vector<Vector2<float>> projectedPoints = controller.project(mesh.getWorldPoints());
 
 		controller.drawMesh(mesh);
+		controller.drawMesh(cube);
 		//controller.drawMesh(reference);
 
 		//rotate the fish, 
