@@ -31,6 +31,9 @@ namespace Fakarava3d
     typedef std::function<void(const Vector2<float>& firstPoint,const Vector2<float>& secondPoint,const Vector2<float>& thirdPoint, const rgba& color)> drawTriangleFunction;
     //typedef void (*drawTriangleFunction)(const Vector2<float>& firstPoint,const Vector2<float>& secondPoint,const Vector2<float>& thirdPoint, const rgba& color);
 
+    static constexpr char DRAW_FLAG_DRAW_VERTEX = 000000001;
+    static constexpr char DRAW_FLAG_DRAW_LINE = 000000010;
+    static constexpr char DRAW_FLAG_DRAW_TRIANGLE = 000000100;
 
 
     private:
@@ -63,7 +66,7 @@ namespace Fakarava3d
 
         ///\brief project and draw a mesh
         ///\param mesh mesh to project and draw
-        void drawMesh(const Mesh& mesh) const;
+        void drawMesh(const Mesh& mesh, char drawFlags = DRAW_FLAG_DRAW_LINE | DRAW_FLAG_DRAW_TRIANGLE | DRAW_FLAG_DRAW_VERTEX) const;
     };
 
 }
