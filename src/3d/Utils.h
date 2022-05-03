@@ -10,7 +10,7 @@ namespace Fakarava3d
         ///\param points vector of points
         ///\param triangles vector of triangles
         ///\return vector linking normals to faces. The normal of index "i" is the normal of the face of index "i"
-        std::vector<Vector3f> processFaceNormals(const std::vector<Mesh::point>& points, const std::vector<Mesh::triangle>& triangles);
+        std::vector<Vector3f> processFaceNormals(const std::vector<Mesh::point>& points, const std::set<Mesh::triangle>& triangles);
         
         ///\brief return true if the normals are "globally" in the same direction (not just colinear)
         /// -> which means that the dot product between the 2 vectors is positive
@@ -18,6 +18,10 @@ namespace Fakarava3d
         ///\param v2 second vector
         ///\return true if the dot product is positive
         bool normalsInSameDirection(const Vector3f& v1, const Vector3f& v2);
+
+
+        Vector3f processFaceNormal(const std::vector<Mesh::point>& points, const Mesh::triangle& triangles);
+
 }
 
 #endif
