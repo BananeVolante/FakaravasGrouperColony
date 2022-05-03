@@ -38,7 +38,8 @@ Camera &ThreeDController::getCamera()
 void ThreeDController::drawMesh(const Mesh &mesh, char drawFlags) const
 {
 
-    std::vector<Vector2<float>> projectedPoints = project(mesh.getWorldPoints());
+    std::vector<Mesh::point> worldPoints = mesh.getWorldPoints();
+    std::vector<Vector2<float>> projectedPoints = project(worldPoints);
 
 
     if (drawFlags & DRAW_FLAG_DRAW_VERTEX)
@@ -62,14 +63,10 @@ void ThreeDController::drawMesh(const Mesh &mesh, char drawFlags) const
         }
         else // process normals and check the dot product to see if the face must be drawn
         {
-            std::vector<Vector3f> normals = processFaceNormals(mesh.getWorldPoints(), mesh.getTriangles());
-            const std::vector<Mesh::triangle>& triangles = mesh.getTriangles();
-            size_t triangleNumber = triangles.size();
-            
-            for(size_t i=0; i< triangleNumber; i++)
+            for(auto& triangle : mesh.getTriangles())
             {
-                if(normalsInSameDirection(normals[i], -camera.getPosition()))
-                    drawTriangle(projectedPoints[std::get<0>(triangles[i])], projectedPoints[std::get<1>(triangles[i])], projectedPoints[std::get<2>(triangles[i])], {128, 128, 0, 255});
+                if(normalsInSameDirection(processFaceNormal(worldPoints, triangle), -camera.getPosition()))
+                    drawTriangle(projectedPoints[std::get<0>(triangle)], projectedPoints[std::get<1>(triangle)], projectedPoints[std::get<2>(triangle)], {128, 128, 0, 255});
             }
         }
     }
