@@ -31,9 +31,14 @@ namespace Fakarava3d
     typedef std::function<void(const Vector2<float>& firstPoint,const Vector2<float>& secondPoint,const Vector2<float>& thirdPoint, const rgba& color)> drawTriangleFunction;
     //typedef void (*drawTriangleFunction)(const Vector2<float>& firstPoint,const Vector2<float>& secondPoint,const Vector2<float>& thirdPoint, const rgba& color);
 
-    static constexpr char DRAW_FLAG_DRAW_VERTEX = 000000001;
-    static constexpr char DRAW_FLAG_DRAW_LINE = 000000010;
-    static constexpr char DRAW_FLAG_DRAW_TRIANGLE = 000000100;
+    ///\brief flag to indicate if vertices must be drawn
+    static constexpr char DRAW_FLAG_DRAW_VERTEX = 0b0000001;
+    ///\brief flag to indicate if lines must be drawn
+    static constexpr char DRAW_FLAG_DRAW_LINE = 0b00000010;
+    ///\brief flag to indicate if triangles(faces) must be drawn
+    static constexpr char DRAW_FLAG_DRAW_TRIANGLE = 0b00000100;
+    ///\brief flag to indicate if the back side of faces must be drawn
+    static constexpr char DRAW_FLAG_FACE_BACK = 0b0001000;
 
 
     private:

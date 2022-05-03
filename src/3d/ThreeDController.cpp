@@ -2,6 +2,7 @@
 #include "Vector2.h"
 
 #include <iostream>
+#include "Utils.h"
 
 using namespace Fakarava3d;
 using namespace Eigen;
@@ -38,9 +39,12 @@ void ThreeDController::drawMesh(const Mesh &mesh, char drawFlags) const
 {
 
     std::vector<Vector2<float>> projectedPoints = project(mesh.getWorldPoints());
+
+
     if (drawFlags & DRAW_FLAG_DRAW_VERTEX)
     {
         for (const Vector2<float> &point : projectedPoints)
+            
             drawPoint(point, 1, {0, 0, 255, 255});
     }
     if (drawFlags & DRAW_FLAG_DRAW_LINE)
@@ -51,7 +55,23 @@ void ThreeDController::drawMesh(const Mesh &mesh, char drawFlags) const
 
     if (drawFlags & DRAW_FLAG_DRAW_TRIANGLE)
     {
-        for (const auto &triangle : mesh.getTriangles())
-            drawTriangle(projectedPoints[std::get<0>(triangle)], projectedPoints[std::get<1>(triangle)], projectedPoints[std::get<2>(triangle)], {255, 255, 0, 255});
+        if(drawFlags & DRAW_FLAG_FACE_BACK) // just draw everything with a foreach
+        {
+            for(const auto& triangle : mesh.getTriangles())
+                drawTriangle(projectedPoints[std::get<0>(triangle)], projectedPoints[std::get<1>(triangle)], projectedPoints[std::get<2>(triangle)], {128, 128, 0, 255});
+        }
+        else // process normals and check the dot product to see if the face must be drawn
+        {
+            std::vector<Vector3f> normals = processFaceNormals(mesh.getWorldPoints(), mesh.getTriangles());
+            const std::vector<Mesh::triangle>& triangles = mesh.getTriangles();
+            size_t triangleNumber = triangles.size();
+            
+            for(size_t i=0; i< triangleNumber; i++)
+            {
+                if(normalsInSameDirection(normals[i], -camera.getPosition()))
+                    drawTriangle(projectedPoints[std::get<0>(triangles[i])], projectedPoints[std::get<1>(triangles[i])], projectedPoints[std::get<2>(triangles[i])], {128, 128, 0, 255});
+            }
+        }
     }
 }
+

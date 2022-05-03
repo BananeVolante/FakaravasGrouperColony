@@ -107,6 +107,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	srand((unsigned int)time(NULL));
 
 
+	// Define the functions used for rendering points, lines and triangles to the screen
 	Renderer* renderer = Renderer::getInstance();
 	auto drawPointFunction = [renderer](const Vector2<float>& point, float radius, Fakarava3d::ThreeDController::rgba c)
 	{
@@ -120,15 +121,16 @@ int main(int /*argc*/, char ** /*argv*/)
 	{
 		renderer->drawTriangle(firstPoint, secondPoint, thirdPoint, Renderer::Color(c.r, c.g, c.b, c.a));
 	};
+
 	// Initialisation of the 3d controller, which creates a camera
 	Fakarava3d::ThreeDController controller(Fakarava3d::ThreeDController::point3D{0,0,-10}, windowWidth()/1000.0, windowHeight()/1000.0, 0.5,
 	 windowWidth(), windowHeight(), drawPointFunction, drawLineFunction, drawTriangleFunction);
 	
-	Eigen::AngleAxisf rotation(0.0001, Eigen::Vector3f::UnitX());
-	Fakarava3d::RectCuboid cube(Eigen::Vector3f(2,2,2), Eigen::Vector3f(0,0,0));
 
 	CameraControls controls(controller.getCamera(), 0.3, 1);
 
+	//create some 3d models
+	Fakarava3d::RectCuboid cube(Eigen::Vector3f(2,2,2), Eigen::Vector3f(0,0,0));
 	//read the points of a 3d model from a file
 	Fakarava3d::Mesh mesh =  Fakarava3d::ObjParser::readObject("ressources/fish.obj");
 	//Fakarava3d::Mesh reference = Fakarava3d::ObjParser::readObject("ressources/suzanne.obj");
@@ -160,8 +162,7 @@ int main(int /*argc*/, char ** /*argv*/)
 
 		//proeject the mesh onto the screen		
 		//std::vector<Vector2<float>> projectedPoints = controller.project(mesh.getWorldPoints());
-
-		controller.drawMesh(mesh);
+		controller.drawMesh(mesh, Fakarava3d::ThreeDController::DRAW_FLAG_DRAW_TRIANGLE | Fakarava3d::ThreeDController::DRAW_FLAG_DRAW_LINE | Fakarava3d::ThreeDController::DRAW_FLAG_FACE_BACK);
 		controller.drawMesh(cube);
 		//controller.drawMesh(reference);
 
@@ -170,6 +171,7 @@ int main(int /*argc*/, char ** /*argv*/)
 
 
 		// 3 - We render the scene
+		//mark the center of the screen
 		Renderer::getInstance()->drawCircle(Vector2<float>(windowWidth()/2, windowHeight()/2), 1, Renderer::Color(255,0,0));
 
 		Renderer::getInstance()->flush();
