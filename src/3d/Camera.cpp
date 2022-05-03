@@ -61,3 +61,8 @@ void Camera::rotate(const AngleAxisf& rotation)
     setRotation(rotation.toRotationMatrix() * getRotation());
 }
 
+
+float Camera::getFocal() const
+{
+    return focal;
+}

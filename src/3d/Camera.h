@@ -46,6 +46,9 @@ public:
 ///\return height of the surface where things are projected
     float getHeight() const;
 
+///\return the focal
+    float getFocal() const;
+
 ///\brief set the rotation matrix
     virtual void setRotation(const Eigen::Matrix3f& newMatrix);
 ///\brief set the position
