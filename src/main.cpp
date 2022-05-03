@@ -6,6 +6,7 @@
 #include <time.h>
 #include <Timer.h>
 #include <SDL2/SDL_events.h>
+#include <algorithm>
 
 #include "Agent.h"
 #include "Food.h"
@@ -135,11 +136,22 @@ int main(int /*argc*/, char ** /*argv*/)
 	Fakarava3d::Mesh mesh =  Fakarava3d::ObjParser::readObject("ressources/fish.obj");
 	//Fakarava3d::Mesh reference = Fakarava3d::ObjParser::readObject("ressources/suzanne.obj");
 
+	
+	//fps average is made on FRAME_AVERAGE frames
+	const size_t FRAME_AVERAGE = 10;
+	//containes the fps history of the last FRAME_AVERAGE frames
+	std::vector<Uint64> fpsList(FRAME_AVERAGE);
+	//count every frame
+	int counter = 0;
+
 	// The main event loop...
 	SDL_Event event;
 	bool exit = false;
 	while (!exit)
 	{
+		//store the time at which the frame starts
+		Uint64 timingStart = SDL_GetPerformanceCounter();
+
 		// 1 - We handle events
 		while (SDL_PollEvent(&event))
 		{
@@ -162,7 +174,7 @@ int main(int /*argc*/, char ** /*argv*/)
 
 		//proeject the mesh onto the screen		
 		//std::vector<Vector2<float>> projectedPoints = controller.project(mesh.getWorldPoints());
-		controller.drawMesh(mesh, Fakarava3d::ThreeDController::DRAW_FLAG_DRAW_TRIANGLE | Fakarava3d::ThreeDController::DRAW_FLAG_DRAW_LINE | Fakarava3d::ThreeDController::DRAW_FLAG_FACE_BACK);
+		controller.drawMesh(mesh, Fakarava3d::ThreeDController::DRAW_FLAG_DRAW_TRIANGLE | Fakarava3d::ThreeDController::DRAW_FLAG_DRAW_LINE |Fakarava3d::ThreeDController::DRAW_FLAG_FACE_BACK );
 		controller.drawMesh(cube);
 		//controller.drawMesh(reference);
 
@@ -175,6 +187,17 @@ int main(int /*argc*/, char ** /*argv*/)
 		Renderer::getInstance()->drawCircle(Vector2<float>(windowWidth()/2, windowHeight()/2), 1, Renderer::Color(255,0,0));
 
 		Renderer::getInstance()->flush();
+
+		//store the time at which the frame ends
+		Uint64 timingEnd = SDL_GetPerformanceCounter();
+
+		//process the fps , store it in the vector, process the mean and print it every 10 frames
+		float elapsed = (timingEnd - timingStart) / (float)SDL_GetPerformanceFrequency();
+		fpsList[counter%10] = 1.0f/elapsed;
+		if(counter%10 == 0)
+			std::cout << "Current FPS: " << std::to_string(std::accumulate(fpsList.begin(), fpsList.end(),0)/10) << std::endl;
+
+		counter++;
 
 	}
 
