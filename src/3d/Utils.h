@@ -20,7 +20,25 @@ namespace Fakarava3d
         bool normalsInSameDirection(const Vector3f& v1, const Vector3f& v2);
 
 
-        Vector3f processFaceNormal(const std::vector<Mesh::point>& points, const Mesh::triangle& triangles);
+        ///\brief process the normal of a single face
+        ///\param point the array with all the points that are used
+        ///\param triangle the triangle(using points index) 
+        ///\return the normal of triangle
+        Vector3f processFaceNormal(const std::vector<Mesh::point>& points, const Mesh::triangle& triangle);
+
+        ///\brief process the normal of a triangle
+        ///\param triangle the triangle formed by the 3 points
+        ///\return the normal of the triangle
+        Vector3f processFaceNormal(const std::array<Vector3f, 3>& triangle);
+
+
+        ///\brief determine if a point is out of screen
+        ///\param point the point first 2 coordinates are screen coordinates, third is depth
+        ///\param the dimensions of the screen. first elem is x, second is y
+        ///\return true if the point is out of screen
+        bool outOfScreen(const Eigen::Vector3f& point, const Eigen::Vector2f& screenDimensions);
+
+
 
 }
 
