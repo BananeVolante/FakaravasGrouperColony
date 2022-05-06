@@ -49,6 +49,8 @@ public:
 ///\return the focal
     float getFocal() const;
 
+    Vector3f getNormal() const;
+
 ///\brief set the rotation matrix
     virtual void setRotation(const Eigen::Matrix3f& newMatrix);
 ///\brief set the position

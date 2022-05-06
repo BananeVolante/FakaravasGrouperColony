@@ -66,3 +66,8 @@ float Camera::getFocal() const
 {
     return focal;
 }
+
+Vector3f Camera::getNormal() const
+{
+    return -getPosition();
+}
