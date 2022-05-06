@@ -4,8 +4,8 @@
 
 using namespace Fakarava3d;
 
-Mesh::Mesh(std::vector<Vector3f> points, std::set<std::pair<size_t, size_t>>  lines, 
-            std::set<std::tuple<size_t, size_t, size_t>> triangles) : 
+Mesh::Mesh(std::vector<Vector3f> points, std::vector<std::pair<size_t, size_t>>  lines, 
+            std::vector<std::tuple<size_t, size_t, size_t>> triangles) : 
             points(points), lines(lines), triangles(triangles)
 {
     
@@ -16,30 +16,30 @@ Mesh::Mesh()
 {}
 
 
-Mesh::Mesh(std::vector<Vector3f> points, std::set<std::pair<size_t, size_t>>  lines) : ThreeDObj(),
+Mesh::Mesh(std::vector<Vector3f> points, std::vector<std::pair<size_t, size_t>>  lines) : ThreeDObj(),
             points(points), lines(lines)
 {
     
 }
 
 
-std::set<std::pair<size_t, size_t>>&  Mesh::getLines()
+std::vector<std::pair<size_t, size_t>>&  Mesh::getLines()
 {
     return lines;
 }
 
-std::set<std::tuple<size_t, size_t, size_t>>& Mesh::getTriangles()
+std::vector<std::tuple<size_t, size_t, size_t>>& Mesh::getTriangles()
 {
     return triangles;
 }
 
 
-const std::set<std::pair<size_t, size_t>>&  Mesh::getLines() const
+const std::vector<std::pair<size_t, size_t>>&  Mesh::getLines() const
 {
     return lines;
 }
 
-const std::set<std::tuple<size_t, size_t, size_t>>& Mesh::getTriangles() const
+const std::vector<std::tuple<size_t, size_t, size_t>>& Mesh::getTriangles() const
 {
     return triangles;
 }

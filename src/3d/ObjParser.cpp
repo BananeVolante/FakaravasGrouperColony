@@ -50,7 +50,7 @@ Mesh ObjParser::readObject(std::string fileName)
                 std::get<1>(triangle)--;
                 std::get<2>(triangle)--;
 
-                mesh.getTriangles().insert(triangle);
+                mesh.getTriangles().push_back(triangle);
             }
         }
 }  catch(const std::ifstream::failure& e)
@@ -64,21 +64,21 @@ Mesh ObjParser::readObject(std::string fileName)
 }
 
 
-std::set<std::pair<size_t, size_t>> ObjParser::trianglesToLines(const std::set<std::tuple<size_t, size_t, size_t>>& triangles)
+std::vector<std::pair<size_t, size_t>> ObjParser::trianglesToLines(const std::vector<std::tuple<size_t, size_t, size_t>>& triangles)
 {
-    std::set<std::pair<size_t, size_t>> lines;
+    std::vector<std::pair<size_t, size_t>> lines;
     trianglesToLines(triangles, lines);
     return lines;
 
 }
 
-void ObjParser::trianglesToLines(const std::set<std::tuple<size_t, size_t, size_t>>& triangles, std::set<std::pair<size_t, size_t>>& lines)
+void ObjParser::trianglesToLines(const std::vector<std::tuple<size_t, size_t, size_t>>& triangles, std::vector<std::pair<size_t, size_t>>& lines)
 {
     for(auto& triangle : triangles)
     {
-        lines.insert({std::get<0>(triangle), std::get<1>(triangle)});
-        lines.insert({std::get<0>(triangle), std::get<2>(triangle)});
-        lines.insert({std::get<1>(triangle), std::get<2>(triangle)});
+        lines.push_back({std::get<0>(triangle), std::get<1>(triangle)});
+        lines.push_back({std::get<0>(triangle), std::get<2>(triangle)});
+        lines.push_back({std::get<1>(triangle), std::get<2>(triangle)});
     }
 
 }

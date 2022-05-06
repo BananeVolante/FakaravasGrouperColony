@@ -3,7 +3,7 @@
 using namespace Eigen;
 
 
-std::vector<Vector3f> Fakarava3d::processFaceNormals(const std::vector<Mesh::point>& points, const std::set<Mesh::triangle>& triangles)
+std::vector<Vector3f> Fakarava3d::processFaceNormals(const std::vector<Mesh::point>& points, const std::vector<Mesh::triangle>& triangles)
 {
     std::vector<Vector3f> normals;
 

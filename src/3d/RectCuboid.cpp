@@ -18,18 +18,18 @@ RectCuboid::RectCuboid(Vector3f hwlDimensions, Vector3f position) : Mesh()
     points.push_back(Vector3f(-.5, -.5, .5));
     points.push_back(Vector3f(-.5, -.5, -.5));
 
-    std::set<Mesh::line>& lines = getLines();
-    lines.insert({0,1});
-    lines.insert({0,2});
-    lines.insert({0,4});
-    lines.insert({1,3});
-    lines.insert({1,5});
-    lines.insert({2,3});
-    lines.insert({2,6});
-    lines.insert({3,7});
-    lines.insert({4,5});
-    lines.insert({4,6});
-    lines.insert({5,7});
-    lines.insert({6,7});
+    std::vector<Mesh::line>& lines = getLines();
+    lines.push_back({0,1});
+    lines.push_back({0,2});
+    lines.push_back({0,4});
+    lines.push_back({1,3});
+    lines.push_back({1,5});
+    lines.push_back({2,3});
+    lines.push_back({2,6});
+    lines.push_back({3,7});
+    lines.push_back({4,5});
+    lines.push_back({4,6});
+    lines.push_back({5,7});
+    lines.push_back({6,7});
 
 }
