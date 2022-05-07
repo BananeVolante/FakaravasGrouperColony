@@ -20,6 +20,7 @@
 #include "3d/ThreeDController.h"
 #include "3d/ObjParser.h"
 #include "3d/CameraControls.h"
+#include "FpsCounter.h"
 
 
 static unsigned int windowWidth() { return 1024; }
@@ -136,21 +137,14 @@ int main(int /*argc*/, char ** /*argv*/)
 	Fakarava3d::Mesh mesh =  Fakarava3d::ObjParser::readObject("ressources/fish.obj");
 	Fakarava3d::Mesh reference = Fakarava3d::ObjParser::readObject("ressources/suzanne.obj");
 
-	
-	//fps average is made on FRAME_AVERAGE frames
-	const size_t FRAME_AVERAGE = 10;
-	//containes the fps history of the last FRAME_AVERAGE frames
-	std::vector<Uint64> fpsList;
-	//count every frame
-	int counter = 0;
+	FpsCounter fpsCounter(100);
 
 	// The main event loop...
 	SDL_Event event;
 	bool exit = false;
 	while (!exit)
 	{
-		//store the time at which the frame starts
-		Uint64 timingStart = SDL_GetPerformanceCounter();
+		fpsCounter.startCounter();
 
 		// 1 - We handle events
 		while (SDL_PollEvent(&event))
@@ -190,16 +184,9 @@ int main(int /*argc*/, char ** /*argv*/)
 
 		Renderer::getInstance()->flush();
 
-		//store the time at which the frame ends
-		Uint64 timingEnd = SDL_GetPerformanceCounter();
-
-		//process the fps , store it in the vector, process the mean and print it every 10 frames
-		float elapsed = (timingEnd - timingStart) / (float)SDL_GetPerformanceFrequency();
-		fpsList.push_back(1.0/elapsed);
-		if(counter%10 == 0)
-			std::cout << "Current FPS: " << std::to_string(std::accumulate(fpsList.begin()+ counter - FRAME_AVERAGE, fpsList.end(),0)/10) << std::endl;
-
-		counter++;
+		fpsCounter.endCounter();
+		if(fpsCounter.nbrIterationHappened())
+			std::cout << "Current FPS " << fpsCounter.getAverageFps() << std::endl;
 
 	}
 
