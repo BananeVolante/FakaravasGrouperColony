@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "Mesh.h"
 #include <list>
+#include <queue>
 
 namespace Fakarava3d
 {
@@ -31,6 +32,9 @@ namespace Fakarava3d
     ///\remark This matrix is supposed to be reprocessed every time a change is made to the extrisinc parameters
         Eigen::Matrix<float, 3, 4> M;
 
+    ///\brief container withh all the meshes that must be drawn
+    std::queue<const Mesh*> renderQueue;
+
         
     public:
         ///\param camera the camero(that have a position, rotation, focal, projection area) used by this renderer
@@ -44,19 +48,29 @@ namespace Fakarava3d
         ///\param newVec the new vector. 
         void setScreenSize(const Eigen::Vector2f& newVec);
 
+        ///\brief add a mesh to render when render is called
+        ///\param mesh mesh to add to the queue
+        void queueRender(const Mesh* mesh);
 
         ///get world points of the model
         /// project thos points
         /// convert the point vector + index triangles to coordinates triangles
         //remove useless triangles
+        ///\brief turn a mesh into trangle screen coordinates 
+        ///\param mesh the mesh to render
+        ///\return a list with all the triangles
         std::list<std::array<Vector3f,3>> render(const Mesh& mesh) const;
+
+        ///\brief update the matrixes and take all the meshes that have been queued for render and turn them to triangles
+        ///\return a list with all the triangles to draw
+        std::list<std::array<Vector3f, 3>> render();
 
 
         ///\brief project the points onto the screen by erasing the previous points
         ///\param points the points to project
         void inPlaceProject(std::vector<Mesh::point>& points) const;
 
-                ///\brief project the points onto the screen by erasing the previous points
+            ///\brief project the points onto the screen by erasing the previous points
         ///\param points the points to project
         void inPlaceProject(Mesh::point& point) const;
 

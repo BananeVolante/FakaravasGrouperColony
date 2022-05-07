@@ -50,6 +50,13 @@ void Renderer::setScreenSize(const Eigen::Vector2f& newVec)
     screenSize = newVec;
     rebuildIntrasincParameters();
 }
+
+void Renderer::queueRender(const Mesh* mesh)
+{
+    renderQueue.push(mesh);
+}
+
+
 std::list<std::array<Vector3f,3>> Renderer::render(const Mesh& mesh) const
 {
     std::vector<Mesh::point> worldPoints = mesh.getWorldPoints();
@@ -59,6 +66,22 @@ std::list<std::array<Vector3f,3>> Renderer::render(const Mesh& mesh) const
     removeBackFaces(tList);
     //removeOutOfScreenFaces(tList);
     return tList;
+}
+
+std::list<std::array<Vector3f, 3>> Renderer::render()
+{
+    rebuildExtrasincParameters();
+    rebuildIntrasincParameters();
+    std::list<std::array<Vector3f, 3>> tList;
+    const Mesh* mesh;
+    while (! renderQueue.empty())
+    {
+        mesh = renderQueue.front();
+        renderQueue.pop();
+        //add the the rendered triangles to the list of triangles to render
+        tList.splice(tList.end(), render(*mesh));
+    }
+    return tList; 
 }
 
 void Renderer::removeBackFaces(Renderer::triangleList& triangles) const

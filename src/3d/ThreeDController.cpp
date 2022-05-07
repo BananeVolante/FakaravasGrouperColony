@@ -10,7 +10,8 @@ using namespace Eigen;
 ThreeDController::ThreeDController(point3D position, float width, float height, float focal, float screenWidth, float screenHeight,
                                    drawPointFunction drawPoint, drawLineFunction drawLine, drawTriangleFunction drawTriangle) : camera(Vector3f(position.x, position.y, position.z), Matrix3f::Identity(),
                                                                                                                                        width, height, focal, screenWidth, screenHeight),
-                                                                                                                                drawLine(drawLine), drawPoint(drawPoint), drawTriangle(drawTriangle)
+                                                                                                                                drawLine(drawLine), drawPoint(drawPoint), drawTriangle(drawTriangle),
+                                                                                                                                rend(camera, screenWidth, screenHeight)
 {
 }
 
@@ -35,40 +36,23 @@ Camera &ThreeDController::getCamera()
     return camera;
 }
 
-void ThreeDController::drawMesh(const Mesh &mesh, char drawFlags) const
+void ThreeDController::drawMesh(const Mesh &mesh, char drawFlags)
 {
 
-    std::vector<Mesh::point> worldPoints = mesh.getWorldPoints();
-    std::vector<Vector2<float>> projectedPoints = project(worldPoints);
+    rend.queueRender(&mesh);
+}
 
+void ThreeDController::flushDrawings()
+{
 
-    if (drawFlags & DRAW_FLAG_DRAW_VERTEX)
+    for(std::array<Eigen::Vector3f, 3>& triangle : rend.render())
     {
-        for (const Vector2<float> &point : projectedPoints)
-            
-            drawPoint(point, 1, {0, 0, 255, 255});
-    }
-    if (drawFlags & DRAW_FLAG_DRAW_LINE)
-    {
-        for (const auto &line : mesh.getLines())
-            drawLine(projectedPoints[line.first], projectedPoints[line.second], {255, 255, 255, 255});
-    }
-
-    if (drawFlags & DRAW_FLAG_DRAW_TRIANGLE)
-    {
-        if(drawFlags & DRAW_FLAG_FACE_BACK) // just draw everything with a foreach
-        {
-            for(const auto& triangle : mesh.getTriangles())
-                drawTriangle(projectedPoints[std::get<0>(triangle)], projectedPoints[std::get<1>(triangle)], projectedPoints[std::get<2>(triangle)], {128, 128, 0, 255});
-        }
-        else // process normals and check the dot product to see if the face must be drawn
-        {
-            for(auto& triangle : mesh.getTriangles())
-            {
-                if(normalsInSameDirection(processFaceNormal(worldPoints, triangle), -camera.getPosition()))
-                    drawTriangle(projectedPoints[std::get<0>(triangle)], projectedPoints[std::get<1>(triangle)], projectedPoints[std::get<2>(triangle)], {128, 128, 0, 255});
-            }
-        }
+        drawTriangle(
+            Vector2<float>(triangle[0][0], triangle[0][1]),
+            Vector2<float>(triangle[1][0], triangle[1][1]),
+            Vector2<float>(triangle[2][0], triangle[2][1]),
+            rgba({128, 128, 255, 64})
+        );
     }
 }
 

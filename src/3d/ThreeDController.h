@@ -4,6 +4,7 @@
 #include "ThreeDObj.h"
 #include "Camera.h"
 #include "Mesh.h"
+#include "3d/Renderer.h"
 
 namespace Fakarava3d
 {
@@ -40,6 +41,7 @@ namespace Fakarava3d
     ///\brief flag to indicate if the back side of faces must be drawn
     static constexpr char DRAW_FLAG_FACE_BACK = 0b0001000;
 
+    
 
     private:
         ///\brief The camera currently used by this controller
@@ -48,6 +50,8 @@ namespace Fakarava3d
         drawLineFunction drawLine;
         drawPointFunction drawPoint;
         drawTriangleFunction drawTriangle;
+        Fakarava3d::Renderer rend;
+
 
     public:
         ///\param position position of the camera
@@ -71,7 +75,10 @@ namespace Fakarava3d
 
         ///\brief project and draw a mesh
         ///\param mesh mesh to project and draw
-        void drawMesh(const Mesh& mesh, char drawFlags = DRAW_FLAG_DRAW_LINE | DRAW_FLAG_DRAW_TRIANGLE | DRAW_FLAG_DRAW_VERTEX) const;
+        void drawMesh(const Mesh& mesh, char drawFlags = DRAW_FLAG_DRAW_LINE | DRAW_FLAG_DRAW_TRIANGLE | DRAW_FLAG_DRAW_VERTEX);
+
+        ///\brief draw all meshes on screen
+        void flushDrawings();
     };
 
 }
