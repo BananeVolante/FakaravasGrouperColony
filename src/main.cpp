@@ -140,7 +140,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	//fps average is made on FRAME_AVERAGE frames
 	const size_t FRAME_AVERAGE = 10;
 	//containes the fps history of the last FRAME_AVERAGE frames
-	std::vector<Uint64> fpsList(FRAME_AVERAGE);
+	std::vector<Uint64> fpsList;
 	//count every frame
 	int counter = 0;
 
@@ -195,9 +195,9 @@ int main(int /*argc*/, char ** /*argv*/)
 
 		//process the fps , store it in the vector, process the mean and print it every 10 frames
 		float elapsed = (timingEnd - timingStart) / (float)SDL_GetPerformanceFrequency();
-		fpsList[counter%10] = 1.0f/elapsed;
+		fpsList.push_back(1.0/elapsed);
 		if(counter%10 == 0)
-			std::cout << "Current FPS: " << std::to_string(std::accumulate(fpsList.begin(), fpsList.end(),0)/10) << std::endl;
+			std::cout << "Current FPS: " << std::to_string(std::accumulate(fpsList.begin()+ counter - FRAME_AVERAGE, fpsList.end(),0)/10) << std::endl;
 
 		counter++;
 
