@@ -58,6 +58,7 @@ const std::vector<Vector3f>& Mesh::getLocalPoints() const
 std::vector<Vector3f> Mesh::getWorldPoints() const
 {
     std::vector<Vector3f> worldPoints;
+    worldPoints.reserve(getLocalPoints().size());
     for(const Vector3f& vec : getLocalPoints())
     {
         worldPoints.push_back((getRotation() * getScaleMat() * vec) + getPosition() ); 
