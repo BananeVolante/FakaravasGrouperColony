@@ -44,19 +44,14 @@ void ThreeDController::drawMesh(const Mesh &mesh, char drawFlags)
 
 void ThreeDController::flushDrawings()
 {
-    std::list<Vector2f> pixels = rend.rasterize(rend.render());
-    for(const Vector2f& pixel : pixels )
-    {
-        drawPixel(Vector2<float>(pixel[0], pixel[1]), {128, 128, 255, 64});
-    }
-    /*for(std::array<Eigen::Vector3f, 3>& triangle : rend.render())
+    for(std::array<Eigen::Vector3f, 3>& triangle : rend.render())
     {
         drawTriangle(
             Vector2<float>(triangle[0][0], triangle[0][1]),
             Vector2<float>(triangle[1][0], triangle[1][1]),
             Vector2<float>(triangle[2][0], triangle[2][1]),
-            rgba({128, 128, 255, 64})
+            rgba({128, 128, 255, 128})
         );
-    }*/
+    }
 }
 

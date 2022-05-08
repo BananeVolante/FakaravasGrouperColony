@@ -63,6 +63,7 @@ namespace Fakarava3d
 
         ///\brief update the matrixes and take all the meshes that have been queued for render and turn them to triangles
         ///\return a list with all the triangles to draw
+        ///\bug 
         std::list<std::array<Vector3f, 3>> render();
 
 
@@ -92,6 +93,7 @@ namespace Fakarava3d
         ///\brief turn triangles into pixels
         ///\param triangles the triangles to transform
         ///\return a list of pixels
+        ///\remark Completely annihilates FPS, so for now this class only returns triangles
         std::list<Eigen::Vector2f> rasterize(const triangleList& triangles);
 
 

@@ -136,8 +136,10 @@ std::list<Eigen::Vector2f> Renderer::rasterize(const triangleList& triangles)
             for(int y = yMin; y<yMax+1; y++)
             {
                 currentPoint << x, y;
-                if(edgeFunction(t[0], t[1], currentPoint)>0 && edgeFunction(t[1], t[2], currentPoint)>0
-                     && edgeFunction(t[2], t[0], currentPoint)>0)
+                float w0 = edgeFunction(t[0], t[1], currentPoint);
+                float w1 = edgeFunction(t[1], t[2], currentPoint);
+                float w2 = edgeFunction(t[2], t[0], currentPoint);
+                if(w0>0 && w1>0 && w2>0 )
                 {
                     pixelList.push_back(currentPoint);
                 }
