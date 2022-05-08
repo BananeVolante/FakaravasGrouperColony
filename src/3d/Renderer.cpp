@@ -8,9 +8,7 @@ using namespace Eigen;
 
 Renderer::Renderer(Camera& camera, float screenSizeX, float screenSizeY) : camera(camera), screenSize(screenSizeX, screenSizeY)
 {
-    //M will be rebuilt 2 times, but it's a constructor not supposed to be called every frame
-    rebuildExtrasincParameters();
-    rebuildIntrasincParameters();
+
 }
 
 
@@ -72,6 +70,9 @@ std::list<std::array<Vector3f, 3>> Renderer::render()
 {
     rebuildExtrasincParameters();
     rebuildIntrasincParameters();
+    rebuildM();
+
+
     std::list<std::array<Vector3f, 3>> tList;
     const Mesh* mesh;
     while (! renderQueue.empty())
@@ -105,6 +106,50 @@ void Renderer::removeOutOfScreenFaces(Renderer::triangleList& triangles) const
     });
 }
 
+std::list<Eigen::Vector2f> Renderer::rasterize(const triangleList& triangles)
+{
+    std::list<Eigen::Vector2f> pixelList;
+
+    for(const triangle& t : triangles)
+    {
+        //process bounding box
+        float xMax = std::max({t[0][0], t[1][0], t[2][0]});
+        float xMin = std::min({t[0][0], t[1][0], t[2][0]});
+        float yMax = std::max({t[0][1], t[1][1], t[2][1]});
+        float yMin = std::min({t[0][1], t[1][1], t[2][1]});
+
+
+        //update it with the screen boundings
+        const Vector2f& screenS = getScreenSize(); 
+
+        xMax = std::min(screenS[0], xMax);
+        xMin = std::max(.0f, xMin);
+        yMax = std::min(screenS[1], yMax);
+        yMin = std::max(.0f, yMin);
+
+        //and finally calculate which pixels are in the triangle
+        //we cas from float to int, so we take more than needed
+        // apparently this can be optimised thanks to the fact that the edge function is linear
+        Vector2f currentPoint;
+        for(int x = xMin; x<xMax+1; x++)
+        {
+            for(int y = yMin; y<yMax+1; y++)
+            {
+                currentPoint << x, y;
+                if(edgeFunction(t[0], t[1], currentPoint)>0 && edgeFunction(t[1], t[2], currentPoint)>0
+                     && edgeFunction(t[2], t[0], currentPoint)>0)
+                {
+                    pixelList.push_back(currentPoint);
+                }
+            }
+        }
+                
+
+
+    }
+    return pixelList;
+}
+
 
 
 void Renderer::rebuildIntrasincParameters()
@@ -117,7 +162,6 @@ void Renderer::rebuildIntrasincParameters()
     float cx = screenDim[0]/2;
     float cy = screenDim[1]/2;
     cameraMatrix << alpha, 0, cx, 0, beta, cy, 0, 0, 1;
-    rebuildM();
 }
 
 void Renderer::rebuildExtrasincParameters()
@@ -127,7 +171,6 @@ void Renderer::rebuildExtrasincParameters()
         rotationMatrix(0,2), -camera.getPosition()[0], rotationMatrix(1,0), 
         rotationMatrix(1,1), rotationMatrix(1,2), -camera.getPosition()[1], 
         rotationMatrix(2,0), rotationMatrix(2,1), rotationMatrix(2,2), -camera.getPosition()[2];
-    rebuildM();
 }
 
 void Renderer::rebuildM()

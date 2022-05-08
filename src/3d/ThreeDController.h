@@ -32,6 +32,9 @@ namespace Fakarava3d
     typedef std::function<void(const Vector2<float>& firstPoint,const Vector2<float>& secondPoint,const Vector2<float>& thirdPoint, const rgba& color)> drawTriangleFunction;
     //typedef void (*drawTriangleFunction)(const Vector2<float>& firstPoint,const Vector2<float>& secondPoint,const Vector2<float>& thirdPoint, const rgba& color);
 
+    typedef std::function<void(const Vector2<float>& position, const rgba& color)> drawPixelFunction;
+
+
     ///\brief flag to indicate if vertices must be drawn
     static constexpr char DRAW_FLAG_DRAW_VERTEX = 0b0000001;
     ///\brief flag to indicate if lines must be drawn
@@ -50,6 +53,7 @@ namespace Fakarava3d
         drawLineFunction drawLine;
         drawPointFunction drawPoint;
         drawTriangleFunction drawTriangle;
+        drawPixelFunction drawPixel;
         Fakarava3d::Renderer rend;
 
 
@@ -61,7 +65,7 @@ namespace Fakarava3d
         ///\param screenWidth width of the screen where 2d points are drawn
         ///\param screenHeight height of the screen 2d points are drawn
         ThreeDController(point3D position, float width, float height, float focal, float screenWidth, float screenHeight,
-            drawPointFunction drawPoint, drawLineFunction drawLine, drawTriangleFunction drawTriangle);
+            drawPointFunction drawPoint, drawLineFunction drawLine, drawTriangleFunction drawTriangle, drawPixelFunction drawPixel);
 
         ///\brief convert a 3d point into a 2d point
         Vector2<float> project(const Vector3f &point) const;

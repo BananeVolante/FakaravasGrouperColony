@@ -8,9 +8,9 @@ using namespace Fakarava3d;
 using namespace Eigen;
 
 ThreeDController::ThreeDController(point3D position, float width, float height, float focal, float screenWidth, float screenHeight,
-                                   drawPointFunction drawPoint, drawLineFunction drawLine, drawTriangleFunction drawTriangle) : camera(Vector3f(position.x, position.y, position.z), Matrix3f::Identity(),
+                                   drawPointFunction drawPoint, drawLineFunction drawLine, drawTriangleFunction drawTriangle, drawPixelFunction drawPixel) : camera(Vector3f(position.x, position.y, position.z), Matrix3f::Identity(),
                                                                                                                                        width, height, focal, screenWidth, screenHeight),
-                                                                                                                                drawLine(drawLine), drawPoint(drawPoint), drawTriangle(drawTriangle),
+                                                                                                                                drawLine(drawLine), drawPoint(drawPoint), drawTriangle(drawTriangle), drawPixel(drawPixel),
                                                                                                                                 rend(camera, screenWidth, screenHeight)
 {
 }
@@ -44,8 +44,12 @@ void ThreeDController::drawMesh(const Mesh &mesh, char drawFlags)
 
 void ThreeDController::flushDrawings()
 {
-
-    for(std::array<Eigen::Vector3f, 3>& triangle : rend.render())
+    std::list<Vector2f> pixels = rend.rasterize(rend.render());
+    for(const Vector2f& pixel : pixels )
+    {
+        drawPixel(Vector2<float>(pixel[0], pixel[1]), {128, 128, 255, 64});
+    }
+    /*for(std::array<Eigen::Vector3f, 3>& triangle : rend.render())
     {
         drawTriangle(
             Vector2<float>(triangle[0][0], triangle[0][1]),
@@ -53,6 +57,6 @@ void ThreeDController::flushDrawings()
             Vector2<float>(triangle[2][0], triangle[2][1]),
             rgba({128, 128, 255, 64})
         );
-    }
+    }*/
 }
 

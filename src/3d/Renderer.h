@@ -89,11 +89,16 @@ namespace Fakarava3d
         ///\param triangles the list of triangles to modify
         void removeOutOfScreenFaces(Renderer::triangleList& triangles) const;
 
+        ///\brief turn triangles into pixels
+        ///\param triangles the triangles to transform
+        ///\return a list of pixels
+        std::list<Eigen::Vector2f> rasterize(const triangleList& triangles);
+
 
     private: 
-        ///\brief reprocess the extrasinc parameters matrix and reprocess M
+        ///\brief reprocess the extrasinc parameters matrix 
         void rebuildExtrasincParameters();
-        ///\brief reprocess the intrasinc parameters matrix and reprocess M
+        ///\brief reprocess the intrasinc parameters matrix 
         void rebuildIntrasincParameters();
         ///\brief reprocess M
         void rebuildM();

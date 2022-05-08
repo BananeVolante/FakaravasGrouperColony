@@ -125,9 +125,14 @@ int main(int /*argc*/, char ** /*argv*/)
 		renderer->drawTriangle(firstPoint, secondPoint, thirdPoint, Renderer::Color(c.r, c.g, c.b, c.a));
 	};
 
+	auto drawPixelFunction = [renderer](const Vector2<float>& position, const Fakarava3d::ThreeDController::rgba& c)
+	{
+		renderer->drawPixel(position, Renderer::Color(c.r, c.g, c.b, c.a));
+	}; 
+
 	// Initialisation of the 3d controller, which creates a camera
 	Fakarava3d::ThreeDController controller(Fakarava3d::ThreeDController::point3D{0,0,-10}, windowWidth()/1000.0, windowHeight()/1000.0, 0.5,
-	 windowWidth(), windowHeight(), drawPointFunction, drawLineFunction, drawTriangleFunction);
+	 windowWidth(), windowHeight(), drawPointFunction, drawLineFunction, drawTriangleFunction, drawPixelFunction);
 	
 
 	CameraControls controls(controller.getCamera(), 0.3, 1);
@@ -137,7 +142,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	Fakarava3d::Mesh mesh =  Fakarava3d::ObjParser::readObject("ressources/fish.obj");
 	Fakarava3d::Mesh reference = Fakarava3d::ObjParser::readObject("ressources/suzanne.obj");
 
-	FpsCounter fpsCounter(100);
+	FpsCounter fpsCounter(10);
 
 	// The main event loop...
 	SDL_Event event;
