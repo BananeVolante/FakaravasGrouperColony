@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "Utils.h"
 #include <iostream>
+#include <future>
 
 
 using namespace Fakarava3d;
@@ -75,13 +76,21 @@ std::list<std::array<Vector3f, 3>> Renderer::render()
 
     std::list<std::array<Vector3f, 3>> tList;
     const Mesh* mesh;
+    std::vector<std::future<triangleList>> threadList;
+
     while (! renderQueue.empty())
     {
         mesh = renderQueue.front();
         renderQueue.pop();
         //add the the rendered triangles to the list of triangles to render
-        tList.splice(tList.end(), render(*mesh));
+        threadList.push_back(std::async(std::launch::async, [mesh, this]() ->triangleList{return this->render(*mesh);})); 
+        //tList.splice(tList.end(), render(*mesh));
     }
+    for(std::future<triangleList>& fct : threadList)
+    {
+        tList.splice(tList.end(), fct.get());
+    }
+
     return tList; 
 }
 

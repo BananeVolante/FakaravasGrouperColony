@@ -1,8 +1,8 @@
 INC  = `pkg-config --cflags sdl2`
-LIBS = `pkg-config --libs sdl2 SDL2_gfx`
+LIBS = `pkg-config --libs sdl2 SDL2_gfx` -lpthread
 
 CXX	 = g++
-CXXFLAGS = -c -Wall -std=c++11 -ggdb $(INC) -I .
+CXXFLAGS = -c -Wall -std=c++11 -ggdb $(INC) -I.
 #-DDEBUG
 
 sources = $(wildcard *.cpp *.cc */*.cpp)

@@ -63,7 +63,7 @@ namespace Fakarava3d
 
         ///\brief update the matrixes and take all the meshes that have been queued for render and turn them to triangles
         ///\return a list with all the triangles to draw
-        ///\bug 
+        ///\bug triangles overlap at the edges, drawing lines between them when there is transparency
         std::list<std::array<Vector3f, 3>> render();
 
 

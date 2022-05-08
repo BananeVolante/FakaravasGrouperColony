@@ -140,6 +140,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	//create some 3d models
 	//read the points of a 3d model from a file
 	Fakarava3d::Mesh mesh =  Fakarava3d::ObjParser::readObject("ressources/fish.obj");
+	Fakarava3d::Mesh mesh2 =  Fakarava3d::ObjParser::readObject("ressources/fish.obj");
 	Fakarava3d::Mesh reference = Fakarava3d::ObjParser::readObject("ressources/suzanne.obj");
 
 	FpsCounter fpsCounter(10);
@@ -174,11 +175,13 @@ int main(int /*argc*/, char ** /*argv*/)
 		//proeject the mesh onto the screen		
 		//std::vector<Vector2<float>> projectedPoints = controller.project(mesh.getWorldPoints());
 		controller.drawMesh(mesh, Fakarava3d::ThreeDController::DRAW_FLAG_DRAW_TRIANGLE |Fakarava3d::ThreeDController::DRAW_FLAG_FACE_BACK );
+		controller.drawMesh(mesh2);
 		controller.drawMesh(reference);
 
 
 		//rotate the fish, 
 		mesh.rotate(Eigen::AngleAxisf(0.004, Eigen::Vector3f::UnitY()));
+		mesh2.rotate(Eigen::AngleAxisf(0.008, Eigen::Vector3f::UnitY()));
 
 
 		// 3 - We render the scene
