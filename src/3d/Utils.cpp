@@ -1,5 +1,4 @@
 #include "Utils.h"
-
 using namespace Eigen;
 
 
@@ -38,8 +37,16 @@ Vector3f Fakarava3d::processFaceNormal(const std::array<Vector3f, 3>& triangle)
 
 bool Fakarava3d::outOfScreen(const Vector3f& point, const Eigen::Vector2f& screenDimensions)
 {
-    ///probably faster to do it with && instead of ||, since a single false condition is enough to determine if it's false
-    if(point[0]>=0 && point[0]<=screenDimensions[0] && point[1]>=0 && point[1]<=screenDimensions[1])
+    if(point[0]<0 || point[0]>screenDimensions[0] || point[1]<0 || point[1]>screenDimensions[1])
+        return true;
+    return false;
+    /*if(point[0]>=0 && point[0]<=screenDimensions[0] && point[1]>=0 && point[1]<=screenDimensions[1])
         return false;
-    return true;
+    return true;*/
 }
+
+float Fakarava3d::edgeFunction(const Vector3f& v0, const Vector3f& v1, const Vector2f& point)
+{
+    return (point[0] - v0[0]) * (v1[1] - v0[1]) - (point[1] - v0[1]) * (v1[0] - v0[0]);    
+}
+

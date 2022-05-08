@@ -38,6 +38,14 @@ namespace Fakarava3d
         ///\return true if the point is out of screen
         bool outOfScreen(const Eigen::Vector3f& point, const Eigen::Vector2f& screenDimensions);
 
+        ///\brief used to determine on which side of a vector a point is
+        ///\param v0 the first point that defines the vector
+        ///\param v1 the second point that defines the vector
+        ///\param point the point to test
+        ///\return a positive number if point is on the "right" of the vector, 0 if it's on the vector, false otherwise
+        ///\remark applied to all 3 lines that form a triangle, this function can be used to compute barycentric coordinates
+        float edgeFunction(const Eigen::Vector3f& v0, const Eigen::Vector3f& v1, const Eigen::Vector2f& point);
+
 
 
 }
