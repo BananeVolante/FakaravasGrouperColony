@@ -15,21 +15,6 @@ ThreeDController::ThreeDController(point3D position, float width, float height, 
 {
 }
 
-Vector2<float> ThreeDController::project(const Vector3f &point) const
-{
-    Vector2f tmp = camera.project(point);
-    return {tmp[0], tmp[1]};
-}
-
-std::vector<Vector2<float>> ThreeDController::project(const std::vector<Vector3f> &points) const
-{
-    std::vector<Vector2<float>> projectedPoints;
-    for (const Vector3f &originalPoint : points)
-    {
-        projectedPoints.push_back(project(originalPoint));
-    }
-    return projectedPoints;
-}
 
 Camera &ThreeDController::getCamera()
 {
@@ -50,7 +35,7 @@ void ThreeDController::flushDrawings()
             Vector2<float>(triangle[0][0], triangle[0][1]),
             Vector2<float>(triangle[1][0], triangle[1][1]),
             Vector2<float>(triangle[2][0], triangle[2][1]),
-            rgba({128, 128, 255, 128})
+            rgba({128, 128, 255, 200})
         );
     }
 }

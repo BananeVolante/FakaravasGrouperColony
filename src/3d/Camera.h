@@ -8,6 +8,7 @@ namespace Fakarava3d
 {
     using namespace Fakarava3d;
 ///\brief a not orthographic camera
+///\remark this camera always point toward (0,0,0)
 class Camera : public ThreeDObj
 {
 private:
@@ -18,20 +19,6 @@ private:
 
 ///\brief focal length of the camera
     float focal;
-
-///\brief The camera matrix (K in the stanford document), that contains all intrinsic parametrs = the parameters that define the camera
-    Eigen::Matrix3f cameraMatrix;
-
-///\brief The extrisinc parameters matrix, that contains the rotation and position of the camera
-    Eigen::Matrix<float, 3, 4> extrisincParam;
-
-///\brief the matrix that turns 3d world coordinates into 2d screen coordinates
-///\remark This matrix is supposed to be reprocessed every time a change is made to the extrisinc parameters
-    Eigen::Matrix<float, 3, 4> M;
-
-
-///\brief update the extrisinc parameters matrix, and reprocess the M matrix
-    void updateExtrisincParam();
 
 public:
 ///\param position Position of the camera
@@ -56,9 +43,6 @@ public:
 ///\brief set the position
 ///\remark contrary to its parent function, this function is not virtual, this is intended(but might not do what i want to do)
     void setPosition(const Eigen::Vector3f& newPosition);
-
-///\return The projection of a point onto the screen
-    Eigen::Vector2f project(const Eigen::Vector3f& p) const;
 
 
 ///\brief apply a rotation to the camera

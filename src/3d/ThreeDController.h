@@ -35,12 +35,6 @@ namespace Fakarava3d
     typedef std::function<void(const Vector2<float>& position, const rgba& color)> drawPixelFunction;
 
 
-    ///\brief flag to indicate if vertices must be drawn
-    static constexpr char DRAW_FLAG_DRAW_VERTEX = 0b0000001;
-    ///\brief flag to indicate if lines must be drawn
-    static constexpr char DRAW_FLAG_DRAW_LINE = 0b00000010;
-    ///\brief flag to indicate if triangles(faces) must be drawn
-    static constexpr char DRAW_FLAG_DRAW_TRIANGLE = 0b00000100;
     ///\brief flag to indicate if the back side of faces must be drawn
     static constexpr char DRAW_FLAG_FACE_BACK = 0b0001000;
 
@@ -67,11 +61,6 @@ namespace Fakarava3d
         ThreeDController(point3D position, float width, float height, float focal, float screenWidth, float screenHeight,
             drawPointFunction drawPoint, drawLineFunction drawLine, drawTriangleFunction drawTriangle, drawPixelFunction drawPixel);
 
-        ///\brief convert a 3d point into a 2d point
-        Vector2<float> project(const Vector3f &point) const;
-
-        ///\brief same as project, take a vector of points
-        std::vector<Vector2<float>> project(const std::vector<Vector3f> &points) const;
 
         ///\return a reference to the camera
         Camera &getCamera();
@@ -79,7 +68,8 @@ namespace Fakarava3d
 
         ///\brief project and draw a mesh
         ///\param mesh mesh to project and draw
-        void drawMesh(const Mesh& mesh, char drawFlags = DRAW_FLAG_DRAW_LINE | DRAW_FLAG_DRAW_TRIANGLE | DRAW_FLAG_DRAW_VERTEX);
+        ///\param drawFlags used to modify the rendering process, no longer used for now
+        void drawMesh(const Mesh& mesh, char drawFlags = 0);
 
         ///\brief draw all meshes on screen
         void flushDrawings();
