@@ -39,9 +39,6 @@ void onKeyPressed(char key, Environment *environment)
 	std::cout << "Key pressed: " << key << std::endl;
 
 
-	if(key == SDLK_UP)
-
-
 	if (key == 'f') // create a pile of food
 	{
 		float foodAmount = MathUtils::random(200, 2000);
@@ -66,7 +63,11 @@ void onKeyPressed(char key, Environment *environment)
 	if (key == 'a') // creates a GrouperHQ
 	{
 		Vector2<float> pos = environment->randomPosition();
-		new GrouperHQ(environment, pos, "a");
+		GrouperHQ* hq = new GrouperHQ(environment, pos, "a");
+		for(size_t i = 0 ; i<30; i++)
+		{
+			new GrouperWithRules(environment, hq->getPosition(), hq, Vector2<float>::random(), 2.0);
+		}
 		SDL_Log("Created a grouperHQ");
 	}
 }
@@ -174,7 +175,7 @@ int main(int /*argc*/, char ** /*argv*/)
 
 		//proeject the mesh onto the screen		
 		//std::vector<Vector2<float>> projectedPoints = controller.project(mesh.getWorldPoints());
-		controller.drawMesh(mesh, Fakarava3d::ThreeDController::DRAW_FLAG_DRAW_TRIANGLE |Fakarava3d::ThreeDController::DRAW_FLAG_FACE_BACK );
+		controller.drawMesh(mesh);
 		controller.drawMesh(mesh2);
 		controller.drawMesh(reference);
 
