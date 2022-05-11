@@ -29,7 +29,7 @@ const std::vector<std::tuple<size_t, size_t, size_t>>& LocalMesh::getTriangles()
 std::vector<AbstractMesh::point> LocalMesh::getWorldPoints() const
 
 {
-    
+    return {};
 }
 
 
