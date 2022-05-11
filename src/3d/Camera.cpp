@@ -40,5 +40,5 @@ float Camera::getFocal() const
 
 Vector3f Camera::getNormal() const
 {
-    return -getPosition();
+    return getRotation()* Vector3f(0,0,-1) ;
 }
