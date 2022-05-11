@@ -21,10 +21,15 @@
 #include "3d/ObjParser.h"
 #include "3d/CameraControls.h"
 #include "FpsCounter.h"
-
+#include "3d/RessourceHandler.h"
+#include "3d/InstanciableMesh.h"
+#include "ThreeDGrouper.h"
+#include "ThreeDHQ.h"
+#include "ThreeDFood.h"
 
 static unsigned int windowWidth() { return 1024; }
 static unsigned int windowHeight() { return 700; }
+
 
 
 
@@ -43,7 +48,7 @@ void onKeyPressed(char key, Environment *environment)
 	{
 		float foodAmount = MathUtils::random(200, 2000);
 		Vector2<float> position = environment->randomPosition();
-		new Food(environment, position, foodAmount);
+		new ThreeDFood(environment, position, foodAmount);
 		SDL_Log("Created food at (%f, %f) with %f units of food", position[0], position[1], foodAmount);
 	}
 
@@ -63,10 +68,10 @@ void onKeyPressed(char key, Environment *environment)
 	if (key == 'a') // creates a GrouperHQ
 	{
 		Vector2<float> pos = environment->randomPosition();
-		GrouperHQ* hq = new GrouperHQ(environment, pos, "a");
+		GrouperHQ* hq = new ThreeDHQ(environment, pos, "a");
 		for(size_t i = 0 ; i<30; i++)
 		{
-			new GrouperWithRules(environment, hq->getPosition(), hq, Vector2<float>::random(), 2.0);
+			new ThreeDGrouper(environment, hq->getPosition(), hq, Vector2<float>::random(), 2.0);
 		}
 		SDL_Log("Created a grouperHQ");
 	}
@@ -132,17 +137,24 @@ int main(int /*argc*/, char ** /*argv*/)
 	}; 
 
 	// Initialisation of the 3d controller, which creates a camera
-	Fakarava3d::ThreeDController controller(Fakarava3d::ThreeDController::point3D{0,0,-10}, windowWidth()/1000.0, windowHeight()/1000.0, 0.5,
+	Fakarava3d::ThreeDController::createInstance(Fakarava3d::ThreeDController::point3D{windowWidth()/2.0f,windowHeight()/2.0f,-1000}, windowWidth()/1000.0, windowHeight()/1000.0, 0.5,
 	 windowWidth(), windowHeight(), drawPointFunction, drawLineFunction, drawTriangleFunction, drawPixelFunction);
 	
+	
 
-	CameraControls controls(controller.getCamera(), 0.3, 1);
+	CameraControls controls(Fakarava3d::ThreeDController::getInstance()->getCamera(), 0.3, 10);
+
+	Fakarava3d::RessourceHandler::createInstance();
 
 	//create some 3d models
 	//read the points of a 3d model from a file
-	Fakarava3d::Mesh mesh =  Fakarava3d::ObjParser::readObject("ressources/fish.obj");
-	Fakarava3d::Mesh mesh2 =  Fakarava3d::ObjParser::readObject("ressources/fish.obj");
-	Fakarava3d::Mesh reference = Fakarava3d::ObjParser::readObject("ressources/suzanne.obj");
+	//Fakarava3d::Mesh mesh =  Fakarava3d::ObjParser::readObject("ressources/fish.obj");
+	Fakarava3d::InstanciableMesh mesh(Fakarava3d::RessourceHandler::getInstance()->get("lowPolyGrouper"));
+	//Fakarava3d::Mesh mesh2 =  Fakarava3d::ObjParser::readObject("ressources/fish.obj");
+	//Fakarava3d::Mesh reference = Fakarava3d::ObjParser::readObject("ressources/suzanne.obj");
+	//Fakarava3d::Mesh julie = Fakarava3d::ObjParser::readObject("ressources/julie.obj");
+	
+
 
 	FpsCounter fpsCounter(10);
 
@@ -175,18 +187,25 @@ int main(int /*argc*/, char ** /*argv*/)
 
 		//proeject the mesh onto the screen		
 		//std::vector<Vector2<float>> projectedPoints = controller.project(mesh.getWorldPoints());
-		controller.drawMesh(mesh);
-		controller.drawMesh(mesh2);
-		controller.drawMesh(reference);
+		//controller.drawMesh(mesh);
+		//controller.drawMesh(mesh2);
+		//controller.drawMesh(reference);
+		Fakarava3d::ThreeDController::getInstance()->drawMesh(mesh);
 
 
 		//rotate the fish, 
-		mesh.rotate(Eigen::AngleAxisf(0.004, Eigen::Vector3f::UnitY()));
-		mesh2.rotate(Eigen::AngleAxisf(0.008, Eigen::Vector3f::UnitY()));
+		//mesh.rotate(Eigen::AngleAxisf(0.004, Eigen::Vector3f::UnitY()));
+		//mesh2.rotate(Eigen::AngleAxisf(0.008, Eigen::Vector3f::UnitY()));
+		mesh.rotate(Eigen::AngleAxisf(0.008, Eigen::Vector3f::UnitY() + 0.5*Eigen::Vector3f::UnitX()));
+
 
 
 		// 3 - We render the scene
-		controller.flushDrawings();
+		Fakarava3d::ThreeDController::getInstance()->flushDrawings();
+
+
+
+		
 
 		//mark the center of the screen
 		Renderer::getInstance()->drawCircle(Vector2<float>(windowWidth()/2, windowHeight()/2), 1, Renderer::Color(255,0,0));
@@ -198,6 +217,9 @@ int main(int /*argc*/, char ** /*argv*/)
 			std::cout << "Current FPS " << fpsCounter.getAverageFps() << std::endl;
 
 	}
+
+	Fakarava3d::RessourceHandler::destroyInstance();
+	Fakarava3d::ThreeDController::destroyInstance();
 
 	std::cout << "Shutting down renderer..." << std::endl;
 	Renderer::finalize();

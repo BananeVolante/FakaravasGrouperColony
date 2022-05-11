@@ -25,8 +25,7 @@ class AbstractMesh
     virtual const std::vector<triangle>& getTriangles() const = 0;
     ///\return the points that compose the mesh converted to world coordinates
     ///\remark does not return a reference because the world coordinates points are most likely processed every time this is called
-    virtual std::vector<point> getWorldPoints() const = 0; 
-
+    virtual std::vector<point> getWorldPoints() const = 0;
     
 };
 }
