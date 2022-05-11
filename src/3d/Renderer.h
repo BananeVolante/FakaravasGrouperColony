@@ -4,6 +4,7 @@
 #include "AbstractMesh.h"
 #include <list>
 #include <queue>
+#include <deque>
 
 namespace Fakarava3d
 {
@@ -16,6 +17,12 @@ namespace Fakarava3d
 
     typedef std::array<Vector3f,3> triangle;
     typedef std::list<triangle> triangleList;
+
+
+    enum multithreadType
+    {
+        single, limited, unlimited
+    };
 
     private:
 
@@ -35,8 +42,11 @@ namespace Fakarava3d
         Eigen::Matrix<float, 3, 4> M;
 
     ///\brief container withh all the meshes that must be drawn
-    std::queue<const AbstractMesh*> renderQueue;
+    ///\remark even though it's called a queue, this is a dequeue in order to cut this queue into subqueue for multithread rendering
+    std::deque<const AbstractMesh*> renderQueue;
 
+    ///\brief indicates the max number of threads generated
+    static constexpr size_t MAX_THREAD_NUMBER = 4;
         
     public:
         ///\param camera the camero(that have a position, rotation, focal, projection area) used by this renderer
@@ -63,10 +73,16 @@ namespace Fakarava3d
         ///\return a list with all the triangles
         std::list<std::array<Vector3f,3>> render(const AbstractMesh& mesh) const;
 
+
+        ///\brief render the elements in renderQueue
+        ///\param renderQueue the elements to render
+        ///\remark this is made to pass sub render lists to a thread
+        std::list<std::array<Vector3f, 3>> render(const std::deque<const AbstractMesh*>& renderQueue, size_t start, size_t end) const;
+
         ///\brief update the matrixes and take all the meshes that have been queued for render and turn them to triangles
         ///\return a list with all the triangles to draw
         ///\bug triangles overlap at the edges, drawing lines between them when there is transparency
-        std::list<std::array<Vector3f, 3>> render();
+        std::list<std::array<Vector3f, 3>> render(multithreadType mtType);
 
 
         ///\brief project the points onto the screen by erasing the previous points

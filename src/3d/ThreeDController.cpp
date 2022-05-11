@@ -52,7 +52,7 @@ void ThreeDController::drawMesh(const AbstractMesh &mesh, char drawFlags)
 
 void ThreeDController::flushDrawings()
 {
-    for(std::array<Eigen::Vector3f, 3>& triangle : rend.render())
+    for(std::array<Eigen::Vector3f, 3>& triangle : rend.render(Renderer::multithreadType::single))
     {
         drawTriangle(
             Vector2<float>(triangle[0][0], triangle[0][1]),
