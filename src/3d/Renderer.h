@@ -1,7 +1,7 @@
 #ifndef _Fakarava3dRenderer_H
 #define _Fakarava3dRenderer_H
 #include "Camera.h"
-#include "Mesh.h"
+#include "AbstractMesh.h"
 #include <list>
 #include <queue>
 
@@ -11,11 +11,13 @@ namespace Fakarava3d
 
     class Renderer
     {
-    private:
+    public:
 
 
     typedef std::array<Vector3f,3> triangle;
     typedef std::list<triangle> triangleList;
+
+    private:
 
     ///\brief the camera used by this renderer
         Camera& camera;
@@ -33,7 +35,7 @@ namespace Fakarava3d
         Eigen::Matrix<float, 3, 4> M;
 
     ///\brief container withh all the meshes that must be drawn
-    std::queue<const Mesh*> renderQueue;
+    std::queue<const AbstractMesh*> renderQueue;
 
         
     public:
@@ -50,7 +52,7 @@ namespace Fakarava3d
 
         ///\brief add a mesh to render when render is called
         ///\param mesh mesh to add to the queue
-        void queueRender(const Mesh* mesh);
+        void queueRender(const AbstractMesh* mesh);
 
         ///get world points of the model
         /// project thos points
@@ -59,7 +61,7 @@ namespace Fakarava3d
         ///\brief turn a mesh into trangle screen coordinates 
         ///\param mesh the mesh to render
         ///\return a list with all the triangles
-        std::list<std::array<Vector3f,3>> render(const Mesh& mesh) const;
+        std::list<std::array<Vector3f,3>> render(const AbstractMesh& mesh) const;
 
         ///\brief update the matrixes and take all the meshes that have been queued for render and turn them to triangles
         ///\return a list with all the triangles to draw
@@ -69,18 +71,18 @@ namespace Fakarava3d
 
         ///\brief project the points onto the screen by erasing the previous points
         ///\param points the points to project
-        void inPlaceProject(std::vector<Mesh::point>& points) const;
+        void inPlaceProject(std::vector<AbstractMesh::point>& points) const;
 
             ///\brief project the points onto the screen by erasing the previous points
         ///\param points the points to project
-        void inPlaceProject(Mesh::point& point) const;
+        void inPlaceProject(AbstractMesh::point& point) const;
 
         ///\brief take a vector of point and a vector of index triangles(triangles made with the indexes of the points)
         ///\param points vector containing the points
         ///\param triangles vector containing the index triangles
         ///\return a list of triangles that uses points directly
         /// the last one is its depth
-        triangleList triangleIndexToTriangle(const std::vector<Mesh::point>& points, const std::vector<Mesh::triangle>& triangles) const;
+        triangleList triangleIndexToTriangle(const std::vector<AbstractMesh::point>& points, const std::vector<AbstractMesh::triangle>& triangles) const;
 
         ///\brief removes the triangles that are not facing the camera
         ///\param triangles the list of triangles to modify

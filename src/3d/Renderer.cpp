@@ -50,13 +50,13 @@ void Renderer::setScreenSize(const Eigen::Vector2f& newVec)
     rebuildIntrasincParameters();
 }
 
-void Renderer::queueRender(const Mesh* mesh)
+void Renderer::queueRender(const AbstractMesh* mesh)
 {
     renderQueue.push(mesh);
 }
 
 
-std::list<std::array<Vector3f,3>> Renderer::render(const Mesh& mesh) const
+std::list<std::array<Vector3f,3>> Renderer::render(const AbstractMesh& mesh) const
 {
     std::vector<Mesh::point> worldPoints = mesh.getWorldPoints();
     inPlaceProject(worldPoints);
@@ -75,7 +75,7 @@ std::list<std::array<Vector3f, 3>> Renderer::render()
 
 
     std::list<std::array<Vector3f, 3>> tList;
-    const Mesh* mesh;
+    const AbstractMesh* mesh;
     std::vector<std::future<triangleList>> threadList;
 
     while (! renderQueue.empty())

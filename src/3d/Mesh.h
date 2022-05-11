@@ -1,6 +1,7 @@
 #ifndef _Mesh_H
 #define _Mesh_H
 #include "ThreeDObj.h"
+#include "LocalMesh.h"
 
 #include <eigen3/Eigen/Dense>
 #include <vector>
@@ -11,58 +12,18 @@ namespace Fakarava3d
     using namespace Fakarava3d;
     ///\brief contains all the data that defines a mesh, such as points, lines, triangles
     ///can be moved, scaled, rotated
-    class Mesh : public ThreeDObj
+    class Mesh : public ThreeDObj, public LocalMesh
     {
-    public: 
-        typedef Vector3f point;
-        typedef std::pair<size_t, size_t> line;
-        typedef std::tuple<size_t, size_t, size_t> triangle;
-    private:
-        ///\brief the points of the mesh, the order is important
-        std::vector<point> points;
-        ///\brief the lines of the mesh. each entry define a line that starts at points[line.first] and ends at points[line.second]
-        std::vector<line> lines;
-        ///\brief the triangles of the mesh. each entry define a triangle
-        /// between points[std::get<0>(triangle)], points[std::get<1>(triangle)] and points[std::get<2>(triangle)]
-        ///\remark This entry will probably stay empty, drawing a triangle means caring about depth, and i'm not sure if i have the time
-        std::vector<triangle> triangles;
+        public:
 
-    public:
-        ///\brief creates a Mesh with points, lines and triangles
-        ///\param points points of the mesh
-        ///\param lines lines of the mesh(the values refer to indexes in points)
-        ///\param triangles triangles of the mesh(the valeus refer to indexes in points)
-        Mesh(std::vector<Eigen::Vector3f> points, std::vector<std::pair<size_t, size_t>> lines,
-             std::vector<std::tuple<size_t, size_t, size_t>> triangles);
-
-        ///\brief creates a mesh data with no triangles(since i can't display them)
-        ///\param points points of the mesh
-        ///\param lines lines of the mesh(the values refer to indexes in points)
-        Mesh(std::vector<Eigen::Vector3f> points, std::vector<std::pair<size_t, size_t>> lines);
-
-        ///\brief creates a Mesh with no points, triangles or lines
         Mesh();
-
-        ///\brief return an modiable reference to the lines
-        std::vector<std::pair<size_t, size_t>> &getLines();
-
-        ///\brief return a modifiable reference to the triangles
-        std::vector<std::tuple<size_t, size_t, size_t>> &getTriangles();
-
-        ///\brief return an  reference to the lines
-        const std::vector<std::pair<size_t, size_t>> &getLines() const;
-
-        ///\brief return a  reference to the triangles
-        const std::vector<std::tuple<size_t, size_t, size_t>> &getTriangles() const;
-
-        ///\brief return a modifiable reference to the points
-        std::vector<Vector3f> &getLocalPoints();
-
-        ///\brief return a  reference to the points
-        const std::vector<Vector3f> &getLocalPoints() const;
-
+        ///\brief init this mesh with the baseMesh in param
+        ///\param baseMesh the mesh to use as a reference
+        Mesh(const LocalMesh& baseMesh);
+        
         ///\brief return a vector containing the points in world coordinates
-        std::vector<Vector3f> getWorldPoints() const;
+        ///\remark this function calculate the world points, it does not simply return data already present, so call this only once per frame
+        std::vector<AbstractMesh::point> getWorldPoints() const;
     };
 }
 
