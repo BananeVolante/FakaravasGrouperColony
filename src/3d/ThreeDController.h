@@ -10,8 +10,13 @@ namespace Fakarava3d
 {
     using namespace Fakarava3d;
     ///\brief class made to separate as much as possible fakarava3d from the rest of the program
+    /// now a singleton
     class ThreeDController
     {
+        private: 
+        ///\brief instance of this singleton
+        static ThreeDController* instance;
+
     public:
         ///\brief just 3 points together to separate eigen from the rest of the program
         typedef struct point3D
@@ -51,7 +56,6 @@ namespace Fakarava3d
         Fakarava3d::Renderer rend;
 
 
-    public:
         ///\param position position of the camera
         ///\param width of the plan where images are prohected
         ///\param height of the plan where images are projected
@@ -62,6 +66,22 @@ namespace Fakarava3d
             drawPointFunction drawPoint, drawLineFunction drawLine, drawTriangleFunction drawTriangle, drawPixelFunction drawPixel);
 
 
+    public:
+        ///\brief create the instance
+        ///\param position position of the camera
+        ///\param width of the plan where images are prohected
+        ///\param height of the plan where images are projected
+        ///\param focal focal of the camera
+        ///\param screenWidth width of the screen where 2d points are drawn
+        ///\param screenHeight height of the screen 2d points are drawn
+        static void createInstance(point3D position, float width, float height, float focal, float screenWidth, float screenHeight,
+            drawPointFunction drawPoint, drawLineFunction drawLine, drawTriangleFunction drawTriangle, drawPixelFunction drawPixel); 
+        ///\return the instance, if it exists
+        static ThreeDController* getInstance();
+        ///\brief destroy the instance
+        static void destroyInstance();
+
+
         ///\return a reference to the camera
         Camera &getCamera();
 
@@ -69,7 +89,7 @@ namespace Fakarava3d
         ///\brief project and draw a mesh
         ///\param mesh mesh to project and draw
         ///\param drawFlags used to modify the rendering process, no longer used for now
-        void drawMesh(const Mesh& mesh, char drawFlags = 0);
+        void drawMesh(const AbstractMesh& mesh, char drawFlags = 0);
 
         ///\brief draw all meshes on screen
         void flushDrawings();

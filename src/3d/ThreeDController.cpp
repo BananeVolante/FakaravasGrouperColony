@@ -7,6 +7,9 @@
 using namespace Fakarava3d;
 using namespace Eigen;
 
+ThreeDController* ThreeDController::instance = nullptr;
+
+
 ThreeDController::ThreeDController(point3D position, float width, float height, float focal, float screenWidth, float screenHeight,
                                    drawPointFunction drawPoint, drawLineFunction drawLine, drawTriangleFunction drawTriangle, drawPixelFunction drawPixel) : camera(Vector3f(position.x, position.y, position.z), Matrix3f::Identity(),
                                                                                                                                        width, height, focal, screenWidth, screenHeight),
@@ -15,13 +18,33 @@ ThreeDController::ThreeDController(point3D position, float width, float height, 
 {
 }
 
+void ThreeDController::createInstance(point3D position, float width, float height, float focal, float screenWidth, float screenHeight,
+            drawPointFunction drawPoint, drawLineFunction drawLine, drawTriangleFunction drawTriangle, drawPixelFunction drawPixel)
+{
+    assert(instance == nullptr);
+    instance = new ThreeDController(position, width, height, focal, screenWidth, screenHeight, drawPoint, drawLine, drawTriangle, drawPixel);
+}
+
+ThreeDController* ThreeDController::getInstance()
+{
+    assert(instance != nullptr);
+    return instance;
+}
+
+void ThreeDController::destroyInstance()
+{
+    assert(instance != nullptr);
+    delete instance;
+    instance = nullptr;
+}
+
 
 Camera &ThreeDController::getCamera()
 {
     return camera;
 }
 
-void ThreeDController::drawMesh(const Mesh &mesh, char drawFlags)
+void ThreeDController::drawMesh(const AbstractMesh &mesh, char drawFlags)
 {
 
     rend.queueRender(&mesh);
