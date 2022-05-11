@@ -41,14 +41,19 @@
 void CameraControls::handleControls(SDL_Keycode keycode)
 {
 	if(keycode == SDLK_UP)
-		move(Eigen::Vector3f::UnitZ() , true);
+		move(Eigen::Vector3f::UnitY() , true);
 	if(keycode == SDLK_DOWN)
-		move(Eigen::Vector3f::UnitZ(), false);
+		move(Eigen::Vector3f::UnitY(), false);
 
 	if(keycode == SDLK_LEFT)
 		move(Eigen::Vector3f::UnitX(), false);
 	if(keycode == SDLK_RIGHT)
 		move(Eigen::Vector3f::UnitX(), true);
+
+    if(keycode == SDLK_KP_PLUS)
+		move(Eigen::Vector3f::UnitZ(), true);
+	if(keycode == SDLK_KP_MINUS)
+		move(Eigen::Vector3f::UnitZ(), false);
 
 	if(keycode == SDLK_KP_8)
 		rotate(Eigen::Vector3f::UnitX(), true);
