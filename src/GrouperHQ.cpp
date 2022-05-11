@@ -20,11 +20,12 @@ void GrouperHQ::draw()
 
 void GrouperHQ::update()
 {
-    if(getAmount() > GROUPER_COST)
+    ///disabled because of a conflict with 3d grouper, no time to fix it
+    /*if(getAmount() > GROUPER_COST)
     {
         amountOfFood -= GROUPER_COST;
         GrouperFactory::getInstance()->spawnGrouper(this);
-    }
+    }*/
 }
 
 
