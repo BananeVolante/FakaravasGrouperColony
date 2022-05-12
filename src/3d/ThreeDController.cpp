@@ -58,7 +58,7 @@ void ThreeDController::flushDrawings()
             Vector2<float>(triangle[0][0], triangle[0][1]),
             Vector2<float>(triangle[1][0], triangle[1][1]),
             Vector2<float>(triangle[2][0], triangle[2][1]),
-            rgba({128, 128, 255, 200})
+            rgba({128, 128, 255, 128})
         );
     }
 }

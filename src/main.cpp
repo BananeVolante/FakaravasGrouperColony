@@ -137,7 +137,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	}; 
 
 	// Initialisation of the 3d controller, which creates a camera
-	Fakarava3d::ThreeDController::createInstance(Fakarava3d::ThreeDController::point3D{windowWidth()/2.0f,windowHeight()/2.0f,-1000}, windowWidth()/1000.0, windowHeight()/1000.0, 0.5,
+	Fakarava3d::ThreeDController::createInstance(Fakarava3d::ThreeDController::point3D{windowWidth()/2.0f,windowHeight()/2.0f,-550}, windowWidth()/1000.0, windowHeight()/1000.0, 0.5,
 	 windowWidth(), windowHeight(), drawPointFunction, drawLineFunction, drawTriangleFunction, drawPixelFunction);
 	
 	

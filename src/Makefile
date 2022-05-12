@@ -1,7 +1,7 @@
 INC  = `pkg-config --cflags sdl2`
 LIBS = `pkg-config --libs sdl2 SDL2_gfx` -lpthread
 
-CXX	 = g++
+CXX	 = g++ -O3
 CXXFLAGS = -c -Wall -std=c++11 -ggdb $(INC) -I.
 #-DDEBUG
 

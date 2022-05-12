@@ -58,7 +58,7 @@ std::list<std::array<Vector3f, 3>> Renderer::render(const AbstractMesh &mesh) co
     inPlaceProject(worldPoints);
 
     triangleList tList = triangleIndexToTriangle(worldPoints, mesh.getTriangles());
-    removeBackFaces(tList);
+    //removeBackFaces(tList);
     removeOutOfScreenFaces(tList);
     return tList;
 }
