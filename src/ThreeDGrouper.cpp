@@ -15,7 +15,7 @@ ThreeDGrouper::ThreeDGrouper(Environment *environment, Vector2<float> pos,
 void ThreeDGrouper::update()
 {
     GrouperWithRules::update();
-    getMesh().setPosition(Eigen::Vector3f(getPosition()[0], getPosition()[1], 0));
+    getMesh().setPosition(Eigen::Vector3f(getPosition()[0], getPosition()[1], isCarryingFood() ? -5 : 0));
     //e trouve pas les bonnes rotations a appliquer getMesh().setRotation((Eigen::AngleAxisf(atan2(getMvDirection()[0], getMvDirection()[1]), Eigen::Vector3f::UnitZ()) * Eigen::AngleAxisf(MathUtils::piDiv2, Eigen::Vector3f::UnitY())).toRotationMatrix());
 }
 
